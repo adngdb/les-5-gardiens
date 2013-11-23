@@ -4,9 +4,6 @@ define(['lib/three', 'lib/FirstPersonControls', 'riddle_renderer'], function (th
         this.pause = false;
     };
 
-    var count, stepLon, stepLat, stepRotZ, stepTrX, stepTrZ;
-    var nbStep = 25;
-
     Scene.prototype.init = function () {
         this.scene = new THREE.Scene();
 
@@ -22,7 +19,7 @@ define(['lib/three', 'lib/FirstPersonControls', 'riddle_renderer'], function (th
         this.controls.noFly = true;
         this.controls.lookVertical = true;
         this.controls.activeLook = true;
-        this.controls.mouseDragOn = true;
+        this.controls.mouseDragOn = false;
 
         this.scene.fog = new THREE.Fog( 0x000000, 1, 1000 );
         this.scene.add( new THREE.AmbientLight( 0xffffff ) );
@@ -37,6 +34,12 @@ define(['lib/three', 'lib/FirstPersonControls', 'riddle_renderer'], function (th
 
         this.targetPosX = -5;
         this.targetPosZ = -5;
+        this.count;
+        this.stepLon;
+        this.stepLat;
+        this.stepTrX;
+        this.stepTrZ;
+        this.nbStep = 25;
 
         this.resourceManager = {};
 
@@ -188,45 +191,49 @@ define(['lib/three', 'lib/FirstPersonControls', 'riddle_renderer'], function (th
                     // movement along Z axis
                     if (oldIndJ - newIndJ > 0){ // -Z axis
                         if (this.controls.lon < 90)
-                            targetLon = -90;
+                            this.targetLon = -90;
                         else
-                            targetLon = 270;
+                            this.targetLon = 270;
                     }else {                     // +Z axis
                         if (this.controls.lon < 270)
-                            targetLon = 90;
+                            this.targetLon = 90;
                         else
-                            targetLon = 450;
+                            this.targetLon = 450;
                     }
                 }else if (oldIndI - newIndI) {
                     // movement along X axis
                     if (oldIndI - newIndI > 0){ // -X axis
-                        targetLon = 180;
-                    }else {                     // + X axis
+                        this.targetLon = 180;
+                    }else {                     // +X axis
                         if (this.controls.lon < 180)
-                            targetLon = 0;
+                            this.targetLon = 0;
                         else
-                            targetLon = 360;
+                            this.targetLon = 360;
                     }
                 }
-                stepLon = (targetLon - this.controls.lon) / nbStep;
-                stepLat = (0 - this.controls.lat) / nbStep;
-                stepTrX = (this.targetPosX - this.camera.position.x) / nbStep;
-                stepTrZ = (this.targetPosZ - this.camera.position.z) / nbStep;
-                count = 0;
+                this.stepLon = (this.targetLon - this.controls.lon) / this.nbStep;
+                this.stepLat = (0 - this.controls.lat) / this.nbStep;
+                this.stepTrX = (this.targetPosX - this.camera.position.x) / this.nbStep;
+                this.stepTrZ = (this.targetPosZ - this.camera.position.z) / this.nbStep;
+                if (Math.abs(this.stepLon) < 0.0001) {
+                    this.count = this.nbStep;
+                }else {
+                    this.count = 0;
+                }
             }
         }
 
-        if (count < 2*nbStep) {
+        if (this.count < 2*this.nbStep) {
             // update camera rotation
-            if (count < nbStep){
-                this.controls.lon += stepLon;
-                this.controls.lat += stepLat;
+            if (this.count < this.nbStep){
+                this.controls.lon += this.stepLon;
+                this.controls.lat += this.stepLat;
             }else {
                 // center the camera position in the next cell's center
-                this.camera.position.x += stepTrX;
-                this.camera.position.z += stepTrZ;
+                this.camera.position.x += this.stepTrX;
+                this.camera.position.z += this.stepTrZ;
             }
-            ++count;
+            ++this.count;
         }
 
         this.camera.position.y = 0;

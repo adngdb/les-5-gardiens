@@ -178,6 +178,7 @@ define(['lib/three'], function (three) {
 
                 this.mouseRelX = this.mouseX - this.mouseLastX;
                 this.mouseRelY = this.mouseY - this.mouseLastY;
+                console.log("move!!!");
             }
             else {
                 this.mouseRelX = 0;
