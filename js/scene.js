@@ -76,8 +76,14 @@ function(three,      octree,        first_person_controls,     RiddleRenderer) {
         this.resourceManager = {};
 
         // sounds
-        this.music = new buzz.sound("sound/main_theme.ogg");
-        this.music.loop().play();
+        this.music = {};
+        this.music.mainTheme = new buzz.sound("sound/main_theme.ogg");
+        this.music.riddleTheme = new buzz.sound("sound/riddle_theme.ogg");
+
+        this.music.mainTheme.loop().play();
+
+        this.sound = {};
+        this.sound.riddleEnd = new buzz.sound("sound/event_riddle_end.ogg");
 
         // build unitary cube
         this.resourceManager['cube'] = new THREE.CubeGeometry( CUBE_SIZE, CUBE_SIZE, CUBE_SIZE );
@@ -307,16 +313,35 @@ function(three,      octree,        first_person_controls,     RiddleRenderer) {
     Scene.prototype.showRiddle = function () {
         var self = this;
 
+        // Start playing the riddle theme.
+        this.music.riddleTheme.loop().play();
+        this.music.mainTheme.stop();
+        this.sound.riddleEnd.stop();
+
         var riddle = this.level.riddles.getRandomRiddle();
         this.pause = true;
-        var rid = new RiddleRenderer(riddle, function () {
-            console.log('Success, Motherfucker.');
-            self.pause = false;
-        }, function () {
-            console.log('You failed. Hard. ');
-            self.pause = false;
-        });
-        rid.display();
+
+        var riddleRenderer = new RiddleRenderer(
+            riddle,
+            // Success.
+            function () {
+                console.log('Success, Motherfucker.');
+                self.stopRiddle();
+            },
+            // Failure.
+            function () {
+                console.log('You failed. Hard. ');
+                self.stopRiddle();
+            }
+        );
+        riddleRenderer.display();
+    };
+
+    Scene.prototype.stopRiddle = function () {
+        this.pause = false;
+        this.music.mainTheme.loop().play();
+        this.music.riddleTheme.stop();
+        this.sound.riddleEnd.play();
     };
 
     Scene.prototype.animate = function () {
