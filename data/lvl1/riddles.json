@@ -6,7 +6,7 @@
                 "1",
                 "2",
                 "3",
-                "4",
+                "4"
             ],
             "answer": 3
         },
@@ -16,7 +16,7 @@
                 "Jean est mon père.",
                 "Jean est mon fils.",
                 "Jean est ma mère.",
-                "Jean est mon oncle.",
+                "Jean est mon oncle."
             ],
             "answer": 1
         },
@@ -26,7 +26,7 @@
                 "Lundi.",
                 "Mercredi.",
                 "Vendredi.",
-                "Dimanche.",
+                "Dimanche."
             ],
             "answer": 4
         },
@@ -36,7 +36,7 @@
                 "Deux.",
                 "Quatre.",
                 "Six.",
-                "Huit.",
+                "Huit."
             ],
             "answer": 3
         },
@@ -46,9 +46,9 @@
                 "Lundi.",
                 "Jeudi.",
                 "Samedi.",
-                "Dimanche.",
+                "Dimanche."
             ],
             "answer": 2
-        },
+        }
     ]
 }

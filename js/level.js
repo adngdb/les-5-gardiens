@@ -9,13 +9,18 @@ define(['lib/jquery'], function (jquery) {
         this.resourcesToLoad = 2;
         this.loaded = 0;
 
+        var self = this;
+
         $.getJSON(this.levelDir + 'map.json', function (data) {
-            this.map = data;
-            this.loadedResource();
+            self.map = data;
+            self.height = data.length;
+            self.width = data[0].length;
+
+            self.loadedResource();
         });
         $.getJSON(this.levelDir + 'riddles.json', function (data) {
-            this.riddles = data;
-            this.loadedResource();
+            self.riddles = data;
+            self.loadedResource();
         });
     }
 
