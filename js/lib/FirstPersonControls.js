@@ -40,6 +40,7 @@ define(['lib/three'], function (three) {
         this.mouseNormX = 0;
         this.mouseNormY = 0;
 
+        this.mouseMoved = false;
         this.mouseClick = false;
 
         this.lat = 0;
@@ -85,100 +86,49 @@ define(['lib/three'], function (three) {
         };
 
         this.onMouseDown = function ( event ) {
-
             if ( this.domElement !== document ) {
-
                 this.domElement.focus();
-
             }
 
             event.preventDefault();
             event.stopPropagation();
 
-            // if ( this.activeLook ) {
-
-            //  switch ( event.button ) {
-
-            //      case 0: this.moveForward = true; break;
-            //      case 2: this.moveBackward = true; break;
-
-            //  }
-
-            // }
-
             switch ( event.button ) {
-                    case 0: this.mouseClick = true; break;
-                    //case 2: this.moveBackward = true; break;
-                }
-
-
+                case 0: this.mouseClick = true; break;
+                //case 2: this.moveBackward = true; break;
+            }
 
             this.mouseDragOn = true;
 
-            if(this.mouseClick) {
+            if (this.mouseClick) {
                 this.mouseLastX = this.mouseX;
                 this.mouseLastY = this.mouseY;
             }
-
         };
 
         this.onMouseUp = function ( event ) {
-
             event.preventDefault();
             event.stopPropagation();
-
-            // if ( this.activeLook ) {
-
-            //  switch ( event.button ) {
-
-            //      case 0: this.moveForward = false; break;
-            //      case 2: this.moveBackward = false; break;
-
-            //  }
-
-            // }
 
             switch ( event.button ) {
                 case 0: this.mouseClick = false; break;
                 //case 2: this.moveBackward = true; break;
             }
 
-            // not too much movements, it's a click
-            if(Math.abs(this.mouseRelX) < 5 && Math.abs(this.mouseRelY) < 5) {
-
-            }
-            else { // else we drag the camera view
-
-            }
-
             this.mouseDragOn = false;
-
         };
 
         this.onMouseMove = function ( event ) {
-
             this.mouseLastX = this.mouseX;
             this.mouseLastY = this.mouseY;
             this.mouseX = event.pageX;
             this.mouseY = event.pageY;
 
-            if(this.mouseDragOn) {
+            console.log(this.mouseLastX + ' - ' + event.pageX);
 
-                // if ( this.domElement === document ) {
-
-                //  this.mouseX = event.pageX - this.viewHalfX;
-                //  this.mouseY = event.pageY - this.viewHalfY;
-
-                // } else {
-
-                //  this.mouseX = event.pageX - this.domElement.offsetLeft - this.viewHalfX;
-                //  this.mouseY = event.pageY - this.domElement.offsetTop - this.viewHalfY;
-
-                // }
-
+            if (this.mouseDragOn) {
                 this.mouseRelX = this.mouseX - this.mouseLastX;
                 this.mouseRelY = this.mouseY - this.mouseLastY;
-//                console.log("move!!!");
             }
             else {
                 this.mouseRelX = 0;
@@ -188,6 +138,7 @@ define(['lib/three'], function (three) {
             this.mouseNormX = ( event.clientX / window.innerWidth ) * 2 - 1;
             this.mouseNormY = - ( event.clientY / window.innerHeight ) * 2 + 1;
 
+            this.mouseMoved = true;
             this.mouseClick = false;
         };
 
@@ -279,9 +230,7 @@ define(['lib/three'], function (three) {
         this.update = function( delta ) {
 
             if ( this.freeze ) {
-
                 return;
-
             }
 
             if ( this.heightSpeed ) {
@@ -328,11 +277,15 @@ define(['lib/three'], function (three) {
             //this.lon += this.mouseX * actualLookSpeed;
             //if( this.lookVertical ) this.lat -= this.mouseY * actualLookSpeed * verticalLookRatio;
 
-            this.lon += this.mouseRelX * actualLookSpeed;
-            while (this.lon > 360) {
-                this.lon -= 360;
+            if (this.mouseMoved) {
+                this.lon -= this.mouseRelX * actualLookSpeed;
+                while (this.lon > 360) {
+                    this.lon -= 360;
+                }
+                if ( this.lookVertical ) {
+                    this.lat += this.mouseRelY * actualLookSpeed * verticalLookRatio;
+                }
             }
-            if( this.lookVertical ) this.lat -= this.mouseRelY * actualLookSpeed * verticalLookRatio;
 
             this.lat = Math.max( - 85, Math.min( 85, this.lat ) );
             this.phi = THREE.Math.degToRad( 90 - this.lat );
@@ -360,6 +313,7 @@ define(['lib/three'], function (three) {
             this.moveRight = true;
             this.moveUp = true;
             this.moveDown = true;
+            this.mouseMoved = false;
         };
 
 
