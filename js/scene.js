@@ -3,6 +3,9 @@ define(['lib/three', 'lib/FirstPersonControls'], function (three, first_person_c
         this.level = level;
     };
 
+    var count, stepLon, stepLat, stepRotZ, stepTrX, stepTrZ;
+    var nbStep = 50;
+
     Scene.prototype.init = function () {
         this.scene = new THREE.Scene();
 
@@ -14,7 +17,7 @@ define(['lib/three', 'lib/FirstPersonControls'], function (three, first_person_c
         this.controls = new THREE.FirstPersonControls( this.camera );
 
         this.controls.movementSpeed = 200;
-        this.controls.lookSpeed = 1;
+        this.controls.lookSpeed = 0.3;
         this.controls.noFly = true;
         this.controls.lookVertical = true;
         this.controls.activeLook = true;
@@ -135,36 +138,62 @@ define(['lib/three', 'lib/FirstPersonControls'], function (three, first_person_c
         }
     }
 
-    Scene.prototype.animate = function () {
-        requestAnimationFrame( this.animate.bind(this) );
+    Scene.prototype.checkPosition = function() {
+        var savePosX = this.camera.position.x;
+        var oldIndI = Math.round(this.camera.position.x / 200.0);
+        var savePosZ = this.camera.position.z;
+        var oldIndJ = Math.round(this.camera.position.z / 200.0);
 
-        var SavePosX = this.camera.position.x;
-        var SavePosZ = this.camera.position.z;
         this.controls.update(1.0);
 
-        var NewIndI = Math.round(this.camera.position.x / 200.0);
-        var NewIndJ = Math.round(this.camera.position.z / 200.0);
+        var newIndI = Math.round(this.camera.position.x / 200.0);
+        var newIndJ = Math.round(this.camera.position.z / 200.0);
 
-        // console.log("indice : " + NewIndI + " , " + NewIndJ);
-        if (NewIndI < 0 || NewIndI >= this.level.height || NewIndJ < 0 || NewIndJ >= this.level.width || this.level.map[NewIndI][NewIndJ]) {// invalid movement : restore previous position
-            this.camera.position.x = SavePosX;
-            this.camera.position.z = SavePosZ;
-            // console.log("reset position");
-
+        if (newIndI < 0 || newIndI >= this.level.height || newIndJ < 0 || newIndJ >= this.level.width || this.level.map[newIndI][newIndJ]) {
+            // invalid movement : restore previous position
+            this.camera.position.x = savePosX;
+            this.camera.position.z = savePosZ;
+        }else if ((Math.abs(newIndI - oldIndI) > 1) || (Math.abs(newIndJ - oldIndJ) > 1)) {
+            // invalid movement : more than 1 tile away => restore previous position
+            this.camera.position.x = savePosX;
+            this.camera.position.z = savePosZ;
+        }else if ((Math.abs(newIndI - oldIndI) == 1) || (Math.abs(newIndJ - oldIndJ) == 1)) {
+            // there IS a movement
+            // re-position the camera orientation and position
+            stepLon = 0 - this.controls.lon / nbStep;
+            stepLat = 0 - this.controls.lat / nbStep;
+            stepTrX = (newIndI*200 - this.camera.position.x) / nbStep;
+            stepTrZ = (newIndJ*200 - this.camera.position.z) / nbStep;
+            count = 0;
         }
+
+        if (count < 2*nbStep) {
+            // update camera rotation
+            if (count < nbStep){
+                this.controls.lon += stepLon;
+                this.controls.lat += stepLat;
+            }else {
+                // center the camera position in the next cell's center
+                this.camera.position.x += stepTrX;
+                this.camera.position.z += stepTrZ;
+            }
+            ++count;
+        }
+
         this.camera.position.y = 0;
 
-        this.findIntersections();
+    };
 
+    Scene.prototype.animate = function () {
+        requestAnimationFrame( this.animate.bind(this) );
+        this.checkPosition();
+
+        this.findIntersections();
         this.render();
     };
 
     Scene.prototype.render = function () {
-
         this.renderer.render( this.scene, this.camera );
-        // console.log("camera.position.x : "+camera.position.x);
-        // console.log("camera.position.y : "+camera.position.y);
-        // console.log("camera.position.z : "+camera.position.z);
     };
 
     return Scene;
