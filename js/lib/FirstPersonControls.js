@@ -35,9 +35,10 @@ define(['lib/three'], function (three) {
         this.mouseY = 0;
         this.mouseLastX = 0;
         this.mouseLastY = 0;
-        this.mouseY = 0;
         this.mouseRelX = 0;
         this.mouseRelY = 0;
+        this.mouseNormX = 0;
+        this.mouseNormY = 0;
 
         this.mouseClick = false;
 
@@ -114,6 +115,11 @@ define(['lib/three'], function (three) {
 
             this.mouseDragOn = true;
 
+            if(this.mouseClick) {
+                this.mouseLastX = this.mouseX;
+                this.mouseLastY = this.mouseY;
+            }
+
         };
 
         this.onMouseUp = function ( event ) {
@@ -151,9 +157,13 @@ define(['lib/three'], function (three) {
 
         this.onMouseMove = function ( event ) {
 
+            this.mouseLastX = this.mouseX;
+            this.mouseLastY = this.mouseY;
+            this.mouseX = event.pageX;
+            this.mouseY = event.pageY;
+
             if(this.mouseClick) {
-                this.mouseLastX = this.mouseX;
-                this.mouseLastY = this.mouseY;
+
 
                 // if ( this.domElement === document ) {
 
@@ -167,8 +177,8 @@ define(['lib/three'], function (three) {
 
                 // }
 
-                this.mouseX = event.pageX;
-                this.mouseY = event.pageY;
+
+
 
                 this.mouseRelX = this.mouseX - this.mouseLastX;
                 this.mouseRelY = this.mouseY - this.mouseLastY;
@@ -177,6 +187,9 @@ define(['lib/three'], function (three) {
                 this.mouseRelX = 0;
                 this.mouseRelY = 0;
             }
+
+            this.mouseNormX = ( event.clientX / window.innerWidth ) * 2 - 1;
+            this.mouseNormY = - ( event.clientY / window.innerHeight ) * 2 + 1;
         };
 
         this.onKeyDown = function ( event ) {

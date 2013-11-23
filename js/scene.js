@@ -27,6 +27,13 @@ define(['lib/three', 'lib/FirstPersonControls'], function (three, first_person_c
         this.renderer.setSize( window.innerWidth, window.innerHeight );
         this.renderer.setClearColor( 0x000000, 1 );
 
+        this.projector = new THREE.Projector();
+        this.raycaster = new THREE.Raycaster();
+        this.INTERSECTED;
+
+        this.targetPosX = 0;
+        this.targetPosY = 0;
+
         this.resourceManager = {};
 
         // build unitary cube
@@ -64,7 +71,7 @@ define(['lib/three', 'lib/FirstPersonControls'], function (three, first_person_c
             for (var j = 0; j < this.level.width; ++j) {
                 // floor
                 //var mesh = this.resourceManager['mesh_floor'];
-                var mesh = new THREE.Mesh( this.resourceManager['cube'], this.resourceManager['mat_floor'] );
+                var mesh = new THREE.Mesh( this.resourceManager['cube'], this.resourceManager['mat_floor'].clone() );
                 mesh.position.x = i * 200;
                 mesh.position.z = j * 200;
                 mesh.position.y = -200;
@@ -78,7 +85,7 @@ define(['lib/three', 'lib/FirstPersonControls'], function (three, first_person_c
                     //     wireframe: false
                     // });
                     //var mesh = this.resourceManager['mesh_wall'];
-                    var mesh = new THREE.Mesh( this.resourceManager['cube'], this.resourceManager['mat_wall'] );
+                    var mesh = new THREE.Mesh( this.resourceManager['cube'], this.resourceManager['mat_wall'].clone() );
                     mesh.position.x = i*200;
                     mesh.position.z = j*200;
                     this.scene.add( mesh );
@@ -86,7 +93,7 @@ define(['lib/three', 'lib/FirstPersonControls'], function (three, first_person_c
 
                 // roof
                 //var mesh = this.resourceManager['mesh_roof'];
-                var mesh = new THREE.Mesh( this.resourceManager['cube'], this.resourceManager['mat_roof'] );
+                var mesh = new THREE.Mesh( this.resourceManager['cube'], this.resourceManager['mat_roof'].clone() );
                 mesh.position.x = i*200;
                 mesh.position.z = j*200;
                 mesh.position.y = 200;
@@ -98,6 +105,35 @@ define(['lib/three', 'lib/FirstPersonControls'], function (three, first_person_c
 
         this.animate();
     };
+
+    Scene.prototype.findIntersections = function () {
+        // find intersections
+
+        var vector = new THREE.Vector3( this.controls.mouseNormX, this.controls.mouseNormY  , 1 );
+        //console.log("mouse : "+this.controls.mouseNormX+', '+this.controls.mouseNormY);
+        this.projector.unprojectVector( vector, this.camera );
+
+        this.raycaster.set( this.camera.position, vector.sub( this.camera.position ).normalize() );
+
+        var intersects = this.raycaster.intersectObjects( this.scene.children );
+
+        if ( intersects.length > 0 ) {
+            //console.log("nbintersects : " + intersects.length);
+            //console.log(intersects[0].distance);
+            if ( this.INTERSECTED != intersects[ 0 ].object ) {
+
+                if ( this.INTERSECTED ) this.INTERSECTED.material.emissive.setHex( this.INTERSECTED.currentHex );
+
+                this.INTERSECTED = intersects[ 0 ].object;
+                this.INTERSECTED.currentHex = this.INTERSECTED.material.emissive.getHex();
+                this.INTERSECTED.material.emissive.setHex( 0xff0000 );
+            }
+
+        } else {
+            if ( this.INTERSECTED ) INTERSECTED.material.emissive.setHex( this.INTERSECTED.currentHex );
+            this.INTERSECTED = null;
+        }
+    }
 
     Scene.prototype.animate = function () {
         requestAnimationFrame( this.animate.bind(this) );
@@ -117,6 +153,8 @@ define(['lib/three', 'lib/FirstPersonControls'], function (three, first_person_c
 
         }
         this.camera.position.y = 0;
+
+        this.findIntersections();
 
         this.render();
     };
