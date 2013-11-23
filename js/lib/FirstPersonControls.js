@@ -178,7 +178,7 @@ define(['lib/three'], function (three) {
 
                 this.mouseRelX = this.mouseX - this.mouseLastX;
                 this.mouseRelY = this.mouseY - this.mouseLastY;
-                console.log("move!!!");
+//                console.log("move!!!");
             }
             else {
                 this.mouseRelX = 0;
@@ -353,7 +353,6 @@ define(['lib/three'], function (three) {
 
             this.object.lookAt( targetPosition );
 
-console.log("lon = " + this.lon + " - lat = " + this.lat);
             // reset
             this.moveForward = true;
             this.moveLeft = true;

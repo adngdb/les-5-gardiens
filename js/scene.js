@@ -72,6 +72,17 @@ function(three,      octree,        first_person_controls,     RiddleRenderer) {
         this.stepTrZ;
         this.nbStep = 15;
         this.count = 3 * this.nbStep + 1;
+        this.crossroadTested = true;
+
+        // array with the direction toward the exit for every tile
+        this.arrayTowardExit = [];
+        for (var i=0; i<this.level.height; ++i) {
+            var line = [];
+            for (var j=0; j<this.level.width; ++j) {
+                line.push([0,0]);
+            }
+            this.arrayTowardExit.push(line);
+        }
 
         this.resourceManager = {};
 
@@ -217,11 +228,6 @@ function(three,      octree,        first_person_controls,     RiddleRenderer) {
         var newIndI = Math.round(this.targetPosX / CUBE_SIZE);
         var newIndJ = Math.round(this.targetPosZ / CUBE_SIZE);
 
-        // if (newIndI < 0 || newIndI >= this.level.height || newIndJ < 0 || newIndJ >= this.level.width || this.level.map[newIndI][newIndJ]) {
-        //     // invalid movement : restore previous position
-        //     this.camera.position.x = savePosX;
-        //     this.camera.position.z = savePosZ;
-
         if ((this.targetPosX != -5) && (this.targetPosY != -5)) {
             // clic detected
             if ((Math.abs(newIndI - oldIndI) > 1) || (Math.abs(newIndJ - oldIndJ) > 1)) {
@@ -289,6 +295,7 @@ function(three,      octree,        first_person_controls,     RiddleRenderer) {
             ++this.count;
         }
         if (this.count == (3 * this.nbStep)) {
+            this.crossroadTested = false;
             this.detectCrossroad();
             ++this.count;
         }
@@ -301,13 +308,16 @@ function(three,      octree,        first_person_controls,     RiddleRenderer) {
         var currentIndJ = Math.round(this.camera.position.z / 200.0);
 
         var nbAdjacentTile = 0;
-        if (!this.level.map[currentIndI][currentIndJ + 1]) ++nbAdjacentTile;
-        if (!this.level.map[currentIndI][currentIndJ - 1]) ++nbAdjacentTile;
-        if (!this.level.map[currentIndI + 1][currentIndJ]) ++nbAdjacentTile;
-        if (!this.level.map[currentIndI - 1][currentIndJ]) ++nbAdjacentTile;
+        if (!this.crossroadTested) {
+            if (!this.level.map[currentIndI][currentIndJ + 1]) ++nbAdjacentTile;
+            if (!this.level.map[currentIndI][currentIndJ - 1]) ++nbAdjacentTile;
+            if (!this.level.map[currentIndI + 1][currentIndJ]) ++nbAdjacentTile;
+            if (!this.level.map[currentIndI - 1][currentIndJ]) ++nbAdjacentTile;
 
-        if (nbAdjacentTile > 2)
-            this.showRiddle();
+            if (nbAdjacentTile > 2)
+                this.showRiddle();
+        }
+        this.crossroadTested = true;
     };
 
     Scene.prototype.showRiddle = function () {
@@ -335,6 +345,9 @@ function(three,      octree,        first_person_controls,     RiddleRenderer) {
             }
         );
         riddleRenderer.display();
+        var stack = [];
+        stack.push(this.level.objects.exit);
+        this.computeDirectionTowardExit(stack, 0);
     };
 
     Scene.prototype.stopRiddle = function () {
@@ -343,6 +356,52 @@ function(three,      octree,        first_person_controls,     RiddleRenderer) {
         this.music.riddleTheme.stop();
         this.sound.riddleEnd.play();
     };
+
+    Scene.prototype.computeDirectionTowardExit = function (stack, depth) {
+        // current tile
+        var curItem = stack.pop();
+        // the road from its (potential) neighbor go toward the current tile
+        if ((curItem[0] > 0)
+            && (this.arrayTowardExit[curItem[0] - 1][curItem[1]][0] == 0)
+            && (this.arrayTowardExit[curItem[0] - 1][curItem[1]][1] == 0)
+            && (!this.level.map[curItem[0] - 1][curItem[1]])) {
+            // the tile in [x - 1][y] is a tile
+            this.arrayTowardExit[curItem[0] - 1][curItem[1]][0] = 1;
+            this.arrayTowardExit[curItem[0] - 1][curItem[1]][1] = 0;
+            stack.push([curItem[0] - 1, curItem[1]]);
+
+        }
+        if ((curItem[0] < this.level.height - 1)
+            && (this.arrayTowardExit[curItem[0] + 1][curItem[1]][0] == 0)
+            && (this.arrayTowardExit[curItem[0] + 1][curItem[1]][1] == 0)
+            && (!this.level.map[curItem[0] + 1][curItem[1]])) {
+            // the tile in [x + 1][y] is a tile
+            this.arrayTowardExit[curItem[0] + 1][curItem[1]][0] = -1;
+            this.arrayTowardExit[curItem[0] + 1][curItem[1]][1] = 0;
+            stack.push([curItem[0] + 1, curItem[1]]);
+        }
+        if ((curItem[1] > 0)
+            && (this.arrayTowardExit[curItem[0]][curItem[1] - 1][0] == 0)
+            && (this.arrayTowardExit[curItem[0]][curItem[1] - 1][1] == 0)
+            && (!this.level.map[curItem[0]][curItem[1] - 1])) {
+            // the tile in [x-1][y] is a tile
+            this.arrayTowardExit[curItem[0]][curItem[1] - 1][0] = 0;
+            this.arrayTowardExit[curItem[0]][curItem[1] - 1][1] = 1;
+            stack.push([curItem[0], curItem[1] - 1]);
+        }
+        if ((curItem[1] < this.level.width - 1)
+            && (this.arrayTowardExit[curItem[0]][curItem[1] + 1][0] == 0)
+            && (this.arrayTowardExit[curItem[0]][curItem[1] + 1][1] == 0)
+            && (!this.level.map[curItem[0]][curItem[1] + 1])) {
+            // the tile in [x-1][y] is a tile
+            this.arrayTowardExit[curItem[0]][curItem[1] + 1][0] = 0;
+            this.arrayTowardExit[curItem[0]][curItem[1] + 1][1] = -1;
+            stack.push([curItem[0], curItem[1] +1]);
+        }
+        if (stack.length != 0){
+            this.computeDirectionTowardExit(stack, ++depth);
+        }
+    }
 
     Scene.prototype.animate = function () {
         requestAnimationFrame( this.animate.bind(this) );
