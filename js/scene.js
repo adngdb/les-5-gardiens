@@ -1,5 +1,5 @@
-define(['lib/three', 'lib/Octree', 'lib/FirstPersonControls', 'riddle_renderer', ],
-function(three,      octree,        first_person_controls,     RiddleRenderer) {
+define(['lib/three', 'lib/FirstPersonControls', 'riddle_renderer', 'resource'],
+function(three,       first_person_controls,     RiddleRenderer,    ResourceManager) {
     console.log(buzz);
     var Scene = function (level) {
         this.level = level;
@@ -36,7 +36,7 @@ function(three,      octree,        first_person_controls,     RiddleRenderer) {
     Scene.prototype.init = function () {
         this.scene = new THREE.Scene();
 
-        this.camera = new THREE.PerspectiveCamera( 60, window.innerWidth / window.innerHeight, 1, 10000 );
+        this.camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 1, 10000 );
         this.camera.position.x = CUBE_SIZE * this.level.objects.entrance[1];
         this.camera.position.y = 0;
         this.camera.position.z = CUBE_SIZE * this.level.objects.entrance[0];
@@ -45,7 +45,7 @@ function(three,      octree,        first_person_controls,     RiddleRenderer) {
 
         this.controls.lon = this.level.properties.startLon;
         this.controls.movementSpeed = 200;
-        this.controls.lookSpeed = 5.0;
+        this.controls.lookSpeed = 10.0;
         this.controls.noFly = true;
         this.controls.lookVertical = true;
         this.controls.activeLook = true;
@@ -84,7 +84,11 @@ function(three,      octree,        first_person_controls,     RiddleRenderer) {
             this.arrayTowardExit.push(line);
         }
 
-        this.resourceManager = {};
+        var resman = new ResourceManager();
+        this.resourceManager = resman.getResMan();
+        this.resourceManager['cube_size'] = CUBE_SIZE; // remove that and all is lost
+        this.resourceManager['renderer'] = this.renderer; // remove that and all is lost
+        resman.loadAll();
 
         // sounds
         this.music = {};
@@ -96,48 +100,10 @@ function(three,      octree,        first_person_controls,     RiddleRenderer) {
         this.sound = {};
         this.sound.riddleEnd = new buzz.sound("sound/event_riddle_end.ogg");
 
-        // build unitary cube
-        this.resourceManager['cube'] = new THREE.CubeGeometry( CUBE_SIZE, CUBE_SIZE, CUBE_SIZE );
-
-        // floor mesh
-        var maxAnisotropy = this.renderer.getMaxAnisotropy();
-        var texture1 = THREE.ImageUtils.loadTexture( "img/ground_1-1.png" );
-        var material1 = new THREE.MeshPhongMaterial( { color: 0xffffff, map: texture1 } );
-        texture1.anisotropy = maxAnisotropy;
-        texture1.wrapS = texture1.wrapT = THREE.RepeatWrapping;
-        texture1.repeat.set( 1, 1 );
-        this.resourceManager['mat_floor'] = material1;
-        this.resourceManager['mesh_floor'] = new THREE.Mesh( this.resourceManager['cube'], material1 );
-
-        // roof mesh
-        var texture2 = THREE.ImageUtils.loadTexture( "img/roof_1-1.png" );
-        var material2 = new THREE.MeshPhongMaterial( { color: 0xffffff, map: texture2 } );
-        texture2.anisotropy = maxAnisotropy;
-        texture2.wrapS = texture2.wrapT = THREE.RepeatWrapping;
-        texture2.repeat.set( 1, 1 );
-        this.resourceManager['mat_roof'] = material2;
-        this.resourceManager['mesh_roof'] = new THREE.Mesh( this.resourceManager['cube'], material2 );
-
-        // wall mesh
-        var texture3 = THREE.ImageUtils.loadTexture( "img/wall_1-1.png" );
-        var material3 = new THREE.MeshPhongMaterial( { color: 0xffffff, map: texture3 } );
-        texture3.anisotropy = maxAnisotropy;
-        texture3.wrapS = texture3.wrapT = THREE.RepeatWrapping;
-        texture3.repeat.set( 1, 1 );
-        this.resourceManager['mat_wall'] = material3;
-        this.resourceManager['mesh_wall'] = new THREE.Mesh( this.resourceManager['cube'], material3 );
-
         var exit = this.level.objects.exit;
 
         for (var i = 0; i < this.level.height; ++i) {
             for (var j = 0; j < this.level.width; ++j) {
-                // floor
-                //var mesh = this.resourceManager['mesh_floor'];
-                var mesh = new THREE.Mesh( this.resourceManager['cube'], this.resourceManager['mat_floor'].clone() );
-                mesh.position.x = i * CUBE_SIZE;
-                mesh.position.z = j * CUBE_SIZE;
-                mesh.position.y = -CUBE_SIZE;
-                this.scene.add( mesh );
 
                 // wall
                 if (this.level.map[i][j]) {
@@ -149,20 +115,51 @@ function(three,      octree,        first_person_controls,     RiddleRenderer) {
                     //var mesh = this.resourceManager['mesh_wall'];
                     if (exit[0] == i && exit[1] == j) {
                         // This is the exit, show a door on each face.
+                        mesh = new THREE.Mesh( this.resourceManager['cube'], this.resourceManager['mat_door'] );
                     }
-                    var mesh = new THREE.Mesh( this.resourceManager['cube'], this.resourceManager['mat_wall'].clone() );
+                    mesh = new THREE.Mesh( this.resourceManager['cube'], this.resourceManager['mat_wall'] );
                     mesh.position.x = i * CUBE_SIZE;
                     mesh.position.z = j * CUBE_SIZE;
                     this.scene.add( mesh );
                 }
+                else
+                {
+                    // floor
+                    //var mesh = this.resourceManager['mesh_floor'];
+                    var mesh = new THREE.Mesh( this.resourceManager['cube'], this.resourceManager['mat_floor'].clone() );
+                    mesh.position.x = i * CUBE_SIZE;
+                    mesh.position.z = j * CUBE_SIZE;
+                    mesh.position.y = -CUBE_SIZE;
+                    this.scene.add( mesh );
 
-                // roof
-                //var mesh = this.resourceManager['mesh_roof'];
-                var mesh = new THREE.Mesh( this.resourceManager['cube'], this.resourceManager['mat_roof'].clone() );
-                mesh.position.x = i * CUBE_SIZE;
-                mesh.position.z = j * CUBE_SIZE;
-                mesh.position.y = CUBE_SIZE;
-                this.scene.add( mesh );
+                    // roof
+                    //var mesh = this.resourceManager['mesh_roof'];
+                    mesh = new THREE.Mesh( this.resourceManager['cube'], this.resourceManager['mat_roof'] );
+                    mesh.position.x = i * CUBE_SIZE;
+                    mesh.position.z = j * CUBE_SIZE;
+                    mesh.position.y = CUBE_SIZE;
+                    this.scene.add( mesh );
+
+                    // light test
+                    // var sprite2 = new THREE.Sprite( this.resourceManager['mat_light'] );
+                    // sprite2.position.set( i * CUBE_SIZE, 100, j * CUBE_SIZE );
+                    // sprite2.scale.set( 64, 64, 1.0 ); // imageWidth, imageHeight
+                    // this.scene.add( sprite2 );
+                    mesh = new THREE.Mesh( this.resourceManager['light_geom'], this.resourceManager['mat_light'] );
+                    mesh.position.x = i * CUBE_SIZE;
+                    mesh.position.z = j * CUBE_SIZE;
+                    mesh.position.y = CUBE_SIZE/2.1;
+                    mesh.rotation.x = Math.PI/2;
+                    this.scene.add( mesh );
+
+                    // pnj
+                    if(this.detectCrossroad(i * CUBE_SIZE, j * CUBE_SIZE, true)) {
+                        var sprite = new THREE.Sprite( this.resourceManager['mat_cerberus1'] );
+                        sprite.position.set( i * CUBE_SIZE, -50, j * CUBE_SIZE );
+                        sprite.scale.set( 25, 50, 1.0 ); // imageWidth, imageHeight
+                        this.scene.add( sprite );
+                    }
+                }
             };
         };
 
@@ -183,18 +180,23 @@ function(three,      octree,        first_person_controls,     RiddleRenderer) {
         var intersects = this.raycaster.intersectObjects( this.scene.children );
 
         if ( intersects.length > 0 ) {
+            var i = 0;
+            if(i < intersects.length && intersects[ i ].object instanceof THREE.Sprite)
+            {
+                ++i;
+            }
             //console.log("nbintersects : " + intersects.length);
             //console.log(intersects[0].distance);
 
             // check cube type, exlude wall and roof
-            if(intersects[ 0 ].object.position.y == -CUBE_SIZE) {
+            if(intersects[ i ].object.position.y == -CUBE_SIZE) {
 
                 // change selected cube, remove highligh on previous and set on new
-                if ( this.INTERSECTED != intersects[ 0 ].object ) {
+                if ( this.INTERSECTED != intersects[ i ].object ) {
 
                     if ( this.INTERSECTED ) this.INTERSECTED.material.emissive.setHex( this.INTERSECTED.currentHex );
 
-                    this.INTERSECTED = intersects[ 0 ].object;
+                    this.INTERSECTED = intersects[ i ].object;
                     this.INTERSECTED.currentHex = this.INTERSECTED.material.emissive.getHex();
                     this.INTERSECTED.material.emissive.setHex( 0xff0000 );
                 }
@@ -296,28 +298,33 @@ function(three,      octree,        first_person_controls,     RiddleRenderer) {
         }
         if (this.count == (3 * this.nbStep)) {
             this.crossroadTested = false;
-            this.detectCrossroad();
+            if(this.detectCrossroad(this.camera.position.x, this.camera.position.z)) {
+                this.showRiddle();
+            }
+
             ++this.count;
         }
         this.camera.position.y = 0;
 
     };
 
-    Scene.prototype.detectCrossroad = function () {
-        var currentIndI = Math.round(this.camera.position.x / 200.0);
-        var currentIndJ = Math.round(this.camera.position.z / 200.0);
+    Scene.prototype.detectCrossroad = function (x , y, dotest = false) { // x, y abxolute world position
+        var currentIndI = Math.round(x / CUBE_SIZE);
+        var currentIndJ = Math.round(y / CUBE_SIZE);
 
         var nbAdjacentTile = 0;
-        if (!this.crossroadTested) {
+        if (dotest || !this.crossroadTested) {
+            this.crossroadTested = true;
             if (!this.level.map[currentIndI][currentIndJ + 1]) ++nbAdjacentTile;
             if (!this.level.map[currentIndI][currentIndJ - 1]) ++nbAdjacentTile;
             if (!this.level.map[currentIndI + 1][currentIndJ]) ++nbAdjacentTile;
             if (!this.level.map[currentIndI - 1][currentIndJ]) ++nbAdjacentTile;
 
-            if (nbAdjacentTile > 2)
-                this.showRiddle();
+            if (nbAdjacentTile > 2) {
+                return true;
+            }
+            return false;
         }
-        this.crossroadTested = true;
     };
 
     Scene.prototype.showRiddle = function () {
@@ -414,10 +421,24 @@ function(three,      octree,        first_person_controls,     RiddleRenderer) {
         this.checkPosition();
 
         this.findIntersections();
+
         this.render();
     };
 
+    Scene.prototype.culling = function () {
+        /*for(var i=0; i<this.scene.children.length; ++i) {
+            var v = new THREE.Vector2(this.scene.children[i].position.x - this.camera.position.x, this.scene.children[i].position.z - this.camera.position.z);
+            if(v.dot(v) < 640000) {
+                this.scene.children[i].visible = true;
+            }
+            else {
+                this.scene.children[i].visible = false;
+            }
+        }*/
+    };
+
     Scene.prototype.render = function () {
+        this.culling();
         this.renderer.render( this.scene, this.camera );
     };
 
