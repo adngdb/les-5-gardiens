@@ -10,15 +10,19 @@ body {
     width: 100%;
 }
 #riddle-container .riddle {
-    background-color: white;
+    background-color: rgba(255, 255, 255, 0.7);
     border-radius: 0.5rem;
     margin: auto;
     padding: 1.0rem 2.0rem;
     width: 80%;
 }
+#riddle-container .riddle p {
+    font-size: 1.4em;
+    margin-bottom: 1.0rem;
+}
 #riddle-container .answer {
     background-color: #ddd;
-    border: 1px solid #bbb;
+    border: 1px solid #aaa;
     border-radius: 0.3rem;
     cursor: pointer;
     display: inline-block;
@@ -29,5 +33,5 @@ body {
 }
 #riddle-container .answer:hover {
     background-color: #eee;
-    border: 1px solid #ccc;
+    border: 1px solid #bbb;
 }
