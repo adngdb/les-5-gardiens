@@ -7,16 +7,16 @@ require(['lib/three', 'lib/FirstPersonControls'], function (three, first_person_
 
     var camera, scene, renderer,
     geometry, material, controls;
-    var taille = 5;
+    var size = 10;
 
     var matlabyrinth = [
         [1, 0, 1, 1, 1, 1, 1, 1, 1, 1],
         [1, 0, 1, 1, 1, 1, 1, 1, 1, 1],
         [1, 0, 1, 1, 1, 1, 1, 1, 1, 1],
-        [1, 0, 1, 1, 1, 1, 1, 1, 1, 1],
-        [1, 0, 1, 1, 1, 1, 1, 1, 1, 1],
-        [1, 0, 1, 1, 1, 1, 1, 1, 1, 1],
-        [1, 0, 1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 0, 0, 0, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 0, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 0, 1, 1, 1, 1, 1, 1],
+        [1, 0, 0, 0, 1, 1, 1, 1, 1, 1],
         [1, 0, 1, 1, 1, 1, 1, 1, 1, 1],
         [1, 0, 1, 1, 1, 1, 1, 1, 1, 1],
         [1, 0, 1, 1, 1, 1, 1, 1, 1, 1],
@@ -40,8 +40,8 @@ require(['lib/three', 'lib/FirstPersonControls'], function (three, first_person_
         controls.activeLook = true;
         controls.mouseDragOn = true;
 
-        for (var i = 0; i < 5; ++i) {
-            for (var j = 0; j < 5; ++j) {
+        for (var i = 0; i < size; ++i) {
+            for (var j = 0; j < size; ++j) {
                 // floor
                 geometry = new THREE.CubeGeometry( 200, 200, 200 );
                 material = new THREE.MeshBasicMaterial( { color: 0x555555, wireframe: false } );
@@ -53,7 +53,7 @@ require(['lib/three', 'lib/FirstPersonControls'], function (three, first_person_
 
                 if(matlabyrinth[i][j]) {
                     geometry = new THREE.CubeGeometry( 200, 200, 200 );
-                    material = new THREE.MeshBasicMaterial( { color: 0xff0000+i*50+j*50*256, wireframe: false } );
+                    material = new THREE.MeshBasicMaterial( { color: 0xff0000+i*(255/size)+j*(255/size)*256, wireframe: false } );
                     var mesh = new THREE.Mesh( geometry, material );
                     mesh.position.x = i*200;
                     mesh.position.z = j*200;
@@ -111,7 +111,7 @@ require(['lib/three', 'lib/FirstPersonControls'], function (three, first_person_
                 // ... Code for Drawing the Frame ...
                 render();
 
-                console.log("ma position: "+ camera.position.x +" y:"+ camera.position.y +" z:" + camera.position.z);
+                // console.log("ma position: "+ camera.position.x +" y:"+ camera.position.y +" z:" + camera.position.z);
             }
         }
 
@@ -120,15 +120,16 @@ require(['lib/three', 'lib/FirstPersonControls'], function (three, first_person_
         var SavePosX = camera.position.x;
         var SavePosZ = camera.position.z;
         controls.update(1.0);
-        var NewIndI = Math.floor((camera.position.x+1)/200.0);
-        var NewIndJ = Math.floor((camera.position.z+1)/200.0);
-        console.log("indice : " + NewIndI + " , " + NewIndJ);
-        if ((NewIndI<0) || (NewIndI>=taille) || (NewIndJ<0) || (NewIndJ>=taille)|| (matlabyrinth[NewIndI][NewIndJ])) {// invalide movement : restore previous position
+        var NewIndI = Math.round((camera.position.x)/200.0);
+        var NewIndJ = Math.round((camera.position.z)/200.0);
+        // console.log("indice : " + NewIndI + " , " + NewIndJ);
+        if ((NewIndI<0) || (NewIndI>=size) || (NewIndJ<0) || (NewIndJ>=size)|| (matlabyrinth[NewIndI][NewIndJ])) {// invalide movement : restore previous position
             camera.position.x = SavePosX;
             camera.position.z = SavePosZ;
-            console.log("reset position");
+            // console.log("reset position");
 
         }
+        camera.position.y = 0;
         renderer.render( scene, camera );
         // console.log("camera.position.x : "+camera.position.x);
         // console.log("camera.position.y : "+camera.position.y);
