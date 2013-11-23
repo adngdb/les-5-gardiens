@@ -33,6 +33,13 @@ THREE.FirstPersonControls = function ( object, domElement ) {
 
 	this.mouseX = 0;
 	this.mouseY = 0;
+	this.mouseLastX = 0;
+	this.mouseLastY = 0;
+	this.mouseY = 0;
+	this.mouseRelX = 0;
+	this.mouseRelY = 0;
+
+	this.mouseClick = false;
 
 	this.lat = 0;
 	this.lon = 0;
@@ -87,16 +94,23 @@ THREE.FirstPersonControls = function ( object, domElement ) {
 		event.preventDefault();
 		event.stopPropagation();
 
-		if ( this.activeLook ) {
+		// if ( this.activeLook ) {
 
-			switch ( event.button ) {
+		// 	switch ( event.button ) {
 
-				case 0: this.moveForward = true; break;
-				case 2: this.moveBackward = true; break;
+		// 		case 0: this.moveForward = true; break;
+		// 		case 2: this.moveBackward = true; break;
 
+		// 	}
+
+		// }
+
+		switch ( event.button ) {
+				case 0: this.mouseClick = true; break;
+				//case 2: this.moveBackward = true; break;
 			}
 
-		}
+
 
 		this.mouseDragOn = true;
 
@@ -107,14 +121,27 @@ THREE.FirstPersonControls = function ( object, domElement ) {
 		event.preventDefault();
 		event.stopPropagation();
 
-		if ( this.activeLook ) {
+		// if ( this.activeLook ) {
 
-			switch ( event.button ) {
+		// 	switch ( event.button ) {
 
-				case 0: this.moveForward = false; break;
-				case 2: this.moveBackward = false; break;
+		// 		case 0: this.moveForward = false; break;
+		// 		case 2: this.moveBackward = false; break;
 
-			}
+		// 	}
+
+		// }
+
+		switch ( event.button ) {
+			case 0: this.mouseClick = false; break;
+			//case 2: this.moveBackward = true; break;
+		}
+
+		// not too much movements, it's a click
+		if(Math.abs(this.mouseRelX) < 5 && Math.abs(this.mouseRelY) < 5) {
+			
+		}
+		else { // else we drag the camera view
 
 		}
 
@@ -124,18 +151,32 @@ THREE.FirstPersonControls = function ( object, domElement ) {
 
 	this.onMouseMove = function ( event ) {
 
-		if ( this.domElement === document ) {
+		if(this.mouseClick) {
+			this.mouseLastX = this.mouseX;
+			this.mouseLastY = this.mouseY;
 
-			this.mouseX = event.pageX - this.viewHalfX;
-			this.mouseY = event.pageY - this.viewHalfY;
+			// if ( this.domElement === document ) {
 
-		} else {
+			// 	this.mouseX = event.pageX - this.viewHalfX;
+			// 	this.mouseY = event.pageY - this.viewHalfY;
 
-			this.mouseX = event.pageX - this.domElement.offsetLeft - this.viewHalfX;
-			this.mouseY = event.pageY - this.domElement.offsetTop - this.viewHalfY;
+			// } else {
 
+			// 	this.mouseX = event.pageX - this.domElement.offsetLeft - this.viewHalfX;
+			// 	this.mouseY = event.pageY - this.domElement.offsetTop - this.viewHalfY;
+
+			// }
+
+			this.mouseX = event.pageX;
+			this.mouseY = event.pageY;
+
+			this.mouseRelX = this.mouseX - this.mouseLastX;
+			this.mouseRelY = this.mouseY - this.mouseLastY;
 		}
-
+		else {
+			this.mouseRelX = 0;
+			this.mouseRelY = 0;
+		}
 	};
 
 	this.onKeyDown = function ( event ) {
@@ -272,8 +313,11 @@ THREE.FirstPersonControls = function ( object, domElement ) {
 
 		}
 
-		this.lon += this.mouseX * actualLookSpeed;
-		if( this.lookVertical ) this.lat -= this.mouseY * actualLookSpeed * verticalLookRatio;
+		//this.lon += this.mouseX * actualLookSpeed;
+		//if( this.lookVertical ) this.lat -= this.mouseY * actualLookSpeed * verticalLookRatio;
+
+		this.lon += this.mouseRelX * actualLookSpeed;
+		if( this.lookVertical ) this.lat -= this.mouseRelY * actualLookSpeed * verticalLookRatio;
 
 		this.lat = Math.max( - 85, Math.min( 85, this.lat ) );
 		this.phi = THREE.Math.degToRad( 90 - this.lat );
