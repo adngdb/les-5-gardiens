@@ -1,4 +1,4 @@
-define({
+{
     "enigmas": [
         {
             "text": "Quelle est la moitié de 2 + 2 ?",
@@ -51,4 +51,4 @@ define({
             "answer": 2
         },
     ]
-});
+}

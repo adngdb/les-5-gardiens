@@ -1,8 +1,11 @@
 require.config({
-    baseUrl: "js"
+    baseUrl: "js",
+    paths: {
+        'data': '../data'
+    }
 });
 
-require(['lib/three', 'lib/FirstPersonControls'], function (three, first_person_controls) {
+require(['lib/three', 'lib/FirstPersonControls', 'level'], function (three, first_person_controls, Level) {
     "use strict";
 
     var camera, scene, renderer,
@@ -21,6 +24,11 @@ require(['lib/three', 'lib/FirstPersonControls'], function (three, first_person_
         [1, 0, 1, 1, 1, 1, 1, 1, 1, 1],
         [1, 0, 1, 1, 1, 1, 1, 1, 1, 1],
     ];
+
+    var lvl = new Level(1);
+    lvl.load(function () {
+        // The level is loaded and has its map and riddles.
+    });
 
     function init() {
         scene = new THREE.Scene();
