@@ -1,14 +1,7 @@
 define(['lib/three', 'lib/FirstPersonControls', 'riddle_renderer'], function (three, first_person_controls, RiddleRenderer) {
     var Scene = function (level) {
         this.level = level;
-
-        var riddle = this.level.riddles.getRandomRiddle();
-        var rid = new RiddleRenderer(riddle, function () {
-            console.log('Success, Motherfucker.');
-        }, function () {
-            console.log('You failed. Hard. ');
-        });
-        rid.display();
+        this.pause = false;
     };
 
     var count, stepLon, stepLat, stepRotZ, stepTrX, stepTrZ;
@@ -206,8 +199,28 @@ define(['lib/three', 'lib/FirstPersonControls', 'riddle_renderer'], function (th
 
     };
 
+    Scene.prototype.showRiddle = function () {
+        var self = this;
+
+        var riddle = this.level.riddles.getRandomRiddle();
+        this.pause = true;
+        var rid = new RiddleRenderer(riddle, function () {
+            console.log('Success, Motherfucker.');
+        }, function () {
+            console.log('You failed. Hard. ');
+            self.pause = false;
+        });
+        rid.display();
+    };
+
     Scene.prototype.animate = function () {
         requestAnimationFrame( this.animate.bind(this) );
+
+        // In pause mode, do nothing but wait until the pause mode is stopped.
+        if (this.pause) {
+            return;
+        }
+
         this.checkPosition();
 
         this.findIntersections();
