@@ -34,17 +34,21 @@ require(['lib/three', 'lib/FirstPersonControls'], function (three) {
         controls.movementSpeed = 70;
         controls.lookSpeed = 0.05;
         controls.noFly = true;
-        controls.lookVertical = false;
+        controls.lookVertical = true;
+        controls.activeLook = false;
+
 
         for (var i = 0; i < 5; ++i) {
             for (var j = 0; j < 5; ++j) {
-                geometry = new THREE.CubeGeometry( 200, 200, 200 );
-                material = new THREE.MeshBasicMaterial( { color: 0xff0000+i*50+j*50*256, wireframe: false } );
-                var mesh = new THREE.Mesh( geometry, material );
-                mesh.position.x = i*200;
-                mesh.position.y = j*200;
-                //mesh.position.z = i*200 +j*5*200;
-                scene.add( mesh );
+                if(matlabyrinth[i][j]) {
+                    geometry = new THREE.CubeGeometry( 200, 200, 200 );
+                    material = new THREE.MeshBasicMaterial( { color: 0xff0000+i*50+j*50*256, wireframe: false } );
+                    var mesh = new THREE.Mesh( geometry, material );
+                    mesh.position.x = i*200;
+                    mesh.position.z = j*200;
+                    //mesh.position.z = i*200 +j*5*200;
+                    scene.add( mesh );
+                }
             };
         };
 
