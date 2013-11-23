@@ -20,42 +20,79 @@ define(['lib/three', 'lib/FirstPersonControls'], function (three, first_person_c
         this.controls.activeLook = true;
         this.controls.mouseDragOn = true;
 
+        this.scene.fog = new THREE.Fog( 0x000000, 1, 1000 );
+        this.scene.add( new THREE.AmbientLight( 0xffffff ) );
+
+        this.renderer = new THREE.WebGLRenderer();
+        this.renderer.setSize( window.innerWidth, window.innerHeight );
+        this.renderer.setClearColor( 0x000000, 1 );
+
+        this.resourceManager = {};
+
+        // build unitary cube
+        this.resourceManager['cube'] = new THREE.CubeGeometry( 200, 200, 200 );
+
+        // floor mesh
+        var maxAnisotropy = this.renderer.getMaxAnisotropy();
+        var texture1 = THREE.ImageUtils.loadTexture( "img/ground_1-1.png" );
+        var material1 = new THREE.MeshPhongMaterial( { color: 0xffffff, map: texture1 } );
+        texture1.anisotropy = maxAnisotropy;
+        texture1.wrapS = texture1.wrapT = THREE.RepeatWrapping;
+        texture1.repeat.set( 1, 1 );
+        this.resourceManager['mat_floor'] = material1;
+        this.resourceManager['mesh_floor'] = new THREE.Mesh( this.resourceManager['cube'], material1 );
+
+        // roof mesh
+        var texture2 = THREE.ImageUtils.loadTexture( "img/roof_1-1.png" );
+        var material2 = new THREE.MeshPhongMaterial( { color: 0xffffff, map: texture2 } );
+        texture2.anisotropy = maxAnisotropy;
+        texture2.wrapS = texture2.wrapT = THREE.RepeatWrapping;
+        texture2.repeat.set( 1, 1 );
+        this.resourceManager['mat_roof'] = material2;
+        this.resourceManager['mesh_roof'] = new THREE.Mesh( this.resourceManager['cube'], material2 );
+
+        // wall mesh
+        var texture3 = THREE.ImageUtils.loadTexture( "img/wall_1-1.png" );
+        var material3 = new THREE.MeshPhongMaterial( { color: 0xffffff, map: texture3 } );
+        texture3.anisotropy = maxAnisotropy;
+        texture3.wrapS = texture3.wrapT = THREE.RepeatWrapping;
+        texture3.repeat.set( 1, 1 );
+        this.resourceManager['mat_wall'] = material3;
+        this.resourceManager['mesh_wall'] = new THREE.Mesh( this.resourceManager['cube'], material3 );
+
         for (var i = 0; i < this.level.height; ++i) {
             for (var j = 0; j < this.level.width; ++j) {
                 // floor
-                geometry = new THREE.CubeGeometry( 200, 200, 200 );
-                material = new THREE.MeshBasicMaterial( { color: 0x555555, wireframe: false } );
-                var mesh = new THREE.Mesh( geometry, material );
+                //var mesh = this.resourceManager['mesh_floor'];
+                var mesh = new THREE.Mesh( this.resourceManager['cube'], this.resourceManager['mat_floor'] );
                 mesh.position.x = i * 200;
                 mesh.position.z = j * 200;
                 mesh.position.y = -200;
                 this.scene.add( mesh );
 
+                // wall
                 if (this.level.map[i][j]) {
-                    geometry = new THREE.CubeGeometry( 200, 200, 200 );
-                    material = new THREE.MeshBasicMaterial({
-                        color: 0xff0000 + i * (255 / this.level.height) + j * (255/this.level.width) * 256,
-                        wireframe: false
-                    });
-                    var mesh = new THREE.Mesh( geometry, material );
+                    // geometry = new THREE.CubeGeometry( 200, 200, 200 );
+                    // material = new THREE.MeshBasicMaterial({
+                    //     color: 0xff0000 + i * (255 / this.level.height) + j * (255/this.level.width) * 256,
+                    //     wireframe: false
+                    // });
+                    //var mesh = this.resourceManager['mesh_wall'];
+                    var mesh = new THREE.Mesh( this.resourceManager['cube'], this.resourceManager['mat_wall'] );
                     mesh.position.x = i*200;
                     mesh.position.z = j*200;
                     this.scene.add( mesh );
                 }
 
                 // roof
-                geometry = new THREE.CubeGeometry( 200, 200, 200 );
-                material = new THREE.MeshBasicMaterial( { color: 0x999999, wireframe: false } );
-                var mesh = new THREE.Mesh( geometry, material );
+                //var mesh = this.resourceManager['mesh_roof'];
+                var mesh = new THREE.Mesh( this.resourceManager['cube'], this.resourceManager['mat_roof'] );
                 mesh.position.x = i*200;
                 mesh.position.z = j*200;
                 mesh.position.y = 200;
                 this.scene.add( mesh );
             };
         };
-
-        this.renderer = new THREE.WebGLRenderer();
-        this.renderer.setSize( window.innerWidth, window.innerHeight );
 
         document.body.appendChild( this.renderer.domElement );
 
@@ -64,10 +101,7 @@ define(['lib/three', 'lib/FirstPersonControls'], function (three, first_person_c
 
     Scene.prototype.animate = function () {
         requestAnimationFrame( this.animate.bind(this) );
-        this.render();
-    };
 
-    Scene.prototype.render = function () {
         var SavePosX = this.camera.position.x;
         var SavePosZ = this.camera.position.z;
         this.controls.update(1.0);
@@ -83,6 +117,12 @@ define(['lib/three', 'lib/FirstPersonControls'], function (three, first_person_c
 
         }
         this.camera.position.y = 0;
+
+        this.render();
+    };
+
+    Scene.prototype.render = function () {
+
         this.renderer.render( this.scene, this.camera );
         // console.log("camera.position.x : "+camera.position.x);
         // console.log("camera.position.y : "+camera.position.y);
