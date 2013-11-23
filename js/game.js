@@ -16,33 +16,28 @@ require(['lib/three', 'lib/FirstPersonControls'], function (three) {
         [1, 0, 1, 1, 1],
     ];
 
-
-    //init();
-    //animate();
-
     function init() {
         scene = new THREE.Scene();
 
         camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 10000 );
-        camera.position.x = 0;
+        camera.position.x = -200;
         camera.position.y = 0;
-        camera.position.z = 1000;
+        camera.position.z = 200;
 
 
         controls = new THREE.FirstPersonControls( camera );
 
-        controls.movementSpeed = 70;
+        controls.movementSpeed = 200;
         controls.lookSpeed = 0.05;
         controls.noFly = true;
         controls.lookVertical = true;
         controls.activeLook = false;
 
-
         for (var i = 0; i < 5; ++i) {
             for (var j = 0; j < 5; ++j) {
                 // floor
                 geometry = new THREE.CubeGeometry( 200, 200, 200 );
-                material = new THREE.MeshBasicMaterial( { color: 0xff0000+i*50+j*50*256, wireframe: false } );
+                material = new THREE.MeshBasicMaterial( { color: 0x555555, wireframe: false } );
                 var mesh = new THREE.Mesh( geometry, material );
                 mesh.position.x = i*200;
                 mesh.position.z = j*200;
@@ -55,13 +50,12 @@ require(['lib/three', 'lib/FirstPersonControls'], function (three) {
                     var mesh = new THREE.Mesh( geometry, material );
                     mesh.position.x = i*200;
                     mesh.position.z = j*200;
-                    //mesh.position.z = i*200 +j*5*200;
                     scene.add( mesh );
                 }
 
                 // roof
                 geometry = new THREE.CubeGeometry( 200, 200, 200 );
-                material = new THREE.MeshBasicMaterial( { color: 0xff0000+i*50+j*50*256, wireframe: false } );
+                material = new THREE.MeshBasicMaterial( { color: 0x999999, wireframe: false } );
                 var mesh = new THREE.Mesh( geometry, material );
                 mesh.position.x = i*200;
                 mesh.position.z = j*200;
@@ -69,9 +63,6 @@ require(['lib/three', 'lib/FirstPersonControls'], function (three) {
                 scene.add( mesh );
             };
         };
-
-        //mesh = new THREE.Mesh( geometry, material );
-        //scene.add( mesh );
 
         renderer = new THREE.CanvasRenderer();
         renderer.setSize( window.innerWidth, window.innerHeight );
@@ -85,6 +76,7 @@ require(['lib/three', 'lib/FirstPersonControls'], function (three) {
             // note: three.js includes requestAnimationFrame shim
             requestAnimationFrame( animate );
             render();
+            console.log("ma position: "+ camera.position.x +" y:"+ camera.position.y +" z:" + camera.position.z);
         }
 
     function render() {
