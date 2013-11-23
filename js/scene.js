@@ -4,7 +4,7 @@ define(['lib/three', 'lib/FirstPersonControls', 'riddle_renderer'], function (th
 
         var riddle = this.level.riddles.getRandomRiddle();
         var rid = new RiddleRenderer(riddle, function () {
-            console.log('SUCCESS!!!');
+            console.log('Success, Motherfucker.');
         }, function () {
             console.log('You failed. Hard. ');
         });

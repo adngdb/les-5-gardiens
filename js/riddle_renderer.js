@@ -10,6 +10,9 @@ define(['lib/jquery', 'tools'], function (jquery, tools) {
     RiddleRenderer.prototype.display = function () {
         var self = this;
 
+        // First clean the container to remove previous riddles.
+        this.container.empty();
+
         var riddleElt = $('<div>', { class: 'riddle' }).appendTo(this.container);
         var riddleTextElt = $('<p>').text(this.riddle.text).appendTo(riddleElt);
         var riddleAnswersElt = $('<div>', { class: 'answers' }).appendTo(riddleElt);
@@ -32,10 +35,12 @@ define(['lib/jquery', 'tools'], function (jquery, tools) {
             });
             answerElt.appendTo(riddleAnswersElt);
         };
+
+        this.container.fadeIn(500);
     };
 
     RiddleRenderer.prototype.hide = function () {
-        this.container.empty();
+        this.container.fadeOut(500);
     };
 
     RiddleRenderer.prototype.answerRiddle = function (answer) {
