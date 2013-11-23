@@ -14,5 +14,8 @@
     "objects": {
         "entrance": [1, 8],
         "exit": [5, 6]
+    },
+    "properties": {
+        "startLon": 180
     }
 }

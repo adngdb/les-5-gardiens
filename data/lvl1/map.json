@@ -45,5 +45,8 @@
     "objects": {
         "entrance": [40, 40],
         "exit": [0, 1]
+    },
+    "properties": {
+        "startLon": 0
     }
 }

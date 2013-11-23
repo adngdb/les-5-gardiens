@@ -37,12 +37,13 @@ function(three,      octree,        first_person_controls,     RiddleRenderer) {
         this.scene = new THREE.Scene();
 
         this.camera = new THREE.PerspectiveCamera( 60, window.innerWidth / window.innerHeight, 1, 10000 );
-        this.camera.position.x = 0;
+        this.camera.position.x = CUBE_SIZE * this.level.objects.entrance[1];
         this.camera.position.y = 0;
-        this.camera.position.z = CUBE_SIZE;
+        this.camera.position.z = CUBE_SIZE * this.level.objects.entrance[0];
 
         this.controls = new THREE.FirstPersonControls( this.camera );
 
+        this.controls.lon = this.level.properties.startLon;
         this.controls.movementSpeed = 200;
         this.controls.lookSpeed = 5.0;
         this.controls.noFly = true;

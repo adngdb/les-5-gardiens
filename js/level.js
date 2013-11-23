@@ -17,6 +17,7 @@ define(['lib/jquery', 'riddles'], function (jquery, Riddles) {
             self.width = self.map[0].length;
 
             self.objects = data.objects;
+            self.properties = data.properties;
 
             self.loadedResource();
         });
