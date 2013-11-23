@@ -110,6 +110,8 @@ function(three,      octree,        first_person_controls,     RiddleRenderer) {
         this.resourceManager['mat_wall'] = material3;
         this.resourceManager['mesh_wall'] = new THREE.Mesh( this.resourceManager['cube'], material3 );
 
+        var exit = this.level.objects.exit;
+
         for (var i = 0; i < this.level.height; ++i) {
             for (var j = 0; j < this.level.width; ++j) {
                 // floor
@@ -128,6 +130,9 @@ function(three,      octree,        first_person_controls,     RiddleRenderer) {
                     //     wireframe: false
                     // });
                     //var mesh = this.resourceManager['mesh_wall'];
+                    if (exit[0] == i && exit[1] == j) {
+                        // This is the exit, show a door on each face.
+                    }
                     var mesh = new THREE.Mesh( this.resourceManager['cube'], this.resourceManager['mat_wall'].clone() );
                     mesh.position.x = i * CUBE_SIZE;
                     mesh.position.z = j * CUBE_SIZE;
