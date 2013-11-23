@@ -1,13 +1,40 @@
-define(['lib/three', 'lib/FirstPersonControls', 'riddle_renderer'], function (three, first_person_controls, RiddleRenderer) {
+define(['lib/three', 'lib/Octree', 'lib/FirstPersonControls', 'riddle_renderer', ],
+function(three,      octree,        first_person_controls,     RiddleRenderer) {
+    console.log(buzz);
     var Scene = function (level) {
         this.level = level;
         this.pause = false;
     };
 
+    // var Sound = function ( sources, radius, volume, loop=false ) {
+    //     var audio = document.createElement( 'audio' );
+    //     for ( var i = 0; i < sources.length; i ++ ) {
+    //         var source = document.createElement( 'source' );
+    //         source.src = sources[ i ];
+    //         audio.appendChild( source );
+    //         audio.loop = loop;
+    //     }
+
+    //     this.position = new THREE.Vector3();
+
+    //     this.play = function () {
+    //         audio.play();
+    //     }
+
+    //     this.update = function ( camera ) {
+    //         var distance = this.position.distanceTo( camera.position );
+    //         if ( distance <= radius ) {
+    //             audio.volume = volume * ( 1 - distance / radius );
+    //         } else {
+    //             audio.volume = 0;
+    //         }
+    //     }
+    // }
+
     Scene.prototype.init = function () {
         this.scene = new THREE.Scene();
 
-        this.camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 10000 );
+        this.camera = new THREE.PerspectiveCamera( 60, window.innerWidth / window.innerHeight, 1, 10000 );
         this.camera.position.x = 0;
         this.camera.position.y = 0;
         this.camera.position.z = 200;
@@ -15,11 +42,13 @@ define(['lib/three', 'lib/FirstPersonControls', 'riddle_renderer'], function (th
         this.controls = new THREE.FirstPersonControls( this.camera );
 
         this.controls.movementSpeed = 200;
-        this.controls.lookSpeed = 0.3;
+        this.controls.lookSpeed = 5.0;
         this.controls.noFly = true;
         this.controls.lookVertical = true;
         this.controls.activeLook = true;
         this.controls.mouseDragOn = false;
+
+        this.clock = new THREE.Clock();
 
         this.scene.fog = new THREE.Fog( 0x000000, 1, 1000 );
         this.scene.add( new THREE.AmbientLight( 0xffffff ) );
@@ -42,6 +71,10 @@ define(['lib/three', 'lib/FirstPersonControls', 'riddle_renderer'], function (th
         this.nbStep = 25;
 
         this.resourceManager = {};
+
+        // sounds
+        this.music = new buzz.sound("sound/main_theme.ogg");
+        this.music.loop().play();
 
         // build unitary cube
         this.resourceManager['cube'] = new THREE.CubeGeometry( 200, 200, 200 );
@@ -130,6 +163,8 @@ define(['lib/three', 'lib/FirstPersonControls', 'riddle_renderer'], function (th
 
             // check cube type, exlude wall and roof
             if(intersects[ 0 ].object.position.y == -200) {
+
+                // change selected cube, remove highligh on previous and set on new
                 if ( this.INTERSECTED != intersects[ 0 ].object ) {
 
                     if ( this.INTERSECTED ) this.INTERSECTED.material.emissive.setHex( this.INTERSECTED.currentHex );
@@ -150,7 +185,7 @@ define(['lib/three', 'lib/FirstPersonControls', 'riddle_renderer'], function (th
                     this.targetPosZ = -5;
                 }
             }
-        } else {
+        } else { //
             if ( this.INTERSECTED ) this.INTERSECTED.material.emissive.setHex( this.INTERSECTED.currentHex );
             this.INTERSECTED = null;
         }
@@ -162,7 +197,9 @@ define(['lib/three', 'lib/FirstPersonControls', 'riddle_renderer'], function (th
         // var savePosZ = this.camera.position.z;
         var oldIndJ = Math.round(this.camera.position.z / 200.0);
 
-        this.controls.update(1.0);
+        var delta = this.clock.getDelta(),
+        time = this.clock.getElapsedTime() * 5;
+        this.controls.update(delta);
 
         var newIndI = Math.round(this.targetPosX / 200.0);
         var newIndJ = Math.round(this.targetPosZ / 200.0);
