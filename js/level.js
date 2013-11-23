@@ -12,9 +12,11 @@ define(['lib/jquery', 'riddles'], function (jquery, Riddles) {
         var self = this;
 
         $.getJSON(this.levelDir + 'map.json', function (data) {
-            self.map = data;
-            self.height = data.length;
-            self.width = data[0].length;
+            self.map = data.map;
+            self.height = self.map.length;
+            self.width = self.map[0].length;
+
+            self.objects = data.objects;
 
             self.loadedResource();
         });

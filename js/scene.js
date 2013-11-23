@@ -31,13 +31,15 @@ function(three,      octree,        first_person_controls,     RiddleRenderer) {
     //     }
     // }
 
+    var CUBE_SIZE = 200; //px
+
     Scene.prototype.init = function () {
         this.scene = new THREE.Scene();
 
         this.camera = new THREE.PerspectiveCamera( 60, window.innerWidth / window.innerHeight, 1, 10000 );
         this.camera.position.x = 0;
         this.camera.position.y = 0;
-        this.camera.position.z = 200;
+        this.camera.position.z = CUBE_SIZE;
 
         this.controls = new THREE.FirstPersonControls( this.camera );
 
@@ -77,7 +79,7 @@ function(three,      octree,        first_person_controls,     RiddleRenderer) {
         this.music.loop().play();
 
         // build unitary cube
-        this.resourceManager['cube'] = new THREE.CubeGeometry( 200, 200, 200 );
+        this.resourceManager['cube'] = new THREE.CubeGeometry( CUBE_SIZE, CUBE_SIZE, CUBE_SIZE );
 
         // floor mesh
         var maxAnisotropy = this.renderer.getMaxAnisotropy();
@@ -112,31 +114,31 @@ function(three,      octree,        first_person_controls,     RiddleRenderer) {
                 // floor
                 //var mesh = this.resourceManager['mesh_floor'];
                 var mesh = new THREE.Mesh( this.resourceManager['cube'], this.resourceManager['mat_floor'].clone() );
-                mesh.position.x = i * 200;
-                mesh.position.z = j * 200;
-                mesh.position.y = -200;
+                mesh.position.x = i * CUBE_SIZE;
+                mesh.position.z = j * CUBE_SIZE;
+                mesh.position.y = -CUBE_SIZE;
                 this.scene.add( mesh );
 
                 // wall
                 if (this.level.map[i][j]) {
-                    // geometry = new THREE.CubeGeometry( 200, 200, 200 );
+                    // geometry = new THREE.CubeGeometry( CUBE_SIZE, CUBE_SIZE, CUBE_SIZE );
                     // material = new THREE.MeshBasicMaterial({
                     //     color: 0xff0000 + i * (255 / this.level.height) + j * (255/this.level.width) * 256,
                     //     wireframe: false
                     // });
                     //var mesh = this.resourceManager['mesh_wall'];
                     var mesh = new THREE.Mesh( this.resourceManager['cube'], this.resourceManager['mat_wall'].clone() );
-                    mesh.position.x = i*200;
-                    mesh.position.z = j*200;
+                    mesh.position.x = i * CUBE_SIZE;
+                    mesh.position.z = j * CUBE_SIZE;
                     this.scene.add( mesh );
                 }
 
                 // roof
                 //var mesh = this.resourceManager['mesh_roof'];
                 var mesh = new THREE.Mesh( this.resourceManager['cube'], this.resourceManager['mat_roof'].clone() );
-                mesh.position.x = i*200;
-                mesh.position.z = j*200;
-                mesh.position.y = 200;
+                mesh.position.x = i * CUBE_SIZE;
+                mesh.position.z = j * CUBE_SIZE;
+                mesh.position.y = CUBE_SIZE;
                 this.scene.add( mesh );
             };
         };
@@ -162,7 +164,7 @@ function(three,      octree,        first_person_controls,     RiddleRenderer) {
             //console.log(intersects[0].distance);
 
             // check cube type, exlude wall and roof
-            if(intersects[ 0 ].object.position.y == -200) {
+            if(intersects[ 0 ].object.position.y == -CUBE_SIZE) {
 
                 // change selected cube, remove highligh on previous and set on new
                 if ( this.INTERSECTED != intersects[ 0 ].object ) {
@@ -193,16 +195,16 @@ function(three,      octree,        first_person_controls,     RiddleRenderer) {
 
     Scene.prototype.checkPosition = function() {
         // var savePosX = this.camera.position.x;
-        var oldIndI = Math.round(this.camera.position.x / 200.0);
+        var oldIndI = Math.round(this.camera.position.x / CUBE_SIZE);
         // var savePosZ = this.camera.position.z;
-        var oldIndJ = Math.round(this.camera.position.z / 200.0);
+        var oldIndJ = Math.round(this.camera.position.z / CUBE_SIZE);
 
         var delta = this.clock.getDelta(),
         time = this.clock.getElapsedTime() * 5;
         this.controls.update(delta);
 
-        var newIndI = Math.round(this.targetPosX / 200.0);
-        var newIndJ = Math.round(this.targetPosZ / 200.0);
+        var newIndI = Math.round(this.targetPosX / CUBE_SIZE);
+        var newIndJ = Math.round(this.targetPosZ / CUBE_SIZE);
 
         // if (newIndI < 0 || newIndI >= this.level.height || newIndJ < 0 || newIndJ >= this.level.width || this.level.map[newIndI][newIndJ]) {
         //     // invalid movement : restore previous position
