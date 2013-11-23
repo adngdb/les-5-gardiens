@@ -2,7 +2,7 @@ require.config({
     baseUrl: "js"
 });
 
-require(['lib/three', 'lib/FirstPersonControls'], function (three) {
+require(['lib/three', 'lib/FirstPersonControls'], function (three, first_person_controls) {
     "use strict";
 
     var camera, scene, renderer,
@@ -127,12 +127,12 @@ require(['lib/three', 'lib/FirstPersonControls'], function (three) {
             camera.position.x = SavePosX;
             camera.position.z = SavePosZ;
             console.log("reset position");
-            
+
         }
         renderer.render( scene, camera );
         // console.log("camera.position.x : "+camera.position.x);
-        // console.log("camera.position.y : "+camera.position.y);  
-        // console.log("camera.position.z : "+camera.position.z);  
+        // console.log("camera.position.y : "+camera.position.y);
+        // console.log("camera.position.z : "+camera.position.z);
     }
 
     init();
