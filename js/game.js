@@ -7,6 +7,7 @@ require(['lib/three', 'lib/FirstPersonControls'], function (three) {
 
     var camera, scene, renderer,
     geometry, material, controls;
+    var taille = 5;
 
     var matlabyrinth = [
         [1, 0, 1, 1, 1],
@@ -20,7 +21,7 @@ require(['lib/three', 'lib/FirstPersonControls'], function (three) {
         scene = new THREE.Scene();
 
         camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 10000 );
-        camera.position.x = -200;
+        camera.position.x = 0;
         camera.position.y = 0;
         camera.position.z = 200;
 
@@ -81,7 +82,18 @@ require(['lib/three', 'lib/FirstPersonControls'], function (three) {
 
     function render() {
 
-        controls.update(0.5);
+        var SavePosX = camera.position.x;
+        var SavePosZ = camera.position.z;
+        controls.update(1.0);
+        var NewIndI = Math.floor((camera.position.x+1)/200.0);
+        var NewIndJ = Math.floor((camera.position.z+1)/200.0);
+        console.log("indice : " + NewIndI + " , " + NewIndJ);
+        if ((NewIndI<0) || (NewIndI>=taille) || (NewIndJ<0) || (NewIndJ>=taille)|| (matlabyrinth[NewIndI][NewIndJ])) {// invalide movement : restore previous position
+            camera.position.x = SavePosX;
+            camera.position.z = SavePosZ;
+            console.log("reset position");
+            
+        }
         renderer.render( scene, camera );
         // console.log("camera.position.x : "+camera.position.x);
         // console.log("camera.position.y : "+camera.position.y);  
