@@ -4,7 +4,7 @@ define(['lib/three', 'lib/FirstPersonControls'], function (three, first_person_c
     };
 
     var count, stepLon, stepLat, stepRotZ, stepTrX, stepTrZ;
-    var nbStep = 50;
+    var nbStep = 5;
 
     Scene.prototype.init = function () {
         this.scene = new THREE.Scene();
@@ -123,17 +123,31 @@ define(['lib/three', 'lib/FirstPersonControls'], function (three, first_person_c
         if ( intersects.length > 0 ) {
             //console.log("nbintersects : " + intersects.length);
             //console.log(intersects[0].distance);
-            if ( this.INTERSECTED != intersects[ 0 ].object ) {
 
-                if ( this.INTERSECTED ) this.INTERSECTED.material.emissive.setHex( this.INTERSECTED.currentHex );
+            // check cube type, exlude wall and roof
+            if(intersects[ 0 ].object.position.y == -200) {
+                if ( this.INTERSECTED != intersects[ 0 ].object ) {
 
-                this.INTERSECTED = intersects[ 0 ].object;
-                this.INTERSECTED.currentHex = this.INTERSECTED.material.emissive.getHex();
-                this.INTERSECTED.material.emissive.setHex( 0xff0000 );
+                    if ( this.INTERSECTED ) this.INTERSECTED.material.emissive.setHex( this.INTERSECTED.currentHex );
+
+                    this.INTERSECTED = intersects[ 0 ].object;
+                    this.INTERSECTED.currentHex = this.INTERSECTED.material.emissive.getHex();
+                    this.INTERSECTED.material.emissive.setHex( 0xff0000 );
+                }
+
+                // set target pos if we click
+                if(this.controls.mouseClick) {
+                    this.targetPosX = this.INTERSECTED.position.x;
+                    this.targetPosY = this.INTERSECTED.position.y;
+                    console.log("click");
+                }
+                else {
+                    this.targetPosX = -5;
+                    this.targetPosY = -5;
+                }
             }
-
         } else {
-            if ( this.INTERSECTED ) INTERSECTED.material.emissive.setHex( this.INTERSECTED.currentHex );
+            if ( this.INTERSECTED ) this.INTERSECTED.material.emissive.setHex( this.INTERSECTED.currentHex );
             this.INTERSECTED = null;
         }
     }
