@@ -68,7 +68,7 @@ function(three,      octree,        first_person_controls,     RiddleRenderer) {
         this.stepLat;
         this.stepTrX;
         this.stepTrZ;
-        this.nbStep = 25;
+        this.nbStep = 15;
 
         this.resourceManager = {};
 
@@ -217,6 +217,9 @@ function(three,      octree,        first_person_controls,     RiddleRenderer) {
             } else if ((Math.abs(newIndI - oldIndI) == 1) && (Math.abs(newIndJ - oldIndJ) == 1)) {
                 // invalid move : diagonal move
                 console.log("Invalid move : diagonal move !!!");
+            } else if (((newIndI - oldIndI) == 0) && ((newIndJ - oldIndJ) == 0)) {
+                // invalid move : same tile
+                console.log("Invalid move : same tile !!!");
             } else {
                 while (this.controls.lon > 360) {
                     this.controls.lon -= 360;
@@ -250,8 +253,8 @@ function(three,      octree,        first_person_controls,     RiddleRenderer) {
                 }
                 this.stepLon = (this.targetLon - this.controls.lon) / this.nbStep;
                 this.stepLat = (0 - this.controls.lat) / this.nbStep;
-                this.stepTrX = (this.targetPosX - this.camera.position.x) / this.nbStep;
-                this.stepTrZ = (this.targetPosZ - this.camera.position.z) / this.nbStep;
+                this.stepTrX = (this.targetPosX - this.camera.position.x) / (2 * this.nbStep);
+                this.stepTrZ = (this.targetPosZ - this.camera.position.z) / (2 * this.nbStep);
                 if (Math.abs(this.stepLon) < 0.0001) {
                     this.count = this.nbStep;
                 }else {
@@ -260,7 +263,7 @@ function(three,      octree,        first_person_controls,     RiddleRenderer) {
             }
         }
 
-        if (this.count < 2*this.nbStep) {
+        if (this.count < 3*this.nbStep) {
             // update camera rotation
             if (this.count < this.nbStep){
                 this.controls.lon += this.stepLon;
