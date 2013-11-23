@@ -39,7 +39,7 @@ require(['lib/three', 'lib/FirstPersonControls'], function (three) {
         for (var i = 0; i < 5; ++i) {
             for (var j = 0; j < 5; ++j) {
                 geometry = new THREE.CubeGeometry( 200, 200, 200 );
-                material = new THREE.MeshBasicMaterial( { color: 0xff0000+i*50+j*50, wireframe: false } );
+                material = new THREE.MeshBasicMaterial( { color: 0xff0000+i*50+j*50*256, wireframe: false } );
                 var mesh = new THREE.Mesh( geometry, material );
                 mesh.position.x = i*200;
                 mesh.position.y = j*200;
@@ -69,9 +69,9 @@ require(['lib/three', 'lib/FirstPersonControls'], function (three) {
 
         controls.update(0.5);
         renderer.render( scene, camera );
-        console.log("camera.position.x : "+camera.position.x);
-        console.log("camera.position.y : "+camera.position.y);  
-        console.log("camera.position.z : "+camera.position.z);  
+        // console.log("camera.position.x : "+camera.position.x);
+        // console.log("camera.position.y : "+camera.position.y);  
+        // console.log("camera.position.z : "+camera.position.z);  
     }
 
     init();
