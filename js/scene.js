@@ -66,12 +66,12 @@ function(three,      octree,        first_person_controls,     RiddleRenderer) {
 
         this.targetPosX = -5;
         this.targetPosZ = -5;
-        this.count;
         this.stepLon;
         this.stepLat;
         this.stepTrX;
         this.stepTrZ;
         this.nbStep = 15;
+        this.count = 3 * this.nbStep + 1;
 
         this.resourceManager = {};
 
@@ -183,10 +183,9 @@ function(three,      octree,        first_person_controls,     RiddleRenderer) {
                 }
 
                 // set target pos if we click
-                if(this.controls.mouseClick) {
+                if ((this.count >= 3 * this.nbStep) && (this.controls.mouseClick)) {
                     this.targetPosX = this.INTERSECTED.position.x;
                     this.targetPosZ = this.INTERSECTED.position.z;
-                    console.log("click");
                 }
                 else {
                     this.targetPosX = -5;
@@ -271,7 +270,7 @@ function(three,      octree,        first_person_controls,     RiddleRenderer) {
             }
         }
 
-        if (this.count < 3*this.nbStep) {
+        if (this.count < 3 * this.nbStep) {
             // update camera rotation
             if (this.count < this.nbStep){
                 this.controls.lon += this.stepLon;
@@ -283,9 +282,26 @@ function(three,      octree,        first_person_controls,     RiddleRenderer) {
             }
             ++this.count;
         }
-
+        if (this.count == (3 * this.nbStep)) {
+            this.detectCrossroad();
+            ++this.count;
+        }
         this.camera.position.y = 0;
 
+    };
+
+    Scene.prototype.detectCrossroad = function () {
+        var currentIndI = Math.round(this.camera.position.x / 200.0);
+        var currentIndJ = Math.round(this.camera.position.z / 200.0);
+
+        var nbAdjacentTile = 0;
+        if (!this.level.map[currentIndI][currentIndJ + 1]) ++nbAdjacentTile;
+        if (!this.level.map[currentIndI][currentIndJ - 1]) ++nbAdjacentTile;
+        if (!this.level.map[currentIndI + 1][currentIndJ]) ++nbAdjacentTile;
+        if (!this.level.map[currentIndI - 1][currentIndJ]) ++nbAdjacentTile;
+
+        if (nbAdjacentTile > 2)
+            this.showRiddle();
     };
 
     Scene.prototype.showRiddle = function () {
@@ -295,6 +311,7 @@ function(three,      octree,        first_person_controls,     RiddleRenderer) {
         this.pause = true;
         var rid = new RiddleRenderer(riddle, function () {
             console.log('Success, Motherfucker.');
+            self.pause = false;
         }, function () {
             console.log('You failed. Hard. ');
             self.pause = false;
