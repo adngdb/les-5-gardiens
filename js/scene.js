@@ -5,7 +5,7 @@ define(['lib/three', 'lib/FirstPersonControls', 'riddle_renderer'], function (th
     };
 
     var count, stepLon, stepLat, stepRotZ, stepTrX, stepTrZ;
-    var nbStep = 5;
+    var nbStep = 25;
 
     Scene.prototype.init = function () {
         this.scene = new THREE.Scene();
@@ -35,8 +35,8 @@ define(['lib/three', 'lib/FirstPersonControls', 'riddle_renderer'], function (th
         this.raycaster = new THREE.Raycaster();
         this.INTERSECTED;
 
-        this.targetPosX = 0;
-        this.targetPosY = 0;
+        this.targetPosX = -5;
+        this.targetPosZ = -5;
 
         this.resourceManager = {};
 
@@ -139,12 +139,12 @@ define(['lib/three', 'lib/FirstPersonControls', 'riddle_renderer'], function (th
                 // set target pos if we click
                 if(this.controls.mouseClick) {
                     this.targetPosX = this.INTERSECTED.position.x;
-                    this.targetPosY = this.INTERSECTED.position.y;
+                    this.targetPosZ = this.INTERSECTED.position.z;
                     console.log("click");
                 }
                 else {
                     this.targetPosX = -5;
-                    this.targetPosY = -5;
+                    this.targetPosZ = -5;
                 }
             }
         } else {
@@ -154,32 +154,66 @@ define(['lib/three', 'lib/FirstPersonControls', 'riddle_renderer'], function (th
     }
 
     Scene.prototype.checkPosition = function() {
-        var savePosX = this.camera.position.x;
+        // var savePosX = this.camera.position.x;
         var oldIndI = Math.round(this.camera.position.x / 200.0);
-        var savePosZ = this.camera.position.z;
+        // var savePosZ = this.camera.position.z;
         var oldIndJ = Math.round(this.camera.position.z / 200.0);
 
         this.controls.update(1.0);
 
-        var newIndI = Math.round(this.camera.position.x / 200.0);
-        var newIndJ = Math.round(this.camera.position.z / 200.0);
+        var newIndI = Math.round(this.targetPosX / 200.0);
+        var newIndJ = Math.round(this.targetPosZ / 200.0);
 
-        if (newIndI < 0 || newIndI >= this.level.height || newIndJ < 0 || newIndJ >= this.level.width || this.level.map[newIndI][newIndJ]) {
-            // invalid movement : restore previous position
-            this.camera.position.x = savePosX;
-            this.camera.position.z = savePosZ;
-        }else if ((Math.abs(newIndI - oldIndI) > 1) || (Math.abs(newIndJ - oldIndJ) > 1)) {
-            // invalid movement : more than 1 tile away => restore previous position
-            this.camera.position.x = savePosX;
-            this.camera.position.z = savePosZ;
-        }else if ((Math.abs(newIndI - oldIndI) == 1) || (Math.abs(newIndJ - oldIndJ) == 1)) {
-            // there IS a movement
-            // re-position the camera orientation and position
-            stepLon = 0 - this.controls.lon / nbStep;
-            stepLat = 0 - this.controls.lat / nbStep;
-            stepTrX = (newIndI*200 - this.camera.position.x) / nbStep;
-            stepTrZ = (newIndJ*200 - this.camera.position.z) / nbStep;
-            count = 0;
+        // if (newIndI < 0 || newIndI >= this.level.height || newIndJ < 0 || newIndJ >= this.level.width || this.level.map[newIndI][newIndJ]) {
+        //     // invalid movement : restore previous position
+        //     this.camera.position.x = savePosX;
+        //     this.camera.position.z = savePosZ;
+
+        if ((this.targetPosX != -5) && (this.targetPosY != -5)) {
+            // clic detected
+            if ((Math.abs(newIndI - oldIndI) > 1) || (Math.abs(newIndJ - oldIndJ) > 1)) {
+                // invalid movement : more than 1 tile away
+                console.log("Invalid move : too far away !!!");
+            } else if ((Math.abs(newIndI - oldIndI) == 1) && (Math.abs(newIndJ - oldIndJ) == 1)) {
+                // invalid move : diagonal move
+                console.log("Invalid move : diagonal move !!!");
+            } else {
+                while (this.controls.lon > 360) {
+                    this.controls.lon -= 360;
+                }
+                while (this.controls.lat > 360) {
+                    this.controls.lat -= 360;
+                }
+                if (oldIndJ - newIndJ) {
+                    // movement along Z axis
+                    if (oldIndJ - newIndJ > 0){ // -Z axis
+                        if (this.controls.lon < 90)
+                            targetLon = -90;
+                        else
+                            targetLon = 270;
+                    }else {                     // +Z axis
+                        if (this.controls.lon < 270)
+                            targetLon = 90;
+                        else
+                            targetLon = 450;
+                    }
+                }else if (oldIndI - newIndI) {
+                    // movement along X axis
+                    if (oldIndI - newIndI > 0){ // -X axis
+                        targetLon = 180;
+                    }else {                     // + X axis
+                        if (this.controls.lon < 180)
+                            targetLon = 0;
+                        else
+                            targetLon = 360;
+                    }
+                }
+                stepLon = (targetLon - this.controls.lon) / nbStep;
+                stepLat = (0 - this.controls.lat) / nbStep;
+                stepTrX = (this.targetPosX - this.camera.position.x) / nbStep;
+                stepTrZ = (this.targetPosZ - this.camera.position.z) / nbStep;
+                count = 0;
+            }
         }
 
         if (count < 2*nbStep) {

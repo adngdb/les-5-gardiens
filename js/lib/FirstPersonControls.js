@@ -299,8 +299,8 @@ define(['lib/three'], function (three) {
             var actualMoveSpeed = delta * this.movementSpeed;
 
             // if ( this.moveForward || ( this.autoForward && !this.moveBackward ) ) this.object.translateZ( - ( actualMoveSpeed + this.autoSpeedFactor ) );
-            if ( this.moveForward ) this.object.translateZ( actualMoveSpeed );
-            if ( this.moveBackward ) this.object.translateZ( - actualMoveSpeed );
+            // if ( this.moveForward ) this.object.translateZ( actualMoveSpeed );
+            // if ( this.moveBackward ) this.object.translateZ( - actualMoveSpeed );
 
             if ( this.moveLeft ) this.object.translateX( actualMoveSpeed );
             if ( this.moveRight ) this.object.translateX( - actualMoveSpeed );
@@ -328,6 +328,9 @@ define(['lib/three'], function (three) {
             //if( this.lookVertical ) this.lat -= this.mouseY * actualLookSpeed * verticalLookRatio;
 
             this.lon += this.mouseRelX * actualLookSpeed;
+            while (this.lon > 360) {
+                this.lon -= 360;
+            }
             if( this.lookVertical ) this.lat -= this.mouseRelY * actualLookSpeed * verticalLookRatio;
 
             this.lat = Math.max( - 85, Math.min( 85, this.lat ) );
@@ -349,6 +352,7 @@ define(['lib/three'], function (three) {
 
             this.object.lookAt( targetPosition );
 
+console.log("lon = " + this.lon + " - lat = " + this.lat);
             // reset
             this.moveForward = true;
             this.moveLeft = true;
