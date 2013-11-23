@@ -294,6 +294,13 @@ THREE.FirstPersonControls = function ( object, domElement ) {
 
 		this.object.lookAt( targetPosition );
 
+		// reset 
+		this.moveForward = true;
+		this.moveLeft = true;
+		this.moveBackward = true;
+		this.moveRight = true;
+		this.moveUp = true;
+		this.moveDown = true;
 	};
 
 
