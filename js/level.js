@@ -1,4 +1,4 @@
-define(['lib/jquery'], function (jquery) {
+define(['lib/jquery', 'riddles'], function (jquery, Riddles) {
     var Level = function (levelNum) {
         this.levelDir = 'data/lvl' + levelNum + '/';
     }
@@ -19,7 +19,7 @@ define(['lib/jquery'], function (jquery) {
             self.loadedResource();
         });
         $.getJSON(this.levelDir + 'riddles.json', function (data) {
-            self.riddles = data;
+            self.riddles = new Riddles(data.enigmas);
             self.loadedResource();
         });
     }

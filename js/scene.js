@@ -1,6 +1,14 @@
-define(['lib/three', 'lib/FirstPersonControls'], function (three, first_person_controls) {
+define(['lib/three', 'lib/FirstPersonControls', 'riddle_renderer'], function (three, first_person_controls, RiddleRenderer) {
     var Scene = function (level) {
         this.level = level;
+
+        var riddle = this.level.riddles.getRandomRiddle();
+        var rid = new RiddleRenderer(riddle, function () {
+            console.log('SUCCESS!!!');
+        }, function () {
+            console.log('You failed. Hard. ');
+        });
+        rid.display();
     };
 
     var count, stepLon, stepLat, stepRotZ, stepTrX, stepTrZ;
