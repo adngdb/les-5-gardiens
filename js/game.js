@@ -5,7 +5,7 @@ require.config({
     }
 });
 
-require(['level', 'scene'], function (Level, Scene) {
+require(['level', 'scene', 'screen'], function (Level, Scene, Screen) {
     "use strict";
 
     var lvl = new Level(2);
