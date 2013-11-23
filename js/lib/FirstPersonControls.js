@@ -162,8 +162,7 @@ define(['lib/three'], function (three) {
             this.mouseX = event.pageX;
             this.mouseY = event.pageY;
 
-            if(this.mouseClick) {
-
+            if(this.mouseDragOn) {
 
                 // if ( this.domElement === document ) {
 
@@ -177,9 +176,6 @@ define(['lib/three'], function (three) {
 
                 // }
 
-
-
-
                 this.mouseRelX = this.mouseX - this.mouseLastX;
                 this.mouseRelY = this.mouseY - this.mouseLastY;
             }
@@ -190,6 +186,8 @@ define(['lib/three'], function (three) {
 
             this.mouseNormX = ( event.clientX / window.innerWidth ) * 2 - 1;
             this.mouseNormY = - ( event.clientY / window.innerHeight ) * 2 + 1;
+
+            this.mouseClick = false;
         };
 
         this.onKeyDown = function ( event ) {
@@ -368,6 +366,9 @@ define(['lib/three'], function (three) {
         this.domElement.addEventListener( 'mouseup', bind( this, this.onMouseUp ), false );
         this.domElement.addEventListener( 'keydown', bind( this, this.onKeyDown ), false );
         this.domElement.addEventListener( 'keyup', bind( this, this.onKeyUp ), false );
+
+        // Touch events
+        this.domElement.addEventListener( 'touchmove', bind( this, this.onMouseMove ), false );
 
         function bind( scope, fn ) {
 
