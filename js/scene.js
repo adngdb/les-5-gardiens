@@ -157,18 +157,22 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
                 {
                     // floor
                     //var mesh = this.resourceManager['mesh_floor'];
-                    var mesh = new THREE.Mesh( this.resourceManager['cube'], this.resourceManager['mat_floor'].clone() );
+                    //var mesh = new THREE.Mesh( this.resourceManager['cube'], this.resourceManager['mat_floor'].clone() );
+                    var mesh = new THREE.Mesh( this.resourceManager['quad_geom'], this.resourceManager['mat_floor'].clone() );
                     mesh.position.x = i * CUBE_SIZE;
                     mesh.position.z = j * CUBE_SIZE;
-                    mesh.position.y = -CUBE_SIZE;
+                    mesh.position.y = -CUBE_SIZE*0.5;
+                    mesh.rotation.x = -Math.PI*0.5;
                     this.scene.add( mesh );
 
                     // roof
                     //var mesh = this.resourceManager['mesh_roof'];
-                    mesh = new THREE.Mesh( this.resourceManager['cube'], this.resourceManager['mat_roof'] );
+                    //mesh = new THREE.Mesh( this.resourceManager['cube'], this.resourceManager['mat_roof'] );
+                    mesh = new THREE.Mesh( this.resourceManager['quad_geom'], this.resourceManager['mat_roof'] );
                     mesh.position.x = i * CUBE_SIZE;
                     mesh.position.z = j * CUBE_SIZE;
-                    mesh.position.y = CUBE_SIZE;
+                    mesh.position.y = CUBE_SIZE*0.5;
+                    mesh.rotation.x = Math.PI*0.5;
                     this.scene.add( mesh );
 
                     // light test

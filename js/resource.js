@@ -35,6 +35,8 @@ define(function () {
         this.resMan['light_geom'] = new THREE.PlaneGeometry( 50, 50 );
         // pnj
         this.resMan['pnj_geom'] = new THREE.PlaneGeometry( 60, 120 );
+        // floor, door geom
+        this.resMan['quad_geom'] = new THREE.PlaneGeometry( 200, 200 );
 
         var namesTex = [ "img/ground_1-1.png", "img/roof_1-1.png", "img/wall_1-1.png", "img/door_1-1.png", "img/light_1-1.png"];
         var namesMat = [ "mat_floor", "mat_roof", "mat_wall", "mat_door", "mat_light"];
