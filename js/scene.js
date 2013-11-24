@@ -78,6 +78,7 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
 
         this.animCounter = 0;
         this.pnjArray = [];
+        this.indiceMeshGround = null;
 
         // array with the direction toward the exit for every tile
         this.arrayTowardExit = [];
@@ -237,7 +238,7 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
         if ( intersects.length > 0 ) {
             var i = 0;
             // skip sprites
-            while(i < intersects.length && intersects[ i ].object instanceof THREE.Sprite)
+            while(i < intersects.length && (intersects[ i ].object instanceof THREE.Sprite || intersects[ i ].object.position.y == -CUBE_SIZE*0.4))
             {
                 ++i;
             }
@@ -261,6 +262,10 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
                 if ((this.count >= 3 * this.nbStep) && (this.controls.mouseClick)) {
                     this.targetPosX = this.INTERSECTED.position.x;
                     this.targetPosZ = this.INTERSECTED.position.z;
+                    // remove indice
+                    if(this.indiceMeshGround) {
+                        this.scene.remove(this.indiceMeshGround);
+                    }
                 }
                 else {
                     this.targetPosX = -5;
@@ -476,17 +481,17 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
         }
         if ((orient[0] ==  1) && (orient[1] ==  0)) {
             targetCameraLon = 0;
-            stringOrientGround = "up";
+            stringOrientGround = "top";
         }
         if ((orient[0] ==  0) && (orient[1] == -1)) {
             targetCameraLon = 270;
-            stringOrientGround = "left";
+            stringOrientGround = "right";
         }
         if ((orient[0] ==  0) && (orient[1] ==  1)) {
             targetCameraLon = 90;
-            stringOrientGround = "right";
+            stringOrientGround = "left";
         }
-        if (targetCameraLon == this.controls.lon) stringOrientNPC = "up";
+        if (targetCameraLon == this.controls.lon) stringOrientNPC = "top";
         if (Math.abs(targetCameraLon - this.controls.lon) == 180) stringOrientNPC = "down";
         if ((targetCameraLon - this.controls.lon ==  90) || (targetCameraLon - this.controls.lon == -270)) stringOrientNPC = "right";
         if ((targetCameraLon - this.controls.lon == -90) || (targetCameraLon - this.controls.lon ==  270)) stringOrientNPC = "left";
@@ -496,14 +501,19 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
         // arrow toward : "stringOrientGround" {top / down / left or right}
 
         //TODO : Popux' code !!! display the hinted texture on the floor !!! GOGOGO lasy man !!!!
-        var mesh = new THREE.Mesh( this.resourceManager['quad_geom'], this.resourceManager['mat_roof'] );
+        this.indiceMeshGround = new THREE.Mesh( this.resourceManager["quad_geom"], this.resourceManager["mat_tex_sphynx_"+stringOrientGround] );
         console.log(hintDirectionAbs[0] * CUBE_SIZE);
         console.log(hintDirectionAbs[1] * CUBE_SIZE);
-        mesh.position.x = hintDirectionAbs[0] * CUBE_SIZE;
-        mesh.position.z = hintDirectionAbs[1] * CUBE_SIZE;
-        mesh.position.y = -CUBE_SIZE*0.4;
-        mesh.rotation.x = -Math.PI*0.5;
-        this.scene.add( mesh );
+        console.log(hintDirectionAbs[0]);
+        console.log(hintDirectionAbs[1]);
+        console.log(stringOrientGround);
+        console.log(stringOrientNPC);
+        this.indiceMeshGround.position.x = hintDirectionAbs[0] * CUBE_SIZE;
+        this.indiceMeshGround.position.z = hintDirectionAbs[1] * CUBE_SIZE;
+        this.indiceMeshGround.position.y = -CUBE_SIZE*0.4;
+        this.indiceMeshGround.rotation.x = -Math.PI*0.5;
+        this.indiceMeshGround.rotation.z = Math.PI*0.5;
+        this.scene.add( this.indiceMeshGround );
 
         // show hint NPC :
         // arrow on the NPC's animation

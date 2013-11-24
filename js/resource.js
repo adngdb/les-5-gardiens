@@ -7,9 +7,9 @@ define(function () {
         return this.resMan;
     };
 
-    ResourceManager.prototype.loadPhongMat = function (file, name) {
+    ResourceManager.prototype.loadPhongMat = function (file, name, transparent=false) {
         var texture = THREE.ImageUtils.loadTexture( file );
-        var material = new THREE.MeshPhongMaterial( { color: 0xffffff, map: texture, transparent: true} );
+        var material = new THREE.MeshPhongMaterial( { color: 0xffffff, map: texture, transparent: transparent} );
         texture.anisotropy = this.maxAnisotropy;
         texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
         texture.repeat.set( 1, 1 );
@@ -40,9 +40,10 @@ define(function () {
 
         var namesTex = [ "img/ground_1-1.png", "img/roof_1-1.png", "img/wall_1-1.png", "img/door_1-1.png", "img/light_1-1.png"];
         var namesMat = [ "mat_floor", "mat_roof", "mat_wall", "mat_door", "mat_light"];
+        var transparentFlag = [ false, false, false, true, true];
 
         for(var i=0; i<namesTex.length; ++i) {
-            this.loadPhongMat(namesTex[i], namesMat[i]);
+            this.loadPhongMat(namesTex[i], namesMat[i], transparentFlag[i]);
         }
 
         for(var i=0; i<4; ++i) {
@@ -59,6 +60,7 @@ define(function () {
         for(var id=0; id < names.length; ++id) {
             for(var idArrows=0; idArrows < arrowsNames.length; ++idArrows) {
                 this.loadSprite("img/"+names[id]+"_arrows_"+arrowsNames[idArrows]+".png", "mat_"+names[id]+"_"+arrowsNames[idArrows]);
+                this.loadPhongMat("img/"+names[id]+"_arrows_"+arrowsNames[idArrows]+".png", "mat_tex_"+names[id]+"_"+arrowsNames[idArrows], true);
             }
         }
     };
