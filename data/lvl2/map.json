@@ -12,7 +12,7 @@
         [1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
     ],
     "objects": {
-        "entrance": [5, 4],
+        "entrance": [1, 8],
         "exit": [5, 6]
     },
     "properties": {
