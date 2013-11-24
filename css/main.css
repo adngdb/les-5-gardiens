@@ -41,6 +41,11 @@ html, body, #screen {
         animation-name: blink;
         animation-timing-function: ease-in-out;
     }
+    #screen .fade-to-black {
+        width: 100%;
+        height: 100%;
+        background-color: black;
+    }
 
 #riddle-container {
     display: none;

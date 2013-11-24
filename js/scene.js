@@ -1,5 +1,5 @@
-define(['lib/three', 'lib/FirstPersonControls', 'riddle_renderer', 'resource', 'tools'],
-function(three,       first_person_controls,     RiddleRenderer,    ResourceManager,    tools) {
+define(['lib/three', 'lib/FirstPersonControls', 'riddle_renderer', 'resource', 'tools', 'screen'],
+function(three,       first_person_controls,     RiddleRenderer,    ResourceManager,    tools, Screen) {
     var Scene = function (level) {
         this.level = level;
         this.pause = false;
@@ -34,6 +34,8 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
 
     Scene.prototype.init = function () {
         this.scene = new THREE.Scene();
+
+        this.gameEnded = false;
 
         this.camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 1, 10000 );
         this.camera.position.x = CUBE_SIZE * this.level.objects.entrance[1];
@@ -108,12 +110,15 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
         this.music.mainTheme = new buzz.sound("sound/main_theme.ogg");
         this.music.secondTheme = new buzz.sound("sound/title_theme.ogg");
         this.music.riddleTheme = new buzz.sound("sound/riddle_theme.ogg");
+        this.music.endTheme = new buzz.sound("sound/end_level_theme.ogg");
         this.music.eventStress = new buzz.sound("sound/event_stress.ogg");
 
         this.music.mainTheme.loop().play();
 
         this.sound = {};
         this.sound.riddleEnd = new buzz.sound("sound/event_riddle_end.ogg");
+        this.sound.doorOpening = new buzz.sound("sound/door_opening.ogg");
+        this.sound.doorBanging = new buzz.sound("sound/door_banging.ogg");
 
         var exit = this.level.objects.exit;
         var entrance = this.level.objects.entrance;
@@ -793,7 +798,31 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
     };
 
     Scene.prototype.endGame = function () {
+        var self = this;
+
+        if (this.gameEnded) {
+            return;
+        }
+
+        this.gameEnded = true;
+        this.pause = true;
         console.log("End game, haha");
+
+        // Play the door opening sound
+        this.sound.doorOpening.play();
+
+        // Fade to black
+        var fade = new Screen('fade-to-black');
+        fade.display(function () {
+            // Play the door banging sound
+            self.sound.doorBanging.play();
+
+            // Show the end screen
+            end = new Screen('end-game');
+            fade.hide();
+            end.display();
+            self.music.endTheme.loop().play();
+        });
     };
 
     // Scene.prototype.getCoordFromCamera = function () {

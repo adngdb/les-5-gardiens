@@ -18,6 +18,12 @@ define(['lib/jquery'], function () {
         else if (this.name == 'tutorial') {
             this.displayTutorial(next);
         }
+        else if (this.name == 'end-game') {
+            this.displayEndGame(next);
+        }
+        else if (this.name == 'fade-to-black') {
+            this.displayFadeToBlack(next);
+        }
 
         this.container.show();
     };
@@ -59,6 +65,14 @@ define(['lib/jquery'], function () {
             self.hide();
             next();
         });
+    };
+
+    Screen.prototype.displayFadeToBlack = function (next) {
+        $('<div>', { class: 'fade-to-black' }).hide().appendTo(this.container).fadeIn(3000, next);
+    };
+
+    Screen.prototype.displayEndGame = function (next) {
+        $('<img>', { src: 'img/screen/end-game.png' }).appendTo(this.container);
     };
 
     Screen.prototype.hide = function () {
