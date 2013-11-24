@@ -9,14 +9,27 @@ body {
     position: absolute;
     width: 100%;
 }
+
+#riddle-container .gardian {
+    float: left;
+    margin: 3% 5%;
+}
+
+#riddle-container .gardian-text,
 #riddle-container .riddle {
     background-color: rgba(255, 255, 255, 0.7);
+    border: 1px solid white;
     border-radius: 0.5rem;
-    margin: auto;
+    float: right;
+    margin: 1% 1% 0 0;
     padding: 1.0rem 2.0rem;
-    width: 80%;
+    width: 60%;
 }
-#riddle-container .riddle p {
+
+#riddle-container .gardian-text {
+    margin-bottom: 2.0rem;
+}
+#riddle-container p {
     font-size: 1.4em;
     margin-bottom: 1.0rem;
 }
@@ -26,10 +39,10 @@ body {
     border-radius: 0.3rem;
     cursor: pointer;
     display: inline-block;
-    padding: 1.0rem;
-    margin: 0.5rem;
+    padding: 2% 1%;
+    margin: 1% 2%;
     text-align: center;
-    width: 45%;
+    width: 43%;
 }
 #riddle-container .answer:hover {
     background-color: #eee;

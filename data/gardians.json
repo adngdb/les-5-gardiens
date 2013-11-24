@@ -1,0 +1,10 @@
+{
+    "gardians": [
+        {
+            "name": "Cerberus",
+            "file": "cerberus",
+            "description": "Je suis Cerberus, le gardien des enfers. Réponds correctement à mon énigme et je te guiderai vers la sortie. ",
+            "question_text": "Voici ma question :"
+        }
+    ]
+}

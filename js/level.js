@@ -1,12 +1,13 @@
-define(['lib/jquery', 'riddles'], function (jquery, Riddles) {
+define(['lib/jquery', 'riddles', 'gardians'], function (jquery, Riddles, Gardians) {
     var Level = function (levelNum) {
-        this.levelDir = 'data/lvl' + levelNum + '/';
+        this.dataDir = 'data/';
+        this.levelDir = this.dataDir + 'lvl' + levelNum + '/';
     }
 
     Level.prototype.load = function (callback) {
         this.callback = callback;
 
-        this.resourcesToLoad = 2;
+        this.resourcesToLoad = 3;
         this.loaded = 0;
 
         var self = this;
@@ -23,6 +24,10 @@ define(['lib/jquery', 'riddles'], function (jquery, Riddles) {
         });
         $.getJSON(this.levelDir + 'riddles.json', function (data) {
             self.riddles = new Riddles(data.enigmas);
+            self.loadedResource();
+        });
+        $.getJSON(this.dataDir + 'gardians.json', function (data) {
+            self.gardians = new Gardians(data);
             self.loadedResource();
         });
     }

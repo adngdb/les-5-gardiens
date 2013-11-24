@@ -415,10 +415,12 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
         this.sound.riddleEnd.stop();
 
         var riddle = this.level.riddles.getRandomRiddle();
+        var gardian = this.level.gardians.getRandomGardian();
         this.pause = true;
 
         var riddleRenderer = new RiddleRenderer(
             riddle,
+            gardian,
             // Success.
             function () {
                 console.log('Success, Motherfucker.');
