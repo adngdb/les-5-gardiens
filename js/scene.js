@@ -539,7 +539,7 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
             ++this.count;
         }else if (this.count == (4 * this.nbStep)) {
             ++this.count;
-            this.showRiddle();
+            this.showRiddle(this.saveTargetX / CUBE_SIZE, this.saveTargetZ / CUBE_SIZE);
             this.targetPosX = -5;
             this.targetPosZ = -5;
         }
@@ -586,7 +586,7 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
         }
     };
 
-    Scene.prototype.showRiddle = function () {
+    Scene.prototype.showRiddle = function (i, j) {
         var self = this;
 
         // Pause the game.
@@ -596,8 +596,8 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
         buzz.all().stop();
         this.music.riddleTheme.loop().play();
 
+        var gardian = this.gardiansMap[i][j];
         var riddle = this.level.riddles.getRandomRiddle();
-        var gardian = this.level.gardians.getRandomGardian();
 
         var riddleRenderer = new RiddleRenderer(
             riddle,
