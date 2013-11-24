@@ -43,7 +43,7 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
         this.controls = new THREE.FirstPersonControls( this.camera );
 
         this.controls.lon = this.level.properties.startLon;
-        this.controls.movementSpeed = 200;
+        this.controls.movementSpeed = 2000;
         this.controls.lookSpeed = 10.0;
         this.controls.noFly = true;
         this.controls.lookVertical = true;
@@ -52,10 +52,11 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
 
         this.clock = new THREE.Clock();
 
-        this.scene.fog = new THREE.Fog( 0x000000, 1, 1000 );
+        this.scene.fog = new THREE.Fog( 0x000000, 1, CUBE_SIZE*5 );
+        // this.scene.add( new THREE.AmbientLight( 0x222222 ) );
         this.scene.add( new THREE.AmbientLight( 0xffffff ) );
 
-        this.renderer = new THREE.WebGLRenderer();
+        this.renderer = new THREE.WebGLRenderer({antialias:true});
         this.renderer.setSize( window.innerWidth, window.innerHeight );
         this.renderer.setClearColor( 0x000000, 1 );
 
@@ -69,7 +70,7 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
         this.stepLat;
         this.stepTrX;
         this.stepTrZ;
-        this.nbStep = 15;
+        this.nbStep = 5;
         this.count = 3 * this.nbStep + 1;
         this.crossroadTested = true;
 
@@ -101,9 +102,10 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
         this.sound.riddleEnd = new buzz.sound("sound/event_riddle_end.ogg");
 
         var exit = this.level.objects.exit;
+        var entrance = this.level.objects.entrance;
 
-        for (var i = 0; i < this.level.height; ++i) {
-            for (var j = 0; j < this.level.width; ++j) {
+        for (var j = 0; j < this.level.height; ++j) {
+            for (var i = 0; i < this.level.width; ++i) {
 
                 // wall
                 if (this.level.map[i][j]) {
@@ -113,10 +115,34 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
                     //     wireframe: false
                     // });
                     //var mesh = this.resourceManager['mesh_wall'];
-                    if (exit[0] == i && exit[1] == j) {
+                    if (exit[0] == j && exit[1] == i) {
                         // This is the exit, show a door on each face.
-                        mesh = new THREE.Mesh( this.resourceManager['cube'], this.resourceManager['mat_door'] );
+                        mesh = new THREE.Mesh( this.resourceManager['door_geom'], this.resourceManager['mat_door'] );
+                        mesh.position.x = i * CUBE_SIZE;
+                        mesh.position.z = (j+0.52) * CUBE_SIZE;
+                        mesh.position.y = 0;
+                        mesh.rotation.y = 0;
+                        this.scene.add( mesh );
+                        mesh = new THREE.Mesh( this.resourceManager['door_geom'], this.resourceManager['mat_door'] );
+                        mesh.position.x = i * CUBE_SIZE;
+                        mesh.position.z = (j-0.52) * CUBE_SIZE;
+                        mesh.position.y = 0;
+                        mesh.rotation.y = Math.PI;
+                        this.scene.add( mesh );
+                        mesh = new THREE.Mesh( this.resourceManager['door_geom'], this.resourceManager['mat_door'] );
+                        mesh.position.x = (i-0.52) * CUBE_SIZE;
+                        mesh.position.z = j * CUBE_SIZE;
+                        mesh.position.y = 0;
+                        mesh.rotation.y = -Math.PI*0.5;
+                        this.scene.add( mesh );
+                        mesh = new THREE.Mesh( this.resourceManager['door_geom'], this.resourceManager['mat_door'] );
+                        mesh.position.x = (i+0.52) * CUBE_SIZE;
+                        mesh.position.z = j * CUBE_SIZE;
+                        mesh.position.y = 0;
+                        mesh.rotation.y = Math.PI*0.5;
+                        this.scene.add( mesh );
                     }
+
                     mesh = new THREE.Mesh( this.resourceManager['cube'], this.resourceManager['mat_wall'] );
                     mesh.position.x = i * CUBE_SIZE;
                     mesh.position.z = j * CUBE_SIZE;
@@ -145,18 +171,24 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
                     // sprite2.position.set( i * CUBE_SIZE, 100, j * CUBE_SIZE );
                     // sprite2.scale.set( 64, 64, 1.0 ); // imageWidth, imageHeight
                     // this.scene.add( sprite2 );
-                    mesh = new THREE.Mesh( this.resourceManager['light_geom'], this.resourceManager['mat_light'] );
-                    mesh.position.x = i * CUBE_SIZE;
-                    mesh.position.z = j * CUBE_SIZE;
-                    mesh.position.y = CUBE_SIZE/2.1;
-                    mesh.rotation.x = Math.PI/2;
-                    this.scene.add( mesh );
+                    if((i+j) % 2) {
+                        mesh = new THREE.Mesh( this.resourceManager['light_geom'], this.resourceManager['mat_light'] );
+                        mesh.position.x = i * CUBE_SIZE;
+                        mesh.position.z = j * CUBE_SIZE;
+                        mesh.position.y = CUBE_SIZE/2.1;
+                        mesh.rotation.x = Math.PI/2;
+                        this.scene.add( mesh );
+                    }
+
+                    var light = new THREE.PointLight( 0xffffff, 1, CUBE_SIZE*1.5 );
+                    light.position.set( i * CUBE_SIZE, CUBE_SIZE/2.5, j * CUBE_SIZE );
+                    //this.scene.add( light );
 
                     // pnj
                     if(this.detectCrossroad(i * CUBE_SIZE, j * CUBE_SIZE, true)) {
                         var sprite = new THREE.Sprite( this.resourceManager['mat_cerberus1'] );
-                        sprite.position.set( i * CUBE_SIZE, -50, j * CUBE_SIZE );
-                        sprite.scale.set( 25, 50, 1.0 ); // imageWidth, imageHeight
+                        sprite.position.set( i * CUBE_SIZE, -40, j * CUBE_SIZE );
+                        sprite.scale.set( 60, 120, 1.0 ); // imageWidth, imageHeight
                         this.scene.add( sprite );
                     }
                 }
@@ -308,7 +340,7 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
 
             ++this.count;
         }
-        this.camera.position.y = 0;
+        //this.camera.position.y = 0;
 
     };
 

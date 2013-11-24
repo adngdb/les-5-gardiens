@@ -23,36 +23,42 @@ define(function () {
         //this.resMan['mesh_floor'] = new THREE.Mesh( this.resMan['cube'], material1 );
 
         // roof mesh
-        var texture2 = THREE.ImageUtils.loadTexture( "img/roof_1-1.png" );
-        var material2 = new THREE.MeshPhongMaterial( { color: 0xffffff, map: texture2 } );
-        texture2.anisotropy = maxAnisotropy;
-        texture2.wrapS = texture2.wrapT = THREE.RepeatWrapping;
-        texture2.repeat.set( 1, 1 );
-        this.resMan['mat_roof'] = material2;
-        //this.resMan['mesh_roof'] = new THREE.Mesh( this.resMan['cube'], material2 );
+        texture = THREE.ImageUtils.loadTexture( "img/roof_1-1.png" );
+        material = new THREE.MeshPhongMaterial( { color: 0xffffff, map: texture } );
+        texture.anisotropy = maxAnisotropy;
+        texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+        texture.repeat.set( 1, 1 );
+        this.resMan['mat_roof'] = material;
+        //this.resMan['mesh_roof'] = new THREE.Mesh( this.resMan['cube'], material );
 
         // wall mesh
-        var texture3 = THREE.ImageUtils.loadTexture( "img/wall_1-1.png" );
-        var material3 = new THREE.MeshPhongMaterial( { color: 0xffffff, map: texture3 } );
-        texture3.anisotropy = maxAnisotropy;
-        texture3.wrapS = texture3.wrapT = THREE.RepeatWrapping;
-        texture3.repeat.set( 1, 1 );
-        this.resMan['mat_wall'] = material3;
-        //this.resMan['mesh_wall'] = new THREE.Mesh( this.resMan['cube'], material3 );
+        texture = THREE.ImageUtils.loadTexture( "img/wall_1-1.png" );
+        material = new THREE.MeshPhongMaterial( { color: 0xffffff, map: texture } );
+        texture.anisotropy = maxAnisotropy;
+        texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+        texture.repeat.set( 1, 1 );
+        this.resMan['mat_wall'] = material;
+        //this.resMan['mesh_wall'] = new THREE.Mesh( this.resMan['cube'], material );
 
         // door
-        var texture4 = THREE.ImageUtils.loadTexture( "img/door_1-1.png" );
-        var material4 = new THREE.MeshPhongMaterial( { color: 0xffffff, map: texture4 } );
-        texture4.anisotropy = maxAnisotropy;
-        texture4.wrapS = texture4.wrapT = THREE.RepeatWrapping;
-        texture4.repeat.set( 1, 1 );
-        this.resMan['mat_door'] = material4;
-        //this.resMan['mesh_wall'] = new THREE.Mesh( this.resMan['cube'], material4 );
+        texture = THREE.ImageUtils.loadTexture( "img/door_1-1.png" );
+        material = new THREE.MeshPhongMaterial( { color: 0xffffff, map: texture } );
+        texture.anisotropy = maxAnisotropy;
+        texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+        texture.repeat.set( 1, 1 );
+        this.resMan['mat_door'] = material;
+        //this.resMan['mesh_wall'] = new THREE.Mesh( this.resMan['cube'], material );
 
         // door geom
-        this.resMan['door_geom'] = new THREE.PlaneGeometry( 50, 50 );
+        this.resMan['door_geom'] = new THREE.PlaneGeometry( 100, 200 );
 
         // door material
+        texture = THREE.ImageUtils.loadTexture( "img/door_1-1.png" );
+        material = new THREE.MeshPhongMaterial( { color: 0xffffff, map: texture, transparent: true } );
+        texture.anisotropy = maxAnisotropy;
+        texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+        texture.repeat.set( 1, 1 );
+        this.resMan['mat_door'] = material;
 
         // light geom
         this.resMan['light_geom'] = new THREE.PlaneGeometry( 50, 50 );
@@ -70,10 +76,34 @@ define(function () {
         this.resMan['mat_light'] = material;
 
         // pnj
+        this.resMan['pnj_geom'] = new THREE.PlaneGeometry( 60, 120 );
+
         texture = THREE.ImageUtils.loadTexture( "img/cerberus_01.png" );
         material = new THREE.SpriteMaterial( { map: texture, useScreenCoordinates: false, color: 0xffffff } );
-        //texture.anisotropy = maxAnisotropy;
+        texture.anisotropy = maxAnisotropy;
         this.resMan['mat_cerberus1'] = material;
+
+        texture = THREE.ImageUtils.loadTexture( "img/cerberus_01.png" );
+        material = new THREE.MeshPhongMaterial( { color: 0xffffff, map: texture, transparent: true } );
+        texture.anisotropy = maxAnisotropy;
+        texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+        texture.repeat.set( 1, 1 );
+        this.resMan['mat_cerberus11'] = material;
+
+        texture = THREE.ImageUtils.loadTexture( "img/cerberus_02.png" );
+        material = new THREE.SpriteMaterial( { map: texture, useScreenCoordinates: false, color: 0xffffff } );
+        texture.anisotropy = maxAnisotropy;
+        this.resMan['mat_cerberus2'] = material;
+
+        texture = THREE.ImageUtils.loadTexture( "img/cerberus_03.png" );
+        material = new THREE.SpriteMaterial( { map: texture, useScreenCoordinates: false, color: 0xffffff } );
+        texture.anisotropy = maxAnisotropy;
+        this.resMan['mat_cerberus3'] = material;
+
+        texture = THREE.ImageUtils.loadTexture( "img/cerberus_04.png" );
+        material = new THREE.SpriteMaterial( { map: texture, useScreenCoordinates: false, color: 0xffffff } );
+        texture.anisotropy = maxAnisotropy;
+        this.resMan['mat_cerberus4'] = material;
     };
 
     return ResourceManager;
