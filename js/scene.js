@@ -53,8 +53,10 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
         this.clock = new THREE.Clock();
 
         this.scene.fog = new THREE.Fog( 0x000000, 1, CUBE_SIZE*5 );
-        // this.scene.add( new THREE.AmbientLight( 0x222222 ) );
-        this.scene.add( new THREE.AmbientLight( 0xffffff ) );
+        this.scene.add( new THREE.AmbientLight( 0x222222 ) );
+        //this.scene.add( new THREE.AmbientLight( 0xffffff ) );
+        this.torchLight = new THREE.PointLight( 0xffffff, 1, CUBE_SIZE*1.5 );
+        this.scene.add(this.torchLight);
 
         this.renderer = new THREE.WebGLRenderer({antialias:true});
         this.renderer.setSize( window.innerWidth, window.innerHeight );
@@ -73,6 +75,9 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
         this.nbStep = 15;
         this.count = 3 * this.nbStep + 1;
         this.crossroadTested = true;
+
+        this.animCounter = 0;
+        this.pnjArray = [];
 
         // array with the direction toward the exit for every tile
         this.arrayTowardExit = [];
@@ -178,15 +183,23 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
                         mesh.position.y = CUBE_SIZE/2.1;
                         mesh.rotation.x = Math.PI/2;
                         this.scene.add( mesh );
-                    }
 
-                    var light = new THREE.PointLight( 0xffffff, 1, CUBE_SIZE*1.5 );
-                    light.position.set( i * CUBE_SIZE, CUBE_SIZE/2.5, j * CUBE_SIZE );
-                    //this.scene.add( light );
+                        // var light = new THREE.PointLight( 0xffffff, 1, CUBE_SIZE*1.5 );
+                        // light.position.set( i * CUBE_SIZE, CUBE_SIZE/2.5, j * CUBE_SIZE );
+                        // this.scene.add( light );
+                    }
 
                     // pnj
                     if(this.detectCrossroad(i * CUBE_SIZE, j * CUBE_SIZE, true)) {
-                        var sprite = new THREE.Sprite( this.resourceManager['mat_cerberus1'] );
+
+                        var sprite;
+                        sprite = new THREE.Sprite( this.resourceManager['mat_cerberus_question'] );
+                        sprite.position.set( i * CUBE_SIZE, -40, j * CUBE_SIZE );
+                        sprite.scale.set( 60, 120, 1.0 ); // imageWidth, imageHeight
+                        this.scene.add( sprite );
+
+                        sprite = new THREE.Sprite( this.resourceManager['mat_cerberus1'] );
+                        sprite.name = "pnj";
                         sprite.position.set( i * CUBE_SIZE, -40, j * CUBE_SIZE );
                         sprite.scale.set( 60, 120, 1.0 ); // imageWidth, imageHeight
                         this.scene.add( sprite );
@@ -213,7 +226,8 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
 
         if ( intersects.length > 0 ) {
             var i = 0;
-            if(i < intersects.length && intersects[ i ].object instanceof THREE.Sprite)
+            // skip sprites
+            while(i < intersects.length && intersects[ i ].object instanceof THREE.Sprite)
             {
                 ++i;
             }
@@ -535,6 +549,12 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
         }
     };
 
+    // Scene.prototype.getCoordFromCamera = function () {
+    //     var coord = [];
+    //     coord[0] =
+    //     coord[1]
+    // }
+
     Scene.prototype.animate = function () {
         requestAnimationFrame( this.animate.bind(this) );
 
@@ -543,23 +563,44 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
             return;
         }
 
+        this.animatePNJ();
+
         this.checkPosition();
 
         this.findIntersections();
 
+        // update torch position
+        this.torchLight.position.x = this.camera.position.x;
+        this.torchLight.position.y = this.camera.position.y;
+        this.torchLight.position.z = this.camera.position.z;
+
         this.render();
     };
 
+    Scene.prototype.animatePNJ = function () {
+
+        ++this.animCounter;
+        if(this.animCounter >= 40) this.animCounter = 0;
+
+        for(var i=0; i<this.scene.children.length; ++i) {
+            var obj = this.scene.children[i];
+            if(obj.name == "pnj") {
+                obj.material = this.resourceManager["mat_cerberus"+Math.floor(this.animCounter/10)];
+                //console.log("mat_cerberus"+Math.floor(this.animCounter/10));
+            }
+        }
+    }
+
     Scene.prototype.culling = function () {
-        /*for(var i=0; i<this.scene.children.length; ++i) {
-            var v = new THREE.Vector2(this.scene.children[i].position.x - this.camera.position.x, this.scene.children[i].position.z - this.camera.position.z);
-            if(v.dot(v) < 640000) {
-                this.scene.children[i].visible = true;
-            }
-            else {
-                this.scene.children[i].visible = false;
-            }
-        }*/
+        // for(var i=0; i<this.scene.children.length; ++i) {
+        //     var v = new THREE.Vector2(this.scene.children[i].position.x - this.camera.position.x, this.scene.children[i].position.z - this.camera.position.z);
+        //     if(v.dot(v) < 16000000000) {
+        //         this.scene.children[i].visible = true;
+        //     }
+        //     else {
+        //         this.scene.children[i].visible = false;
+        //     }
+        // }
     };
 
     Scene.prototype.render = function () {
