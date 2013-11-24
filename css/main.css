@@ -1,7 +1,46 @@
 body {
-    line-height: 1.5;
+    background-color: black;
     color: white;
+    line-height: 1.5;
 }
+
+html, body, #screen {
+    height: 100%;
+    width: 100%;
+}
+
+@keyframes blink {
+    0% {
+        opacity:1;
+    }
+    50% {
+        opacity:0;
+    }
+    100% {
+        opacity:1;
+    }
+}
+
+#screen {
+    display: none;
+    position: relative;
+    text-align: center;
+}
+    #screen img {
+        width: 100%;
+    }
+    #screen .blink {
+        position: absolute;
+        top: 0;
+        left: 0;
+
+        transition: all 1s ease-in-out;
+        animation-direction: normal;
+        animation-duration: 2s;
+        animation-iteration-count: infinite;
+        animation-name: blink;
+        animation-timing-function: ease-in-out;
+    }
 
 #riddle-container {
     display: none;
@@ -9,7 +48,6 @@ body {
     position: absolute;
     width: 100%;
 }
-
 #riddle-container .riddle {
     background-color: rgba(0, 0, 0, 0.9);
     float: right;
@@ -17,7 +55,6 @@ body {
     padding: 1% 2%;
     width: 35%;
 }
-
 #riddle-container p {
     font-size: 1.2em;
     margin-bottom: 1.0rem;
