@@ -245,7 +245,7 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
             //console.log(intersects[0].distance);
 
             // check cube type, exlude wall and roof
-            if(intersects[ i ].object.position.y == -CUBE_SIZE) {
+            if(intersects[ i ].object.position.y == -CUBE_SIZE*0.5) {
 
                 // change selected cube, remove highligh on previous and set on new
                 if ( this.INTERSECTED != intersects[ i ].object ) {
