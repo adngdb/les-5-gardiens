@@ -605,14 +605,14 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
             // Success.
             function () {
                 console.log('Success, Motherfucker.');
-                var dir = self.getDirection(self.camera.position.x, self.camera.position.z, true);
+                var dir = self.getDirection(self.saveTargetX, self.saveTargetZ, true);
                 self.showHint(dir);
                 self.stopRiddle(riddleRenderer);
             },
             // Failure.
             function () {
                 console.log('You failed. Hard. ');
-                var dir = self.getDirection(self.camera.position.x, self.camera.position.z, false);
+                var dir = self.getDirection(self.saveTargetX, self.saveTargetZ, false);
                 self.showHint(dir);
                 self.stopRiddle(riddleRenderer);
             }
@@ -724,10 +724,17 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
         var currentIndI = Math.round(x / CUBE_SIZE);
         var currentIndJ = Math.round(z / CUBE_SIZE);
         var hintDirectionAbs = [];
+console.log("current pos");
+console.log(x);
+console.log(z);
         hintDirectionAbs.push(currentIndI + this.arrayTowardExit[currentIndI][currentIndJ][0]);
         hintDirectionAbs.push(currentIndJ + this.arrayTowardExit[currentIndI][currentIndJ][1]);
 
         if (answer) {   // the correct answer was given
+console.log("next pos");
+console.log(hintDirectionAbs[0]);
+console.log(hintDirectionAbs[1]);
+
             return hintDirectionAbs;
         }else {         // a wrong answer was given
             var possibleDirection = [];
