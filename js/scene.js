@@ -428,14 +428,14 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
                 console.log('Success, Motherfucker.');
                 var dir = self.getDirection(self.camera.position.x, self.camera.position.z, true);
                 self.showHint(dir);
-                self.stopRiddle(riddleRenderer, 'top');
+                self.stopRiddle(riddleRenderer);
             },
             // Failure.
             function () {
                 console.log('You failed. Hard. ');
                 var dir = self.getDirection(self.camera.position.x, self.camera.position.z, false);
                 self.showHint(dir);
-                self.stopRiddle(riddleRenderer, 'down');
+                self.stopRiddle(riddleRenderer);
             }
         );
         riddleRenderer.display();
@@ -445,7 +445,7 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
         this.computeDirectionTowardExit(stack, 0);
     };
 
-    Scene.prototype.stopRiddle = function (riddleRenderer, direction) {
+    Scene.prototype.stopRiddle = function (riddleRenderer) {
         var self = this;
 
         // play riddle end sound
@@ -454,9 +454,6 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
         // fade riddle theme to main theme
         this.music.riddleTheme.stop();
         this.music.mainTheme.loop().play();
-
-        // show direction during 3 seconds
-        riddleRenderer.showHint(direction);
 
         // at the end of the 3 seconds, fade out the UI
         setTimeout(function () {

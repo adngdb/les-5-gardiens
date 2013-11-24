@@ -45,10 +45,6 @@ define(['lib/jquery', 'tools'], function (jquery, tools) {
         this.container.fadeIn(500);
     };
 
-    RiddleRenderer.prototype.showHint = function (direction) {
-        $('.gardian .hint', this.container).attr('src', 'img/' + this.gardian.file + '_arrows_' + direction + '.png');
-    };
-
     RiddleRenderer.prototype.hide = function () {
         this.container.fadeOut(500);
     };
