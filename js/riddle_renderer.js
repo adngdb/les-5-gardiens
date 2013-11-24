@@ -13,15 +13,12 @@ define(['lib/jquery', 'tools'], function (jquery, tools) {
 
         // First clean the container to remove previous riddles.
         this.container.empty();
+        this.enable();
 
-        var gardianElt = $('<div>', { class: 'gardian' }).appendTo(this.container);
-        $('<img>', { src: 'img/' + this.gardian.file + '_01.png' }).appendTo(gardianElt);
-
-        var gardianTextElt = $('<div>', { class: 'gardian-text' }).appendTo(this.container);
-        $('<p>', { class: 'gardian_desc' }).text(this.gardian.description).appendTo(gardianTextElt);
-        $('<p>', { class: 'gardian_question' }).text(this.gardian.question_text).appendTo(gardianTextElt);
 
         var riddleElt = $('<div>', { class: 'riddle' }).appendTo(this.container);
+        $('<p>', { class: 'gardian_desc' }).text(this.gardian.description).appendTo(riddleElt);
+        $('<p>', { class: 'gardian_question' }).text(this.gardian.question_text).appendTo(riddleElt);
         $('<p>', { class: 'riddle_text' }).text(this.riddle.text).appendTo(riddleElt);
         var riddleAnswersElt = $('<div>', { class: 'answers' }).appendTo(riddleElt);
 
@@ -39,6 +36,7 @@ define(['lib/jquery', 'tools'], function (jquery, tools) {
             answerElt.click(function (e) {
                 e.preventDefault();
 
+                $(this).addClass('selected');
                 self.answerRiddle($(this).text());
             });
             answerElt.appendTo(riddleAnswersElt);
@@ -47,11 +45,27 @@ define(['lib/jquery', 'tools'], function (jquery, tools) {
         this.container.fadeIn(500);
     };
 
+    RiddleRenderer.prototype.showHint = function (direction) {
+        $('.gardian .hint', this.container).attr('src', 'img/' + this.gardian.file + '_arrows_' + direction + '.png');
+    };
+
     RiddleRenderer.prototype.hide = function () {
         this.container.fadeOut(500);
     };
 
+    RiddleRenderer.prototype.disable = function () {
+        $('.answer', this.container).unbind('click');
+        this.container.addClass('disabled')
+    };
+
+    RiddleRenderer.prototype.enable = function () {
+        this.container.removeClass('disabled')
+    };
+
     RiddleRenderer.prototype.answerRiddle = function (answer) {
+        // Block the form so it's impossible to click anything.
+        this.disable();
+
         if (answer == this.riddle.answers[0]) {
             // The correct answer is always the first one in the list.
             this.onSuccessCallback();
@@ -59,7 +73,6 @@ define(['lib/jquery', 'tools'], function (jquery, tools) {
         else {
             this.onFailureCallback();
         }
-        this.hide();
     };
 
     return RiddleRenderer;

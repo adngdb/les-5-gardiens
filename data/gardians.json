@@ -3,7 +3,31 @@
         {
             "name": "Cerberus",
             "file": "cerberus",
-            "description": "Je suis Cerberus, le gardien des enfers. Réponds correctement à mon énigme et je te guiderai vers la sortie. ",
+            "description": "Je suis le Cerbère, le premier gardien. ",
+            "question_text": "Voici ma question :"
+        },
+        {
+            "name": "Présentateur",
+            "file": "cerberus",
+            "description": "Je suis le Présentateur, le deuxième gardien. ",
+            "question_text": "Voici ma question :"
+        },
+        {
+            "name": "Janus",
+            "file": "cerberus",
+            "description": "Je suis le Janus, le troisème gardien. ",
+            "question_text": "Voici ma question :"
+        },
+        {
+            "name": "Pythie",
+            "file": "cerberus",
+            "description": "Je suis la Pythie, la quatrième gardienne. ",
+            "question_text": "Voici ma question :"
+        },
+        {
+            "name": "Sphynx",
+            "file": "cerberus",
+            "description": "Je suis le Sphynx, le cinquième gardien. ",
             "question_text": "Voici ma question :"
         }
     ]

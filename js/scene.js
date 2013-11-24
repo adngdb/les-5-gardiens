@@ -409,14 +409,16 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
     Scene.prototype.showRiddle = function () {
         var self = this;
 
+        // Pause the game.
+        this.pause = true;
+
         // Start playing the riddle theme.
-        this.music.riddleTheme.loop().play();
-        this.music.mainTheme.stop();
+        this.music.riddleTheme.stop().loop().play();
+        this.music.mainTheme.pause();
         this.sound.riddleEnd.stop();
 
         var riddle = this.level.riddles.getRandomRiddle();
         var gardian = this.level.gardians.getRandomGardian();
-        this.pause = true;
 
         var riddleRenderer = new RiddleRenderer(
             riddle,
@@ -426,14 +428,14 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
                 console.log('Success, Motherfucker.');
                 var dir = self.getDirection(self.camera.position.x, self.camera.position.z, true);
                 self.showHint(dir);
-                self.stopRiddle();
+                self.stopRiddle(riddleRenderer, 'top');
             },
             // Failure.
             function () {
                 console.log('You failed. Hard. ');
                 var dir = self.getDirection(self.camera.position.x, self.camera.position.z, false);
                 self.showHint(dir);
-                self.stopRiddle();
+                self.stopRiddle(riddleRenderer, 'down');
             }
         );
         riddleRenderer.display();
@@ -443,11 +445,25 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
         this.computeDirectionTowardExit(stack, 0);
     };
 
-    Scene.prototype.stopRiddle = function () {
-        this.pause = false;
-        this.music.mainTheme.loop().play();
-        this.music.riddleTheme.stop();
+    Scene.prototype.stopRiddle = function (riddleRenderer, direction) {
+        var self = this;
+
+        // play riddle end sound
         this.sound.riddleEnd.play();
+
+        // fade riddle theme to main theme
+        this.music.riddleTheme.stop();
+        this.music.mainTheme.loop().play();
+
+        // show direction during 3 seconds
+        riddleRenderer.showHint(direction);
+
+        // at the end of the 3 seconds, fade out the UI
+        setTimeout(function () {
+            // start the game again
+            self.pause = false;
+            riddleRenderer.hide();
+        }, 3000);
     };
 
     Scene.prototype.showHint = function (hintDirectionAbs) {

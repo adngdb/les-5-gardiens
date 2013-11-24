@@ -1,50 +1,53 @@
 body {
     line-height: 1.5;
+    color: white;
 }
 
 #riddle-container {
-    background-color: rgba(0, 0, 0, 0.7);
     display: none;
     height: 100%;
     position: absolute;
     width: 100%;
 }
 
-#riddle-container .gardian {
-    float: left;
-    margin: 3% 5%;
-}
-
-#riddle-container .gardian-text,
 #riddle-container .riddle {
-    background-color: rgba(255, 255, 255, 0.7);
-    border: 1px solid white;
-    border-radius: 0.5rem;
+    background-color: rgba(0, 0, 0, 0.9);
     float: right;
-    margin: 1% 1% 0 0;
-    padding: 1.0rem 2.0rem;
-    width: 60%;
+    height: 100%;
+    padding: 1% 2%;
+    width: 35%;
 }
 
-#riddle-container .gardian-text {
-    margin-bottom: 2.0rem;
-}
 #riddle-container p {
-    font-size: 1.4em;
+    font-size: 1.2em;
     margin-bottom: 1.0rem;
 }
+#riddle-container .gardian_desc,
+#riddle-container .gardian_question {
+    font-size: 1.6em;
+    color: #999;
+}
+#riddle-container .gardian_desc {
+    margin-bottom: 0.2rem;
+}
 #riddle-container .answer {
-    background-color: #ddd;
-    border: 1px solid #aaa;
-    border-radius: 0.3rem;
+    background-color: #333;
     cursor: pointer;
     display: inline-block;
     padding: 2% 1%;
-    margin: 1% 2%;
+    margin: 1% 2% 1% 0;
     text-align: center;
-    width: 43%;
+    width: 96%;
 }
 #riddle-container .answer:hover {
-    background-color: #eee;
-    border: 1px solid #bbb;
+    background-color: #222;
+}
+#riddle-container.disabled .answer:hover {
+    background-color: #333;
+}
+#riddle-container .answer.selected {
+    background-color: #aa0000;
+}
+#riddle-container.disabled .answer.selected:hover {
+    background-color: #aa0000;
 }
