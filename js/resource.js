@@ -67,6 +67,7 @@ define(function () {
             }
         }
         this.loadPhongMat("img/ground_arrow.png", "mat_tex_arrow", true);
+        this.loadPhongMat("img/ground_point.png", "mat_tex_point", true);
 
     };
 

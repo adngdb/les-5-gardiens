@@ -81,6 +81,7 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
         this.nbStep = 15;
         this.count = 4 * this.nbStep + 1;
         this.crossroadTested = true;
+        this.clickEvent = false;
 
         this.animCounter = 0;
         this.pnjArray = [];
@@ -209,9 +210,26 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
                     }
 
                     // random prop
-                    // if(i>0 && j ) {
+                    if(i>0 && i<this.level.width && j>0 && j<this.level.height) {
+                        //console.log("i : "+i+", j : "+j);
 
-                    // }
+                        // test left
+                        if(this.level.map[i-1][j]) {
+
+                        }
+                        // test right
+                        if(this.level.map[i+1][j]) {
+
+                        }
+                        // test up
+                        if(this.level.map[i][j+1]) {
+
+                        }
+                        // test down
+                        if(this.level.map[i][j-1]) {
+
+                        }
+                    }
 
                     // pnj
                     if(this.detectCrossroad(i * CUBE_SIZE, j * CUBE_SIZE, true)) {
@@ -282,6 +300,10 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
         this.animate();
     };
 
+    Scene.prototype.addRandomProp = function () {
+
+    }
+
     Scene.prototype.findIntersections = function () {
         // find intersections
 
@@ -325,12 +347,16 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
                     this.INTERSECTED.currentHex = this.INTERSECTED.material.emissive.getHex();
                     this.INTERSECTED.material.emissive.setHex( 0xff0000 );
                 }
+                //this.INTERSECTED = obj;
 
                 // set target pos if we click
                 if ((this.count > 4 * this.nbStep) && (this.controls.mouseClick)) {
                     this.setTargetPosX = this.INTERSECTED.position.x;
                     this.setTargetPosY = this.INTERSECTED.position.z;
+                    this.targetPosX = this.INTERSECTED.position.x;
+                    this.targetPosZ = this.INTERSECTED.position.z;
                     this.crossroadTested = false;
+                    this.clickEvent = true;
                     // remove indice
                     if(this.indiceMeshGround) {
                         this.scene.remove(this.indiceMeshGround);
@@ -338,15 +364,15 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
 
                     // remove npc indice
                     for(var i=0; i<this.scene.children.length; ++i) {
-                        var obj = this.scene.children[i];
+                        var obj2 = this.scene.children[i];
                         if(obj.name.substring(0,3) == "tip") {
-                            var style = obj.name.substring(4);
-                            obj.material = this.resourceManager["mat_"+style+"_question"];
+                            var style = obj2.name.substring(4);
+                            obj2.material = this.resourceManager["mat_"+style+"_question"];
                             //console.log("mat_cerberus"+Math.floor(this.animCounter/10));
                         }
                     }
 
-                    if(obj.name == "exit" || obj.name == "wall") {
+                    if(obj.name == "exit") {
                         this.endGame();
                     }
                 }
@@ -359,7 +385,7 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
         }
         else { //
             if ( this.INTERSECTED ) this.INTERSECTED.material.emissive.setHex( this.INTERSECTED.currentHex );
-            this.INTERSECTED = null;
+            //this.INTERSECTED = null;
         }
     };
 
@@ -374,13 +400,20 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
         this.controls.update(delta);
 
         // clic treated
-        this.targetPosX = this.setTargetPosX;
-        this.targetPosZ = this.setTargetPosZ;
+        // this.targetPosX = this.setTargetPosX;
+        // this.targetPosZ = this.setTargetPosZ;
 
         var newIndI = Math.round(this.targetPosX / CUBE_SIZE);
         var newIndJ = Math.round(this.targetPosZ / CUBE_SIZE);
+                //  console.log("click");
+                // console.log(oldIndI);
+                // console.log(oldIndJ);
+                // console.log(newIndI);
+                // console.log(newIndJ);
 
-        if ((this.setTargetPosX != -5) && (this.setTargetPosZ != -5)) {
+        // if ((this.setTargetPosX != -5) && (this.setTargetPosZ != -5)) {
+        if (this.clickEvent) {
+            this.clickEvent = false;
             // clic detected
             if ((Math.abs(newIndI - oldIndI) > 1) || (Math.abs(newIndJ - oldIndJ) > 1)) {
                 // invalid movement : more than 1 tile away
@@ -646,7 +679,7 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
         // arrow toward : "stringOrientGround" {top / down / left or right}
 
         //TODO : Popux' code !!! display the hinted texture on the floor !!! GOGOGO lasy man !!!!
-        this.indiceMeshGround = new THREE.Mesh( this.resourceManager["quad_geom"], this.resourceManager["mat_tex_arrow"] );
+        this.indiceMeshGround = new THREE.Mesh( this.resourceManager["quad_geom"], this.resourceManager["mat_tex_point"] );
         console.log(hintDirectionAbs[0] * CUBE_SIZE);
         console.log(hintDirectionAbs[1] * CUBE_SIZE);
         console.log(hintDirectionAbs[0]);
@@ -657,7 +690,7 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
         this.indiceMeshGround.position.z = hintDirectionAbs[1] * CUBE_SIZE;
         this.indiceMeshGround.position.y = -CUBE_SIZE*0.4;
         this.indiceMeshGround.rotation.x = -Math.PI*0.5;
-        this.indiceMeshGround.rotation.y = orientGround;
+        //this.indiceMeshGround.rotation.y = orientGround;
         this.scene.add( this.indiceMeshGround );
 
         // show hint NPC :
