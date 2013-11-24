@@ -503,12 +503,13 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
                 console.log(this.camera.position.x);
                 console.log(this.camera.position.z);
                 console.log(this.camera.position.x % CUBE_SIZE);
+                console.log(this.camera.position.z % CUBE_SIZE);
                 if (    (
                             ((this.camera.position.x % CUBE_SIZE) > 10)
                         &&  ((this.camera.position.x % CUBE_SIZE) < 190)
                         )
-                    ||  (   ((this.camera.position.x % CUBE_SIZE) > 10)
-                        &&  ((this.camera.position.x % CUBE_SIZE) < 190)
+                    ||  (   ((this.camera.position.z % CUBE_SIZE) > 10)
+                        &&  ((this.camera.position.z % CUBE_SIZE) < 190)
                         )
                     ) {
                     // case of movement toward a crossroad : additionnal camera rotation => new targetLon
@@ -522,6 +523,7 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
                 }
             }
             if (moreMove) {
+                console.log("ici");
                 this.controls.lon += this.stepLon;
             }
             ++this.count;
