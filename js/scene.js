@@ -3,6 +3,14 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
     var Scene = function (level) {
         this.level = level;
         this.pause = false;
+
+        this.gardiansMap = [];
+        for (var i = 0; i < this.level.map.length; i++) {
+            this.gardiansMap[i] = [];
+            for (var j = 0; j < this.level.map[0].length; j++) {
+                this.gardiansMap[i][j] = 0;
+            }
+        }
     };
 
     // var Sound = function ( sources, radius, volume, loop=false ) {
@@ -240,6 +248,7 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
                     if(this.detectCrossroad(i * CUBE_SIZE, j * CUBE_SIZE, true)) {
 
                         var gardian = this.level.gardians.getRandomGardian();
+                        this.gardiansMap[i][j] = gardian;
 
                         var sprite;
                         sprite = new THREE.Sprite( this.resourceManager["mat_"+gardian.file+"_question"] );
