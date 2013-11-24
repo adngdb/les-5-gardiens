@@ -29,7 +29,7 @@
             ]
         },
         {
-            "text": "Une personne garde l’entrée d’un club privé. Une personne arrive, le gardien lui dit « Sept » et l’autre réponds « Quatre ». Une deuxième personne arrive, le gardien lui lance « Un » et l’autre lui dit « Deux ». Vous voulez entrer, le gardien vous dit « Treize ». Que devriez vous lui dire ?",
+            "text": "Une personne garde l’entrée d’un club privé. Une personne arrive, le gardien lui dit « Sept » et l’autre réponds « Quatre ». Une deuxième personne arrive, le gardien lui lance « Un » et l’autre lui dit « Deux ». Vous voulez entrez, le gardien vous dit « Treize ». Que devriez vous lui dire ?",
             "answers": [
                 "Six.",
                 "Deux.",
@@ -128,9 +128,7 @@
             ]
         },
         {
-            "text": "Un ballon à l'hélium monte dans l'air tout doucement. La première seconde il parcourt 1 m, la deuxième 50 cm, la troisième 25 cm et de suite.
-Indéfiniment le ballon ne s'arrête pas de monter. Par seconde il parcourt la moitié de ce qu'il a monté la seconde précédente.
-Jusqu'où le ballon va-t-il monter? ",
+            "text": "Un ballon à l'hélium monte dans l'air tout doucement. La première seconde il parcourt 1 m, la deuxième 50 cm, la troisième 25 cm et de suite. Indéfiniment le ballon ne s'arrête pas de monter. Par seconde il parcourt la moitié de ce qu'il a monté la seconde précédente. Jusqu'où le ballon va-t-il monter? ",
             "answers": [
                 "Le ballon tend vers la hauteur de 2 mètres, sans jamais l'atteindre.",
                 "Le ballon tend vers la hauteur de 7.29 mètres, sans jamais l'atteindre.",
@@ -184,8 +182,7 @@ Jusqu'où le ballon va-t-il monter? ",
             ]
         },
         {
-            "text": " Une encyclopédie en dix volumes est rangée dans l'ordre sur une planche de bibliothèque. Chaque volume est épais de 4,5 cm pour les feuilles et de deux fois 0,25 cm pour la couverture. Un vers né en page 1 du volume 1 se nourrit en traversant perpendiculairement et en ligne droite la collection complète et meurt à la dernière page du dixième volume.
-Quelle distance aura-t-il parcourue pendant son existance ? ",
+            "text": " Une encyclopédie en dix volumes est rangée dans l'ordre sur une planche de bibliothèque. Chaque volume est épais de 4,5 cm pour les feuilles et de deux fois 0,25 cm pour la couverture. Un vers né en page 1 du volume 1 se nourrit en traversant perpendiculairement et en ligne droite la collection complète et meurt à la dernière page du dixième volume. Quelle distance aura-t-il parcourue pendant son existance ? ",
             "answers": [
                 "40.5 cm",
                 "41.5 cm",
@@ -212,8 +209,7 @@ Quelle distance aura-t-il parcourue pendant son existance ? ",
             ]
         },
         {
-            "text": "Vous avez le sommeil lourd et vous avez réglez votre réveil à aiguilles de grand-mère à sonner pour 10h00. Vous allez vous couché à 21h00.
-Combien de temps dormirez-vous ?",
+            "text": "Vous avez le sommeil lourd et vous avez réglez votre réveil à aiguilles de grand-mère à sonner pour 10h00. Vous allez vous couché à 21h00. Combien de temps dormirez-vous ?",
             "answers": [
                 "1 heure",
                 "13 heures",
