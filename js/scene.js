@@ -70,7 +70,7 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
         this.stepLat;
         this.stepTrX;
         this.stepTrZ;
-        this.nbStep = 5;
+        this.nbStep = 15;
         this.count = 3 * this.nbStep + 1;
         this.crossroadTested = true;
 
@@ -340,7 +340,7 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
 
             ++this.count;
         }
-        //this.camera.position.y = 0;
+        this.camera.position.y = 0;
 
     };
 
