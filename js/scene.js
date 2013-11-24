@@ -93,6 +93,7 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
         this.music = {};
         this.music.mainTheme = new buzz.sound("sound/main_theme.ogg");
         this.music.riddleTheme = new buzz.sound("sound/riddle_theme.ogg");
+        this.music.eventStress = new buzz.sound("sound/event_stress.ogg");
 
         this.music.mainTheme.loop().play();
 
@@ -244,6 +245,9 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
                 while (this.controls.lon > 360) {
                     this.controls.lon -= 360;
                 }
+                while (this.controls.lon < 0) {
+                    this.controls.lon += 360;
+                }
                 while (this.controls.lat > 360) {
                     this.controls.lat -= 360;
                 }
@@ -299,7 +303,8 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
             this.crossroadTested = false;
             if(this.detectCrossroad(this.camera.position.x, this.camera.position.z)) {
                 this.showRiddle();
-            }
+            }else if(this.detectRoadTurn(this.camera.position.x, this.camera.position.z))
+                this.roadTurnEvent();
 
             ++this.count;
         }
@@ -307,9 +312,9 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
 
     };
 
-    Scene.prototype.detectCrossroad = function (x , y, dotest = false) { // x, y abxolute world position
+    Scene.prototype.detectCrossroad = function (x , z, dotest = false) { // x, y abxolute world position
         var currentIndI = Math.round(x / CUBE_SIZE);
-        var currentIndJ = Math.round(y / CUBE_SIZE);
+        var currentIndJ = Math.round(z / CUBE_SIZE);
 
         var nbAdjacentTile = 0;
         if (dotest || !this.crossroadTested) {
@@ -325,6 +330,23 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
             return false;
         }
     };
+
+    Scene.prototype.detectRoadTurn = function (x, z) {
+        var currentIndI = Math.round(x / CUBE_SIZE);
+        var currentIndJ = Math.round(z / CUBE_SIZE);
+        if (   ((!this.level.map[currentIndI + 1][currentIndJ]) && (!this.level.map[currentIndI][currentIndJ + 1]))
+            || ((!this.level.map[currentIndI + 1][currentIndJ]) && (!this.level.map[currentIndI][currentIndJ - 1]))
+            || ((!this.level.map[currentIndI - 1][currentIndJ]) && (!this.level.map[currentIndI][currentIndJ + 1]))
+            || ((!this.level.map[currentIndI - 1][currentIndJ]) && (!this.level.map[currentIndI][currentIndJ - 1])) ) {
+            return true;
+        }
+        return false;
+    }
+
+    Scene.prototype.roadTurnEvent = function () {
+        // play some stressing music !!!
+        this.music.eventStress.play();
+    }
 
     Scene.prototype.showRiddle = function () {
         var self = this;

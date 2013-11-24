@@ -124,7 +124,7 @@ define(['lib/three'], function (three) {
             this.mouseX = event.pageX;
             this.mouseY = event.pageY;
 
-            console.log(this.mouseLastX + ' - ' + event.pageX);
+//            console.log(this.mouseLastX + ' - ' + event.pageX);
 
             if (this.mouseDragOn) {
                 this.mouseRelX = this.mouseX - this.mouseLastX;
