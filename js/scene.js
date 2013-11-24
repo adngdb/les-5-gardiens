@@ -239,23 +239,19 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
                     // pnj
                     if(this.detectCrossroad(i * CUBE_SIZE, j * CUBE_SIZE, true)) {
 
-                        var names = ["cerberus", "janus", "presentateur", "pythie", "sphynx"];
-                        var sizes = [[60,120], [60,120], [60,120], [120,120], [120,120]];
-
-                        var id = tools.getRandomInt(0,4);
-                        var name = names[id];
+                        var gardian = this.level.gardians.getRandomGardian();
 
                         var sprite;
-                        sprite = new THREE.Sprite( this.resourceManager["mat_"+name+"_question"] );
-                        sprite.name = "tip_"+name;
+                        sprite = new THREE.Sprite( this.resourceManager["mat_"+gardian.file+"_question"] );
+                        sprite.name = "tip_"+gardian.file;
                         sprite.position.set( i * CUBE_SIZE, -40, j * CUBE_SIZE );
-                        sprite.scale.set( sizes[id][0], sizes[id][1], 1.0 ); // imageWidth, imageHeight
+                        sprite.scale.set( gardian.width, gardian.height, 1.0 ); // imageWidth, imageHeight
                         this.scene.add( sprite );
 
-                        sprite = new THREE.Sprite( this.resourceManager["mat_"+name+0] );
-                        sprite.name = "pnj_"+name;
+                        sprite = new THREE.Sprite( this.resourceManager["mat_"+gardian.file+0] );
+                        sprite.name = "pnj_"+gardian.file;
                         sprite.position.set( i * CUBE_SIZE, -40, j * CUBE_SIZE );
-                        sprite.scale.set( sizes[id][0], sizes[id][1], 1.0 ); // imageWidth, imageHeight
+                        sprite.scale.set( gardian.width, gardian.height, 1.0 ); // imageWidth, imageHeight
                         this.scene.add( sprite );
 
                         // curtain

@@ -4,31 +4,41 @@
             "name": "Cerberus",
             "file": "cerberus",
             "description": "Je suis le Cerbère, le premier gardien. ",
-            "question_text": "Voici ma question :"
+            "question_text": "Voici ma question :",
+            "width": 60,
+            "height": 120
         },
         {
             "name": "Présentateur",
-            "file": "cerberus",
+            "file": "presentateur",
             "description": "Je suis le Présentateur, le deuxième gardien. ",
-            "question_text": "Voici ma question :"
+            "question_text": "Voici ma question :",
+            "width": 60,
+            "height": 120
         },
         {
             "name": "Janus",
-            "file": "cerberus",
+            "file": "janus",
             "description": "Je suis le Janus, le troisème gardien. ",
-            "question_text": "Voici ma question :"
+            "question_text": "Voici ma question :",
+            "width": 60,
+            "height": 120
         },
         {
             "name": "Pythie",
-            "file": "cerberus",
+            "file": "pythie",
             "description": "Je suis la Pythie, la quatrième gardienne. ",
-            "question_text": "Voici ma question :"
+            "question_text": "Voici ma question :",
+            "width": 120,
+            "height": 120
         },
         {
             "name": "Sphynx",
-            "file": "cerberus",
+            "file": "sphynx",
             "description": "Je suis le Sphynx, le cinquième gardien. ",
-            "question_text": "Voici ma question :"
+            "question_text": "Voici ma question :",
+            "width": 120,
+            "height": 120
         }
     ]
 }
