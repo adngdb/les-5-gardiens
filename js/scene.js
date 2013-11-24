@@ -43,7 +43,7 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
         this.controls = new THREE.FirstPersonControls( this.camera );
 
         this.controls.lon = this.level.properties.startLon;
-        this.controls.movementSpeed = 2000;
+        this.controls.movementSpeed = 500;
         this.controls.lookSpeed = 10.0;
         this.controls.noFly = true;
         this.controls.lookVertical = true;
@@ -53,10 +53,10 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
         this.clock = new THREE.Clock();
 
         this.scene.fog = new THREE.Fog( 0x000000, 1, CUBE_SIZE*5 );
-        this.scene.add( new THREE.AmbientLight( 0x222222 ) );
-        //this.scene.add( new THREE.AmbientLight( 0xffffff ) );
+        //this.scene.add( new THREE.AmbientLight( 0x222222 ) );
+        this.scene.add( new THREE.AmbientLight( 0xffffff ) );
         this.torchLight = new THREE.PointLight( 0xffffff, 1, CUBE_SIZE*1.5 );
-        this.scene.add(this.torchLight);
+        //this.scene.add(this.torchLight);
 
         this.renderer = new THREE.WebGLRenderer({antialias:true});
         this.renderer.setSize( window.innerWidth, window.innerHeight );
@@ -209,7 +209,7 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
                         this.scene.add( sprite );
 
                         sprite = new THREE.Sprite( this.resourceManager["mat_"+name+0] );
-                        sprite.name = "pnj";
+                        sprite.name = "pnj_"+name;
                         sprite.position.set( i * CUBE_SIZE, -40, j * CUBE_SIZE );
                         sprite.scale.set( sizes[id][0], sizes[id][1], 1.0 ); // imageWidth, imageHeight
                         this.scene.add( sprite );
@@ -496,7 +496,14 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
         // arrow toward : "stringOrientGround" {top / down / left or right}
 
         //TODO : Popux' code !!! display the hinted texture on the floor !!! GOGOGO lasy man !!!!
-
+        var mesh = new THREE.Mesh( this.resourceManager['quad_geom'], this.resourceManager['mat_roof'] );
+        console.log(hintDirectionAbs[0] * CUBE_SIZE);
+        console.log(hintDirectionAbs[1] * CUBE_SIZE);
+        mesh.position.x = hintDirectionAbs[0] * CUBE_SIZE;
+        mesh.position.z = hintDirectionAbs[1] * CUBE_SIZE;
+        mesh.position.y = -CUBE_SIZE*0.4;
+        mesh.rotation.x = -Math.PI*0.5;
+        this.scene.add( mesh );
 
         // show hint NPC :
         // arrow on the NPC's animation
