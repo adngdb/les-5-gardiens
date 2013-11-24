@@ -345,7 +345,7 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
 
                     this.INTERSECTED = obj;
                     this.INTERSECTED.currentHex = this.INTERSECTED.material.emissive.getHex();
-                    this.INTERSECTED.material.emissive.setHex( 0xff0000 );
+                    this.INTERSECTED.material.emissive.setHex( 0x888888 );
                 }
                 //this.INTERSECTED = obj;
 
