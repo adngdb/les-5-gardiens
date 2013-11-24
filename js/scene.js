@@ -626,8 +626,9 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
 
         for(var i=0; i<this.scene.children.length; ++i) {
             var obj = this.scene.children[i];
-            if(obj.name == "pnj") {
-                //obj.material = this.resourceManager["mat_cerberus"+Math.floor(this.animCounter/10)];
+            if(obj.name.substring(0,3) == "pnj") {
+                var style = obj.name.substring(4);
+                obj.material = this.resourceManager["mat_"+style+Math.floor(this.animCounter/10)];
                 //console.log("mat_cerberus"+Math.floor(this.animCounter/10));
             }
         }
