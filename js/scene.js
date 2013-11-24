@@ -99,6 +99,7 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
         // sounds
         this.music = {};
         this.music.mainTheme = new buzz.sound("sound/main_theme.ogg");
+        this.music.secondTheme = new buzz.sound("sound/title_theme.ogg");
         this.music.riddleTheme = new buzz.sound("sound/riddle_theme.ogg");
         this.music.eventStress = new buzz.sound("sound/event_stress.ogg");
 
@@ -415,12 +416,14 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
             return true;
         }
         return false;
-    }
+    };
 
     Scene.prototype.roadTurnEvent = function () {
-        // play some stressing music !!!
-        this.music.eventStress.play();
-    }
+        // Play some stressing music, only once every 5 turns in average.
+        if (Math.random() < 0.2) {
+            this.music.eventStress.play();
+        }
+    };
 
     Scene.prototype.showRiddle = function () {
         var self = this;
@@ -429,9 +432,8 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
         this.pause = true;
 
         // Start playing the riddle theme.
-        this.music.riddleTheme.stop().loop().play();
-        this.music.mainTheme.pause();
-        this.sound.riddleEnd.stop();
+        buzz.all().stop();
+        this.music.riddleTheme.loop().play();
 
         var riddle = this.level.riddles.getRandomRiddle();
         var gardian = this.level.gardians.getRandomGardian();
@@ -469,7 +471,14 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
 
         // fade riddle theme to main theme
         this.music.riddleTheme.stop();
-        this.music.mainTheme.loop().play();
+
+        // Randomly chose what theme to play.
+        if (Math.random() < 0.5) {
+            this.music.mainTheme.loop().play();
+        }
+        else {
+            this.music.secondTheme.loop().play();
+        }
 
         // at the end of the 3 seconds, fade out the UI
         setTimeout(function () {
