@@ -205,6 +205,7 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
 
                         var sprite;
                         sprite = new THREE.Sprite( this.resourceManager["mat_"+name+"_question"] );
+                        sprite.name = "tip_"+name;
                         sprite.position.set( i * CUBE_SIZE, -40, j * CUBE_SIZE );
                         sprite.scale.set( sizes[id][0], sizes[id][1], 1.0 ); // imageWidth, imageHeight
                         this.scene.add( sprite );
@@ -265,6 +266,16 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
                     // remove indice
                     if(this.indiceMeshGround) {
                         this.scene.remove(this.indiceMeshGround);
+                    }
+
+                    // remove npc indice
+                    for(var i=0; i<this.scene.children.length; ++i) {
+                        var obj = this.scene.children[i];
+                        if(obj.name.substring(0,3) == "tip") {
+                            var style = obj.name.substring(4);
+                            obj.material = this.resourceManager["mat_"+style+"_question"];
+                            //console.log("mat_cerberus"+Math.floor(this.animCounter/10));
+                        }
                     }
                 }
                 else {
@@ -473,7 +484,7 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
         var currentIndJ = Math.round(this.camera.position.z / CUBE_SIZE);
         var orient = [hintDirectionAbs[0] - currentIndI, hintDirectionAbs[1] - currentIndJ];
         var stringOrientGround;
-        var stringOrientNPC;
+        var stringOrientNPC = "top";
         var targetCameraLon;
         if ((orient[0] == -1) && (orient[1] ==  0)) {
             targetCameraLon = 180;
@@ -519,7 +530,15 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
         // arrow on the NPC's animation
         // arrow toward : "stringOrientNPC" {top / down / left or right}
 
-        //TODO : Adrian's code !!! display the hinted texture on the NPC !!! GOGOGO lasy man !!!!
+        //TODO : Adrian's code (<--- fuck him) !!! display the hinted texture on the NPC !!! GOGOGO lazy man !!!!
+        for(var i=0; i<this.scene.children.length; ++i) {
+            var obj = this.scene.children[i];
+            if(obj.name.substring(0,3) == "tip") {
+                var style = obj.name.substring(4);
+                obj.material = this.resourceManager["mat_"+style+"_"+stringOrientNPC];
+                //console.log("mat_cerberus"+Math.floor(this.animCounter/10));
+            }
+        }
     };
 
     Scene.prototype.getDirection = function (x, z, answer) {
