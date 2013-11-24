@@ -38,13 +38,16 @@ define(function () {
         // floor, door geom
         this.resMan['quad_geom'] = new THREE.PlaneGeometry( 200, 200 );
 
-        var namesTex = [ "img/ground_1-1.png", "img/roof_1-1.png", "img/wall_1-1.png", "img/door_1-1.png", "img/light_1-1.png"];
-        var namesMat = [ "mat_floor", "mat_roof", "mat_wall", "mat_door", "mat_light"];
-        var transparentFlag = [ false, false, false, true, true];
-
+        var namesTex = [ "img/ground_1-1.png", "img/roof_1-1.png", "img/wall_1-1.png",
+        "img/door_1-1.png", "img/light_1-1.png", "img/curtains_1-1.png", "img/door_nextlevel.png", "img/wall_deco_01.png",
+        "img/wall_deco_02.png", "img/wall_deco_03.png", "img/wall_deco_04.png"];
+        var namesMat = [ "mat_floor", "mat_roof", "mat_wall", "mat_door", "mat_light", "mat_curtain",
+        "mat_deco0", "mat_deco1", "mat_deco2", "mat_deco3", "mat_deco4"];
+        var transparentFlag = [ false, false, false, true, true, true, true, true, true, true, true ];
         for(var i=0; i<namesTex.length; ++i) {
             this.loadPhongMat(namesTex[i], namesMat[i], transparentFlag[i]);
         }
+        this.resMan["mat_curtain"].side = THREE.DoubleSide;
 
         for(var i=0; i<4; ++i) {
             var j = i+1;
@@ -63,6 +66,8 @@ define(function () {
                 this.loadPhongMat("img/"+names[id]+"_arrows_"+arrowsNames[idArrows]+".png", "mat_tex_"+names[id]+"_"+arrowsNames[idArrows], true);
             }
         }
+        this.loadPhongMat("img/ground_arrow.png", "mat_tex_arrow", true);
+
     };
 
     return ResourceManager;

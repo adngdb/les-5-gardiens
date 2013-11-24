@@ -53,14 +53,15 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
         this.clock = new THREE.Clock();
 
         this.scene.fog = new THREE.Fog( 0x000000, 1, CUBE_SIZE*5 );
-        //this.scene.add( new THREE.AmbientLight( 0x222222 ) );
-        this.scene.add( new THREE.AmbientLight( 0xffffff ) );
-        this.torchLight = new THREE.PointLight( 0xffffff, 1, CUBE_SIZE*1.5 );
-        //this.scene.add(this.torchLight);
+        this.scene.add( new THREE.AmbientLight( 0x888888 ) );
+        //this.scene.add( new THREE.AmbientLight( 0xffffff ) );
+        this.torchLight = new THREE.PointLight( 0xffffff, 1, CUBE_SIZE*2 );
+        this.scene.add(this.torchLight);
 
         this.renderer = new THREE.WebGLRenderer({antialias:true});
         this.renderer.setSize( window.innerWidth, window.innerHeight );
         this.renderer.setClearColor( 0x000000, 1 );
+        //this.renderer.setFaceCulling(false);
 
         this.projector = new THREE.Projector();
         this.raycaster = new THREE.Raycaster();
@@ -125,24 +126,28 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
                     if (exit[0] == j && exit[1] == i) {
                         // This is the exit, show a door on each face.
                         mesh = new THREE.Mesh( this.resourceManager['door_geom'], this.resourceManager['mat_door'] );
+                        mesh.name = "exit";
                         mesh.position.x = i * CUBE_SIZE;
                         mesh.position.z = (j+0.52) * CUBE_SIZE;
                         mesh.position.y = 0;
                         mesh.rotation.y = 0;
                         this.scene.add( mesh );
                         mesh = new THREE.Mesh( this.resourceManager['door_geom'], this.resourceManager['mat_door'] );
+                        mesh.name = "exit";
                         mesh.position.x = i * CUBE_SIZE;
                         mesh.position.z = (j-0.52) * CUBE_SIZE;
                         mesh.position.y = 0;
                         mesh.rotation.y = Math.PI;
                         this.scene.add( mesh );
                         mesh = new THREE.Mesh( this.resourceManager['door_geom'], this.resourceManager['mat_door'] );
+                        mesh.name = "exit";
                         mesh.position.x = (i-0.52) * CUBE_SIZE;
                         mesh.position.z = j * CUBE_SIZE;
                         mesh.position.y = 0;
                         mesh.rotation.y = -Math.PI*0.5;
                         this.scene.add( mesh );
                         mesh = new THREE.Mesh( this.resourceManager['door_geom'], this.resourceManager['mat_door'] );
+                        mesh.name = "exit";
                         mesh.position.x = (i+0.52) * CUBE_SIZE;
                         mesh.position.z = j * CUBE_SIZE;
                         mesh.position.y = 0;
@@ -151,6 +156,7 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
                     }
 
                     mesh = new THREE.Mesh( this.resourceManager['cube'], this.resourceManager['mat_wall'] );
+                    mesh.name = "wall";
                     mesh.position.x = i * CUBE_SIZE;
                     mesh.position.z = j * CUBE_SIZE;
                     this.scene.add( mesh );
@@ -161,6 +167,7 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
                     //var mesh = this.resourceManager['mesh_floor'];
                     //var mesh = new THREE.Mesh( this.resourceManager['cube'], this.resourceManager['mat_floor'].clone() );
                     var mesh = new THREE.Mesh( this.resourceManager['quad_geom'], this.resourceManager['mat_floor'].clone() );
+                    mesh.name = "floor";
                     mesh.position.x = i * CUBE_SIZE;
                     mesh.position.z = j * CUBE_SIZE;
                     mesh.position.y = -CUBE_SIZE*0.5;
@@ -171,6 +178,7 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
                     //var mesh = this.resourceManager['mesh_roof'];
                     //mesh = new THREE.Mesh( this.resourceManager['cube'], this.resourceManager['mat_roof'] );
                     mesh = new THREE.Mesh( this.resourceManager['quad_geom'], this.resourceManager['mat_roof'] );
+                    mesh.name = "roof";
                     mesh.position.x = i * CUBE_SIZE;
                     mesh.position.z = j * CUBE_SIZE;
                     mesh.position.y = CUBE_SIZE*0.5;
@@ -195,6 +203,11 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
                         // this.scene.add( light );
                     }
 
+                    // random prop
+                    // if(i>0 && j ) {
+
+                    // }
+
                     // pnj
                     if(this.detectCrossroad(i * CUBE_SIZE, j * CUBE_SIZE, true)) {
 
@@ -216,6 +229,44 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
                         sprite.position.set( i * CUBE_SIZE, -40, j * CUBE_SIZE );
                         sprite.scale.set( sizes[id][0], sizes[id][1], 1.0 ); // imageWidth, imageHeight
                         this.scene.add( sprite );
+
+                        // curtain
+                        // mesh = new THREE.Mesh( this.resourceManager["quad_geom"], this.resourceManager["mat_curtain"] );
+                        // mesh.name = "curtain";
+                        // mesh.position.x = i * CUBE_SIZE;
+                        // mesh.position.z = j * CUBE_SIZE;
+                        // //mesh.position.y = CUBE_SIZE*0.5;
+                        // //mesh.rotation.x = Math.PI*0.5;
+                        // this.scene.add( mesh );
+
+                        // mesh = new THREE.Mesh( this.resourceManager["quad_geom"], this.resourceManager["mat_curtain"] );
+                        // mesh.name = "curtain";
+                        // mesh.position.x = i * CUBE_SIZE;
+                        // mesh.position.z = (j+0.5) * CUBE_SIZE;
+                        // mesh.position.y = 0;
+                        // mesh.rotation.y = 0;
+                        // this.scene.add( mesh );
+                        // mesh = new THREE.Mesh( this.resourceManager["quad_geom"], this.resourceManager["mat_curtain"] );
+                        // mesh.name = "curtain";
+                        // mesh.position.x = i * CUBE_SIZE;
+                        // mesh.position.z = (j-0.5) * CUBE_SIZE;
+                        // mesh.position.y = 0;
+                        // mesh.rotation.y = Math.PI;
+                        // this.scene.add( mesh );
+                        // mesh = new THREE.Mesh( this.resourceManager["quad_geom"], this.resourceManager["mat_curtain"] );
+                        // mesh.name = "curtain";
+                        // mesh.position.x = (i-0.5) * CUBE_SIZE;
+                        // mesh.position.z = j * CUBE_SIZE;
+                        // mesh.position.y = 0;
+                        // mesh.rotation.y = -Math.PI*0.5;
+                        // this.scene.add( mesh );
+                        // mesh = new THREE.Mesh( this.resourceManager["quad_geom"], this.resourceManager["mat_curtain"] );
+                        // mesh.name = "curtain";
+                        // mesh.position.x = (i+0.5) * CUBE_SIZE;
+                        // mesh.position.z = j * CUBE_SIZE;
+                        // mesh.position.y = 0;
+                        // mesh.rotation.y = Math.PI*0.5;
+                        // this.scene.add( mesh );
                     }
                 }
             };
@@ -239,23 +290,33 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
 
         if ( intersects.length > 0 ) {
             var i = 0;
-            // skip sprites
-            while(i < intersects.length && (intersects[ i ].object instanceof THREE.Sprite || intersects[ i ].object.position.y == -CUBE_SIZE*0.4))
-            {
-                ++i;
+            var obj = null;
+
+            for(i=0; i<intersects.length; ++i) {
+                var tmpObj = intersects[i].object;
+
+                if(tmpObj.name == "exit" || tmpObj.name == "floor") {
+                    obj = tmpObj;
+                    break;
+                }
             }
+
+            // skip sprites
+            // while(i < intersects.length && (intersects[ i ].object instanceof THREE.Sprite || intersects[ i ].object.position.y == -CUBE_SIZE*0.4))
+            // {
+            //     ++i;
+            // }
             //console.log("nbintersects : " + intersects.length);
             //console.log(intersects[0].distance);
 
-            // check cube type, exlude wall and roof
-            if(intersects[ i ].object.position.y == -CUBE_SIZE*0.5) {
-
+            //if(intersects[ i ].object.position.y == -CUBE_SIZE*0.5) {
+            if(obj) {
                 // change selected cube, remove highligh on previous and set on new
-                if ( this.INTERSECTED != intersects[ i ].object ) {
+                if ( this.INTERSECTED != obj ) {
 
                     if ( this.INTERSECTED ) this.INTERSECTED.material.emissive.setHex( this.INTERSECTED.currentHex );
 
-                    this.INTERSECTED = intersects[ i ].object;
+                    this.INTERSECTED = obj;
                     this.INTERSECTED.currentHex = this.INTERSECTED.material.emissive.getHex();
                     this.INTERSECTED.material.emissive.setHex( 0xff0000 );
                 }
@@ -264,6 +325,10 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
                 if ((this.count >= 3 * this.nbStep) && (this.controls.mouseClick)) {
                     this.targetPosX = this.INTERSECTED.position.x;
                     this.targetPosZ = this.INTERSECTED.position.z;
+
+                    console.log(this.targetPosX);
+                    console.log(this.targetPosZ);
+
                     // remove indice
                     if(this.indiceMeshGround) {
                         this.scene.remove(this.indiceMeshGround);
@@ -278,13 +343,18 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
                             //console.log("mat_cerberus"+Math.floor(this.animCounter/10));
                         }
                     }
+
+                    if(obj.name == "exit" || obj.name == "wall") {
+                        this.endGame();
+                    }
                 }
                 else {
                     this.targetPosX = -5;
                     this.targetPosZ = -5;
                 }
             }
-        } else { //
+        }
+        else { //
             if ( this.INTERSECTED ) this.INTERSECTED.material.emissive.setHex( this.INTERSECTED.currentHex );
             this.INTERSECTED = null;
         }
@@ -493,22 +563,27 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
         var currentIndJ = Math.round(this.camera.position.z / CUBE_SIZE);
         var orient = [hintDirectionAbs[0] - currentIndI, hintDirectionAbs[1] - currentIndJ];
         var stringOrientGround;
+        var orientGround = 0;
         var stringOrientNPC = "top";
         var targetCameraLon;
         if ((orient[0] == -1) && (orient[1] ==  0)) {
             targetCameraLon = 180;
+            orientGround = Math.PI;
             stringOrientGround = "down";
         }
         if ((orient[0] ==  1) && (orient[1] ==  0)) {
             targetCameraLon = 0;
+            orientGround = 0;
             stringOrientGround = "top";
         }
         if ((orient[0] ==  0) && (orient[1] == -1)) {
             targetCameraLon = 270;
+            orientGround = -Math.PI*0.5;
             stringOrientGround = "right";
         }
         if ((orient[0] ==  0) && (orient[1] ==  1)) {
             targetCameraLon = 90;
+            orientGround = Math.PI*0.5;
             stringOrientGround = "left";
         }
         if (targetCameraLon == this.controls.lon) stringOrientNPC = "top";
@@ -521,7 +596,7 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
         // arrow toward : "stringOrientGround" {top / down / left or right}
 
         //TODO : Popux' code !!! display the hinted texture on the floor !!! GOGOGO lasy man !!!!
-        this.indiceMeshGround = new THREE.Mesh( this.resourceManager["quad_geom"], this.resourceManager["mat_tex_sphynx_"+stringOrientGround] );
+        this.indiceMeshGround = new THREE.Mesh( this.resourceManager["quad_geom"], this.resourceManager["mat_tex_arrow"] );
         console.log(hintDirectionAbs[0] * CUBE_SIZE);
         console.log(hintDirectionAbs[1] * CUBE_SIZE);
         console.log(hintDirectionAbs[0]);
@@ -532,7 +607,7 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
         this.indiceMeshGround.position.z = hintDirectionAbs[1] * CUBE_SIZE;
         this.indiceMeshGround.position.y = -CUBE_SIZE*0.4;
         this.indiceMeshGround.rotation.x = -Math.PI*0.5;
-        this.indiceMeshGround.rotation.z = Math.PI*0.5;
+        this.indiceMeshGround.rotation.y = orientGround;
         this.scene.add( this.indiceMeshGround );
 
         // show hint NPC :
@@ -617,6 +692,10 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
         if (stack.length != 0){
             this.computeDirectionTowardExit(stack, ++depth);
         }
+    };
+
+    Scene.prototype.endGame = function () {
+        console.log("End game, haha");
     };
 
     // Scene.prototype.getCoordFromCamera = function () {
