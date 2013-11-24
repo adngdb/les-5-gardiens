@@ -67,32 +67,32 @@
         {
             "text": "Treize oiseaux sont dans un cerisier. Un chasseur passe et tue un oiseau. Combien reste-t-il d'oiseaux dans le cerisier ?",
             "answers": [
-                "Il n'en reste aucun, les autres se sont envolés.",
-                "Il en reste 12",
-                "Il en reste 13 car le chasseur s'est trompé, il n'a pas tiré sur un oiseau...",
+                "0",
+                "12",
+                "13",
                 "Les oiseaux ne se posent jamais sur des branches de cerisiers"
             ]
         },
         {
             "text": "Je suppose que nous possédons, toi et moi, la même somme d'argent. Combien dois-je te donner pour que tu aies 10€ de plus que moi ?",
             "answers": [
-                "5€",
-                "81€",
-                "121€",
-                "37.80€"
+                "5 €",
+                "81 €",
+                "121 €",
+                "37.80 €"
             ]
         },
         {
             "text": "Un escargot décide d'atteindre le toit d'une maison. Le mur fait 10 mètres de haut. L'escargot monte pendant la journée de trois mètres, mais la nuit, il glisse et redescend de deux mètres. En combien de temps parvient-il sur le toit ?",
             "answers": [
-                "L'escargot arrive donc au sommet le soir du 8ème jour, car les 7 premiers jours, il ne montait que de 1 mètre par jour; le 8ème, il parvient au sommet).",
-                "L'escargot arrive donc au sommet le soir du 7ème jour, car les 6 premiers jours, il a bien travaillé et le 7ième il a fait sa meilleure journée de 4 mètres!",
-                "L'escargot arrive donc au sommet le matin du 10ème jour, car il ne montait que de 1 mètre par jour",
-                "L'escargot est mort sans jamais avoir pu atteindre le toit de la maison, car un escargot a besoin de s'alimenter tous les 3 jours."
+                "Le soir du 8ème jour.",
+                "Le soir du 7ème jour.",
+                "Le matin du 10ème jour.",
+                "L'escargot est mort sans jamais avoir pu atteindre le toit de la maison."
             ]
         },
         {
-            "text": " Il faut 56 biscuits à Marthe pour nourrir ses 10 chiens et chats. Un chien mange 6 biscuits et un chat seulement 5. Combien Marthe possède de chats et de chiens? ",
+            "text": " Il faut 56 biscuits à Marthe pour nourrir ses 10 chiens et chats. Un chien mange 6 biscuits et un chat seulement 5. Combien Marthe possède de chats et de chiens?",
             "answers": [
                 "6 chiens et 4 chats",
                 "7 chiens et 9 chats",
@@ -166,10 +166,10 @@
         {
             "text": "En observant les aiguilles d'une horloge pendant 12 heures, combien de fois les aiguilles de l'horloge font un angle droit entre elles ? ",
             "answers": [
-                "Elles auront donc fait 22 fois un angle droit au cours des 12 heures",
-                "Elles auront donc fait 11 fois un angle droit au cours des 12 heures",
-                "Elles auront donc fait 7 fois un angle droit au cours des 12 heures",
-                "Elles auront donc fait 19 fois un angle droit au cours des 12 heures"
+                "22",
+                "11",
+                "7",
+                "19"
             ]
         },
         {
@@ -178,16 +178,16 @@
                 "Au moment où les trains se croisent, ils sont à la même distance de l'une ou de l'autre ville.",
                 "Au moment où les trains se croisent, le TGV Lyon-Paris est le plus prêt de Paris ",
                 "Au moment où les trains se croisent, le TGV Paris-Lyon est le plus prêt de Paris",
-                "Au moment où les trains se croisent, le TGV Lyon-Paris le plus loin de Paris"
+                "Au moment où les trains se croisent, le TGV Lyon-Paris est le plus loin de Paris"
             ]
         },
         {
-            "text": " Une encyclopédie en dix volumes est rangée dans l'ordre sur une planche de bibliothèque. Chaque volume est épais de 4,5 cm pour les feuilles et de deux fois 0,25 cm pour la couverture. Un vers né en page 1 du volume 1 se nourrit en traversant perpendiculairement et en ligne droite la collection complète et meurt à la dernière page du dixième volume. Quelle distance aura-t-il parcourue pendant son existance ? ",
+            "text": "Une encyclopédie en dix volumes est rangée dans l'ordre sur une planche de bibliothèque. Chaque volume est épais de 4,5 cm pour les feuilles et de deux fois 0,25 cm pour la couverture. Un vers né en page 1 du volume 1 se nourrit en traversant perpendiculairement et en ligne droite la collection complète et meurt à la dernière page du dixième volume. Quelle distance aura-t-il parcourue pendant son existance ? ",
             "answers": [
-                "40.5 cm",
-                "41.5 cm",
-                "42.5 cm",
-                "43.5 cm"
+                "40,5 cm",
+                "41,5 cm",
+                "42,5 cm",
+                "43,5 cm"
             ]
         },
         {

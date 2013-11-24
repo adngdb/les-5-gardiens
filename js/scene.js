@@ -67,14 +67,19 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
         this.raycaster = new THREE.Raycaster();
         this.INTERSECTED;
 
+        this.setTargetPosX = -5;
         this.targetPosX = -5;
+        this.saveTargetX;
+        this.setTargetPosZ = -5;
         this.targetPosZ = -5;
+        this.saveTargetZ;
+        this.saveTargetLon;
         this.stepLon;
         this.stepLat;
         this.stepTrX;
         this.stepTrZ;
         this.nbStep = 15;
-        this.count = 3 * this.nbStep + 1;
+        this.count = 4 * this.nbStep + 1;
         this.crossroadTested = true;
 
         this.animCounter = 0;
@@ -322,13 +327,10 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
                 }
 
                 // set target pos if we click
-                if ((this.count >= 3 * this.nbStep) && (this.controls.mouseClick)) {
-                    this.targetPosX = this.INTERSECTED.position.x;
-                    this.targetPosZ = this.INTERSECTED.position.z;
-
-                    console.log(this.targetPosX);
-                    console.log(this.targetPosZ);
-
+                if ((this.count > 4 * this.nbStep) && (this.controls.mouseClick)) {
+                    this.setTargetPosX = this.INTERSECTED.position.x;
+                    this.setTargetPosY = this.INTERSECTED.position.z;
+                    this.crossroadTested = false;
                     // remove indice
                     if(this.indiceMeshGround) {
                         this.scene.remove(this.indiceMeshGround);
@@ -349,8 +351,9 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
                     }
                 }
                 else {
-                    this.targetPosX = -5;
-                    this.targetPosZ = -5;
+                    this.crossroadTested = true;
+                    this.setTargetPosX = -5;
+                    this.setTargetPosZ = -5;
                 }
             }
         }
@@ -370,10 +373,14 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
         time = this.clock.getElapsedTime() * 5;
         this.controls.update(delta);
 
+        // clic treated
+        this.targetPosX = this.setTargetPosX;
+        this.targetPosZ = this.setTargetPosZ;
+
         var newIndI = Math.round(this.targetPosX / CUBE_SIZE);
         var newIndJ = Math.round(this.targetPosZ / CUBE_SIZE);
 
-        if ((this.targetPosX != -5) && (this.targetPosY != -5)) {
+        if ((this.setTargetPosX != -5) && (this.setTargetPosZ != -5)) {
             // clic detected
             if ((Math.abs(newIndI - oldIndI) > 1) || (Math.abs(newIndJ - oldIndJ) > 1)) {
                 // invalid movement : more than 1 tile away
@@ -385,6 +392,7 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
                 // invalid move : same tile
                 console.log("Invalid move : same tile !!!");
             } else {
+                // movement to the next tile
                 while (this.controls.lon > 360) {
                     this.controls.lon -= 360;
                 }
@@ -418,6 +426,19 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
                             this.targetLon = 360;
                     }
                 }
+                // check if the target tile is a crossroad
+                if (this.detectCrossroad(this.targetPosX, this.targetPosZ)){
+                    // target tile = crossroad -> special movement for the riddle's UI
+                    // save current destination
+                    this.saveTargetX = this.targetPosX;
+                    this.saveTargetZ = this.targetPosZ;
+                    this.saveTargetLon = this.targetLon;
+                    // set intermediate position (and orientation) for the riddle
+                    this.targetPosX = (this.saveTargetX + this.camera.position.x ) / 2;
+                    this.targetPosZ = (this.saveTargetZ + this.camera.position.z ) / 2;
+                }else if(this.detectRoadTurn(this.camera.position.x, this.camera.position.z))
+                    this.roadTurnEvent();
+
                 this.stepLon = (this.targetLon - this.controls.lon) / this.nbStep;
                 this.stepLat = (0 - this.controls.lat) / this.nbStep;
                 this.stepTrX = (this.targetPosX - this.camera.position.x) / (2 * this.nbStep);
@@ -441,26 +462,51 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
                 this.camera.position.z += this.stepTrZ;
             }
             ++this.count;
-        }
-        if (this.count == (3 * this.nbStep)) {
-            this.crossroadTested = false;
+        }else if (this.count < (4 * this.nbStep)) {
             while (this.controls.lon < 0  ) { this.controls.lon += 360; }
             while (this.controls.lon > 360) { this.controls.lon -= 360; }
-            if(this.detectCrossroad(this.camera.position.x, this.camera.position.z)) {
-                this.showRiddle();
-            }else if(this.detectRoadTurn(this.camera.position.x, this.camera.position.z))
-                this.roadTurnEvent();
-
+            var moreMove = true;
+            if (this.count == (3 * this.nbStep)) {
+                console.log(this.camera.position.x);
+                console.log(this.camera.position.z);
+                console.log(this.camera.position.x % CUBE_SIZE);
+                if (    (
+                            ((this.camera.position.x % CUBE_SIZE) > 10)
+                        &&  ((this.camera.position.x % CUBE_SIZE) < 190)
+                        )
+                    ||  (   ((this.camera.position.x % CUBE_SIZE) > 10)
+                        &&  ((this.camera.position.x % CUBE_SIZE) < 190)
+                        )
+                    ) {
+                    // case of movement toward a crossroad : additionnal camera rotation => new targetLon
+                    this.targetLon += 30;
+                    this.stepLon = (this.targetLon - this.controls.lon) / this.nbStep;
+                }else {
+                    moreMove = false;
+                    this.count = 4 * this.nbStep + 1;
+                    this.targetPosX = -5;
+                    this.targetPosZ = -5;
+                }
+            }
+            if (moreMove) {
+                this.controls.lon += this.stepLon;
+            }
             ++this.count;
+        }else if (this.count == (4 * this.nbStep)) {
+            ++this.count;
+            this.showRiddle();
+            this.targetPosX = -5;
+            this.targetPosZ = -5;
         }
+        // reset clic and camera Y position
+        this.setTargetPosX = -5;
+        this.setTargetPosZ = -5;
         this.camera.position.y = 0;
-
     };
 
     Scene.prototype.detectCrossroad = function (x , z, dotest = false) { // x, y abxolute world position
         var currentIndI = Math.round(x / CUBE_SIZE);
         var currentIndJ = Math.round(z / CUBE_SIZE);
-
         var nbAdjacentTile = 0;
         if (dotest || !this.crossroadTested) {
             this.crossroadTested = true;
@@ -528,6 +574,7 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
         );
         riddleRenderer.display();
 
+        // compute the "exitMap" for the whole maze
         var stack = [];
         stack.push(this.level.objects.exit);
         this.computeDirectionTowardExit(stack, 0);
@@ -556,6 +603,9 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
             self.pause = false;
             riddleRenderer.hide();
         }, 3000);
+
+        // resume movement toward the center of the tile
+        this.resumeMovement();
     };
 
     Scene.prototype.showHint = function (hintDirectionAbs) {
@@ -647,6 +697,19 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
             return hintDirectionAbs;
         }
     };
+
+    Scene.prototype.resumeMovement = function () {
+        // reset the targeted tile and resume movement
+        this.targetPosX = this.saveTargetX;
+        this.targetPosZ = this.saveTargetZ;
+        this.targetLon = this.saveTargetLon;
+        //
+        this.stepLon = (this.targetLon - this.controls.lon) / this.nbStep;
+        this.stepLat = (0 - this.controls.lat) / this.nbStep;
+        this.stepTrX = (this.targetPosX - this.camera.position.x) / (2 * this.nbStep);
+        this.stepTrZ = (this.targetPosZ - this.camera.position.z) / (2 * this.nbStep);
+        this.count = 0;
+    }
 
     Scene.prototype.computeDirectionTowardExit = function (stack, depth) {
         // current tile
