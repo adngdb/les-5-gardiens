@@ -1,6 +1,5 @@
 define(['lib/three', 'lib/FirstPersonControls', 'riddle_renderer', 'resource'],
 function(three,       first_person_controls,     RiddleRenderer,    ResourceManager) {
-    console.log(buzz);
     var Scene = function (level) {
         this.level = level;
         this.pause = false;
