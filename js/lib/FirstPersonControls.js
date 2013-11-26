@@ -39,9 +39,12 @@ define(['lib/three'], function (three) {
         this.mouseRelY = 0;
         this.mouseNormX = 0;
         this.mouseNormY = 0;
+        this.mouseDownX = 0;
+        this.mouseDownY = 0;
 
         this.mouseMoved = false;
         this.mouseClick = false;
+        this.realClick = false;
 
         this.lat = 0;
         this.lon = 0;
@@ -66,8 +69,6 @@ define(['lib/three'], function (three) {
             this.domElement.setAttribute( 'tabindex', -1 );
 
         }
-
-        //
 
         this.handleResize = function () {
 
@@ -103,6 +104,8 @@ define(['lib/three'], function (three) {
             if (this.mouseClick) {
                 this.mouseLastX = this.mouseX;
                 this.mouseLastY = this.mouseY;
+                this.mouseDownX = this.mouseX;
+                this.mouseDownY = this.mouseY;
             }
         };
 
@@ -111,10 +114,15 @@ define(['lib/three'], function (three) {
             event.stopPropagation();
 
             switch ( event.button ) {
-                case 0: this.mouseClick = false; break;
+                case 0: this.mouseClick = false;
+                if ((this.mouseDownX == this.mouseX) && (this.mouseDownY == this.mouseY))
+                    this.realClick = true;
+                break;
                 //case 2: this.moveBackward = true; break;
             }
 
+            this.mouseDownX = 0;
+            this.mouseDownY = 0;
             this.mouseDragOn = false;
         };
 
@@ -124,7 +132,8 @@ define(['lib/three'], function (three) {
             this.mouseX = event.pageX;
             this.mouseY = event.pageY;
 
-//            console.log(this.mouseLastX + ' - ' + event.pageX);
+            this.realClick = false;
+             // console.log(this.mouseLastX + ' - ' + event.pageX);
 
             if (this.mouseDragOn) {
                 this.mouseRelX = this.mouseX - this.mouseLastX;

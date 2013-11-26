@@ -77,21 +77,7 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
         this.raycaster = new THREE.Raycaster();
         this.INTERSECTED;
 
-        this.setTargetPosX = -5;
-        this.targetPosX = -5;
-        this.saveTargetX;
-        this.setTargetPosZ = -5;
-        this.targetPosZ = -5;
-        this.saveTargetZ;
-        this.saveTargetLon;
-        this.stepLon;
-        this.stepLat;
-        this.stepTrX;
-        this.stepTrZ;
-        this.nbStep = 15;
-        this.count = 4 * this.nbStep + 1;
-        this.crossroadTested = true;
-        this.clickEvent = false;
+        this.queueMovement = [];
 
         this.animCounter = 0;
         this.pnjArray = [];
@@ -316,9 +302,7 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
 
     Scene.prototype.findIntersections = function () {
         // find intersections
-
         var vector = new THREE.Vector3( this.controls.mouseNormX, this.controls.mouseNormY  , 1 );
-        //console.log("mouse : "+this.controls.mouseNormX+', '+this.controls.mouseNormY);
         this.projector.unprojectVector( vector, this.camera );
 
         this.raycaster.set( this.camera.position, vector.sub( this.camera.position ).normalize() );
@@ -360,13 +344,9 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
                 //this.INTERSECTED = obj;
 
                 // set target pos if we click
-                if ((this.count > 4 * this.nbStep) && (this.controls.mouseClick)) {
-                    this.setTargetPosX = this.INTERSECTED.position.x;
-                    this.setTargetPosY = this.INTERSECTED.position.z;
-                    this.targetPosX = this.INTERSECTED.position.x;
-                    this.targetPosZ = this.INTERSECTED.position.z;
-                    this.crossroadTested = false;
-                    this.clickEvent = true;
+                if (this.controls.realClick) {
+                    this.controls.realClick = false;
+                    this.setMovement(this.INTERSECTED.position);
                     // remove indice
                     if(this.indiceMeshGround) {
                         this.scene.remove(this.indiceMeshGround);
@@ -387,9 +367,7 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
                     }
                 }
                 else {
-                    this.crossroadTested = true;
-                    this.setTargetPosX = -5;
-                    this.setTargetPosZ = -5;
+                    /// WARNING : nothing to do here anymore
                 }
             }
         }
@@ -399,172 +377,187 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
         }
     };
 
-    Scene.prototype.checkPosition = function() {
-        // var savePosX = this.camera.position.x;
+    Scene.prototype.setMovement = function (target) {
         var oldIndI = Math.round(this.camera.position.x / CUBE_SIZE);
-        // var savePosZ = this.camera.position.z;
         var oldIndJ = Math.round(this.camera.position.z / CUBE_SIZE);
+        var newIndI = Math.round(target.x / CUBE_SIZE);
+        var newIndJ = Math.round(target.z / CUBE_SIZE);
 
-        var delta = this.clock.getDelta(),
-        time = this.clock.getElapsedTime() * 5;
-        this.controls.update(delta);
-
-        // clic treated
-        // this.targetPosX = this.setTargetPosX;
-        // this.targetPosZ = this.setTargetPosZ;
-
-        var newIndI = Math.round(this.targetPosX / CUBE_SIZE);
-        var newIndJ = Math.round(this.targetPosZ / CUBE_SIZE);
-                //  console.log("click");
-                // console.log(oldIndI);
-                // console.log(oldIndJ);
-                // console.log(newIndI);
-                // console.log(newIndJ);
-
-        // if ((this.setTargetPosX != -5) && (this.setTargetPosZ != -5)) {
-        if (this.clickEvent) {
-            this.clickEvent = false;
-            // clic detected
-            if ((Math.abs(newIndI - oldIndI) > 1) || (Math.abs(newIndJ - oldIndJ) > 1)) {
-                // invalid movement : more than 1 tile away
-                console.log("Invalid move : too far away !!!");
-            } else if ((Math.abs(newIndI - oldIndI) == 1) && (Math.abs(newIndJ - oldIndJ) == 1)) {
-                // invalid move : diagonal move
-                console.log("Invalid move : diagonal move !!!");
-            } else if (((newIndI - oldIndI) == 0) && ((newIndJ - oldIndJ) == 0)) {
-                // invalid move : same tile
-                console.log("Invalid move : same tile !!!");
-            } else {
-                // movement to the next tile
-                while (this.controls.lon > 360) {
-                    this.controls.lon -= 360;
-                }
-                while (this.controls.lon < 0) {
-                    this.controls.lon += 360;
-                }
-                while (this.controls.lat > 360) {
-                    this.controls.lat -= 360;
-                }
-                if (oldIndJ - newIndJ) {
-                    // movement along Z axis
-                    if (oldIndJ - newIndJ > 0){ // -Z axis
-                        if (this.controls.lon < 90)
-                            this.targetLon = -90;
-                        else
-                            this.targetLon = 270;
-                    }else {                     // +Z axis
-                        if (this.controls.lon < 270)
-                            this.targetLon = 90;
-                        else
-                            this.targetLon = 450;
-                    }
-                }else if (oldIndI - newIndI) {
-                    // movement along X axis
-                    if (oldIndI - newIndI > 0){ // -X axis
-                        this.targetLon = 180;
-                    }else {                     // +X axis
-                        if (this.controls.lon < 180)
-                            this.targetLon = 0;
-                        else
-                            this.targetLon = 360;
-                    }
-                }
-                // check if the target tile is a crossroad
-                if (this.detectCrossroad(this.targetPosX, this.targetPosZ)){
-                    // target tile = crossroad -> special movement for the riddle's UI
-                    // save current destination
-                    this.saveTargetX = this.targetPosX;
-                    this.saveTargetZ = this.targetPosZ;
-                    this.saveTargetLon = this.targetLon;
-                    // set intermediate position (and orientation) for the riddle
-                    this.targetPosX = (this.saveTargetX + this.camera.position.x ) / 2;
-                    this.targetPosZ = (this.saveTargetZ + this.camera.position.z ) / 2;
-                }else if(this.detectRoadTurn(this.camera.position.x, this.camera.position.z))
-                    this.roadTurnEvent();
-
-                this.stepLon = (this.targetLon - this.controls.lon) / this.nbStep;
-                this.stepLat = (0 - this.controls.lat) / this.nbStep;
-                this.stepTrX = (this.targetPosX - this.camera.position.x) / (2 * this.nbStep);
-                this.stepTrZ = (this.targetPosZ - this.camera.position.z) / (2 * this.nbStep);
-                if (Math.abs(this.stepLon) < 0.0001) {
-                    this.count = this.nbStep;
-                }else {
-                    this.count = 0;
-                }
-            }
+        // check the validity of the target
+        if ((Math.abs(newIndI - oldIndI) > 1) || (Math.abs(newIndJ - oldIndJ) > 1)) {
+            // invalid movement : more than 1 tile away
+            console.log("Invalid move : too far away !!!");
+        } else if ((Math.abs(newIndI - oldIndI) == 1) && (Math.abs(newIndJ - oldIndJ) == 1)) {
+            // invalid move : diagonal move
+            console.log("Invalid move : diagonal move !!!");
+        } else if (((newIndI - oldIndI) == 0) && ((newIndJ - oldIndJ) == 0)) {
+            // invalid move : same tile
+            console.log("Invalid move : same tile !!!");
+        } else {
+            // movement to the next tile
+            this.addMovement(target);
         }
 
-        if (this.count < 3 * this.nbStep) {
-            // update camera rotation
-            if (this.count < this.nbStep){
-                this.controls.lon += this.stepLon;
-                this.controls.lat += this.stepLat;
+    }
+
+    Scene.prototype.addMovement = function (target) {
+        // add a list of movement to execute to go to the target tile
+        var targetLon;
+        var cameraPos = this.camera.position;
+        while (this.controls.lon > 360) {
+            this.controls.lon -= 360;
+        }
+        while (this.controls.lon < 0) {
+            this.controls.lon += 360;
+        }
+        while (this.controls.lat > 360) {
+            this.controls.lat -= 360;
+        }
+        if (cameraPos.z - target.z) {
+            // movement along Z axis
+            if (cameraPos.z - target.z > 0){ // -Z axis
+                if (this.controls.lon < 90)
+                    targetLon = -90;
+                else
+                    targetLon = 270;
+            }else {                     // +Z axis
+                if (this.controls.lon < 270)
+                    targetLon = 90;
+                else
+                    targetLon = 450;
+            }
+        }else if (cameraPos.x - target.x) {
+            // movement along X axis
+            if (cameraPos.x - target.x > 0){ // -X axis
+                targetLon = 180;
+            }else {                     // +X axis
+                if (this.controls.lon < 180)
+                    targetLon = 0;
+                else
+                    targetLon = 360;
+            }
+        }
+        // add rotation movement toward the target
+        this.queueMovement.push(["rotation", [targetLon, 0]]);
+
+
+        if (this.detectCrossroad(target.x, target.z)){
+            console.log("cross detected");
+            // target tile = crossroad -> special movement for the riddle's UI
+            this.queueMovement.push(["translation", [(target.x + cameraPos.x ) / 2, -60, (target.z + cameraPos.z ) / 2]]);
+            this.queueMovement.push(["rotation", [targetLon + 30, 30]]);
+            this.queueMovement.push(["rotation", [targetLon, 0]]);
+        }else {
+            if(this.detectRoadTurn(this.camera.position.x, this.camera.position.z))
+                this.roadTurnEvent();
+        }
+        this.queueMovement.push(["translation", [target.x, 0, target.z]]);
+
+    }
+
+    Scene.prototype.executeMove = function() {
+        // excute the current move (if needed)
+        if (this.queueMovement.length != 0) {
+            if (this.queueMovement[0][0] == "rotation") {
+            // rotation queued
+                this.executeRotation();
+            }else if (this.queueMovement[0][0] == "translation") {
+            // translation queued
+                this.executeTranslation();
+            }else { // should never happen : unkwnon key word
+                console.log("unkwnon key word in queueMovement !!!");
+                this.queueMovement.shift();
+            }
+        }
+    }
+
+    Scene.prototype.executeRotation = function () {
+        if (Math.abs(this.queueMovement[0][1][0] - this.controls.lon) < 10) {
+            // longitude close enough to the target : set to the target one
+            this.controls.lon = this.queueMovement[0][1][0];
+        }else {
+            // slowly change the longitude toward the target
+            if (this.queueMovement[0][1][0] > this.controls.lon) {
+                this.controls.lon += 10;
             }else {
-                // center the camera position in the next cell's center
-                this.camera.position.x += this.stepTrX;
-                this.camera.position.z += this.stepTrZ;
+                this.controls.lon -= 10;
             }
-            ++this.count;
-        }else if (this.count < (4 * this.nbStep)) {
-            while (this.controls.lon < 0  ) { this.controls.lon += 360; }
-            while (this.controls.lon > 360) { this.controls.lon -= 360; }
-            var moreMove = true;
-            if (this.count == (3 * this.nbStep)) {
-                console.log(this.camera.position.x);
-                console.log(this.camera.position.z);
-                console.log(this.camera.position.x % CUBE_SIZE);
-                console.log(this.camera.position.z % CUBE_SIZE);
-                if (    (
-                            ((this.camera.position.x % CUBE_SIZE) > 10)
-                        &&  ((this.camera.position.x % CUBE_SIZE) < 190)
-                        )
-                    ||  (   ((this.camera.position.z % CUBE_SIZE) > 10)
-                        &&  ((this.camera.position.z % CUBE_SIZE) < 190)
-                        )
-                    ) {
-                    // case of movement toward a crossroad : additionnal camera rotation => new targetLon
-                    this.targetLon += 30;
-                    this.stepLon = (this.targetLon - this.controls.lon) / this.nbStep;
-                }else {
-                    moreMove = false;
-                    this.count = 4 * this.nbStep + 1;
-                    this.targetPosX = -5;
-                    this.targetPosZ = -5;
-                }
-            }
-            if (moreMove) {
-                console.log("ici");
-                this.controls.lon += this.stepLon;
-            }
-            ++this.count;
-        }else if (this.count == (4 * this.nbStep)) {
-            ++this.count;
-            this.showRiddle(this.saveTargetX / CUBE_SIZE, this.saveTargetZ / CUBE_SIZE);
-            this.targetPosX = -5;
-            this.targetPosZ = -5;
         }
-        // reset clic and camera Y position
-        this.setTargetPosX = -5;
-        this.setTargetPosZ = -5;
-        this.camera.position.y = 0;
-    };
+        if (Math.abs(this.queueMovement[0][1][1] - this.controls.lat) < 10) {
+            // latitude close enough to the target : set to the target one
+            this.controls.lat = this.queueMovement[0][1][1];
+        }else {
+            // slowly change the longitude toward the target
+            if (this.queueMovement[0][1][1] > this.controls.lat) {
+                this.controls.lat += 10;
+            }else {
+                this.controls.lat -= 10;
+            }
+        }
+        // if arrived a target longitude and lattitude : remove queued move
+        if (    (this.queueMovement[0][1][1] == this.controls.lat)
+            &&  (this.queueMovement[0][1][0] == this.controls.lon)) {
+            this.queueMovement.shift();
+            if (this.controls.lat == 30)
+                this.showRiddle(this.queueMovement[1][1][0] / CUBE_SIZE, this.queueMovement[1][1][2] / CUBE_SIZE);
+        }
+    }
+
+    Scene.prototype.executeTranslation = function () {
+        if (Math.abs(this.queueMovement[0][1][0] - this.camera.position.x) < 10) {
+            // X position close enough to the target : set to the target one
+            this.camera.position.x = this.queueMovement[0][1][0];
+        }else {
+            // slowly change the X position toward the target
+            if (this.queueMovement[0][1][0] > this.camera.position.x) {
+                this.camera.position.x += 10;
+            }else {
+                this.camera.position.x -= 10;
+            }
+        }
+        if (Math.abs(this.queueMovement[0][1][1] - this.camera.position.y) < 10) {
+            // Y position close enough to the target : set to the target one
+            this.camera.position.y = this.queueMovement[0][1][1];
+        }else {
+            // slowly change the Y position toward the target
+            if (this.queueMovement[0][1][1] > this.camera.position.y) {
+                this.camera.position.y += 10;
+            }else {
+                this.camera.position.y -= 10;
+            }
+        }
+        if (Math.abs(this.queueMovement[0][1][2] - this.camera.position.z) < 10) {
+            // Z position close enough to the target : set to the target one
+            this.camera.position.z = this.queueMovement[0][1][2];
+        }else {
+            // slowly change the Z position toward the target
+            if (this.queueMovement[0][1][2] > this.camera.position.z) {
+                this.camera.position.z += 10;
+            }else {
+                this.camera.position.z -= 10;
+            }
+        }
+        // if arrived at target position : remove queued move
+        if (    (this.queueMovement[0][1][0] == this.camera.position.x)
+            &&  (this.queueMovement[0][1][1] == this.camera.position.y)
+            &&  (this.queueMovement[0][1][2] == this.camera.position.z)) {
+            this.queueMovement.shift();
+        }
+    }
 
     Scene.prototype.detectCrossroad = function (x , z, dotest = false) { // x, y abxolute world position
         var currentIndI = Math.round(x / CUBE_SIZE);
         var currentIndJ = Math.round(z / CUBE_SIZE);
         var nbAdjacentTile = 0;
-        if (dotest || !this.crossroadTested) {
-            this.crossroadTested = true;
-            if (!this.level.map[currentIndI][currentIndJ + 1]) ++nbAdjacentTile;
-            if (!this.level.map[currentIndI][currentIndJ - 1]) ++nbAdjacentTile;
-            if (!this.level.map[currentIndI + 1][currentIndJ]) ++nbAdjacentTile;
-            if (!this.level.map[currentIndI - 1][currentIndJ]) ++nbAdjacentTile;
+        if (!this.level.map[currentIndI][currentIndJ + 1]) ++nbAdjacentTile;
+        if (!this.level.map[currentIndI][currentIndJ - 1]) ++nbAdjacentTile;
+        if (!this.level.map[currentIndI + 1][currentIndJ]) ++nbAdjacentTile;
+        if (!this.level.map[currentIndI - 1][currentIndJ]) ++nbAdjacentTile;
 
-            if (nbAdjacentTile > 2) {
-                return true;
-            }
-            return false;
+        if (nbAdjacentTile > 2) {
+            return true;
         }
+        return false;
     };
 
     Scene.prototype.detectRoadTurn = function (x, z) {
@@ -605,14 +598,14 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
             // Success.
             function () {
                 console.log('Success, Motherfucker.');
-                var dir = self.getDirection(self.saveTargetX, self.saveTargetZ, true);
+                var dir = self.getDirection(self.queueMovement[1][1][0], self.queueMovement[1][1][2], true);
                 self.showHint(dir);
                 self.stopRiddle(riddleRenderer);
             },
             // Failure.
             function () {
                 console.log('You failed. Hard. ');
-                var dir = self.getDirection(self.saveTargetX, self.saveTargetZ, false);
+                var dir = self.getDirection(self.queueMovement[1][1][0], self.queueMovement[1][1][2], false);
                 self.showHint(dir);
                 self.stopRiddle(riddleRenderer);
             }
@@ -650,12 +643,12 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
         }, 3000);
 
         // resume movement toward the center of the tile
-        this.resumeMovement();
+        // this.resumeMovement();
     };
 
     Scene.prototype.showHint = function (hintDirectionAbs) {
-        var currentIndI = Math.round(this.camera.position.x / CUBE_SIZE);
-        var currentIndJ = Math.round(this.camera.position.z / CUBE_SIZE);
+        var currentIndI = Math.round(this.queueMovement[1][1][0] / CUBE_SIZE);
+        var currentIndJ = Math.round(this.queueMovement[1][1][2] / CUBE_SIZE);
         var orient = [hintDirectionAbs[0] - currentIndI, hintDirectionAbs[1] - currentIndJ];
         var stringOrientGround;
         var orientGround = 0;
@@ -853,8 +846,11 @@ console.log(hintDirectionAbs[1]);
 
         this.animatePNJ();
 
-        this.checkPosition();
-
+        var delta = this.clock.getDelta(),
+        time = this.clock.getElapsedTime() * 5;
+        this.controls.update(delta);
+//        this.checkPosition();
+        this.executeMove();
         this.findIntersections();
 
         // update torch position
