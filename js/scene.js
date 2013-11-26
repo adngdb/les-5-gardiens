@@ -660,30 +660,31 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
         var currentIndJ = Math.round(this.queueMovement[1][1][2] / CUBE_SIZE);
         var orient = [hintDirectionAbs[0] - currentIndI, hintDirectionAbs[1] - currentIndJ];
         var stringOrientGround;
-        var orientGround = 0;
+        // var orientGround = 0;
         var stringOrientNPC = "question";
         var targetCameraLon;
         if ((orient[0] == -1) && (orient[1] ==  0)) {
             targetCameraLon = 180;
-            orientGround = Math.PI;
+            // orientGround = Math.PI;
             stringOrientGround = "down";
         }else if ((orient[0] ==  1) && (orient[1] ==  0)) {
             targetCameraLon = 0;
-            orientGround = 0;
+            // orientGround = 0;
             stringOrientGround = "top";
         }else if ((orient[0] ==  0) && (orient[1] == -1)) {
             targetCameraLon = 270;
-            orientGround = -Math.PI*0.5;
+            // orientGround = -Math.PI*0.5;
             stringOrientGround = "right";
         }else if ((orient[0] ==  0) && (orient[1] ==  1)) {
             targetCameraLon = 90;
-            orientGround = Math.PI*0.5;
+            // orientGround = Math.PI*0.5;
             stringOrientGround = "left";
         }else {
             // hint tile not next to the current one : should never happen !!!
             console.log("hint unknown !!!");
         }
         // handle some angle tolerance
+        // should not have any value not in {-360, -270, -180, -90, 0, 90, 180, 270, 360}
         if (tools.isBetween(targetCameraLon - this.queueMovement[0][1][0], -31,  31) || tools.isBetween(Math.abs(targetCameraLon - this.queueMovement[0][1][0]), 329, 360) ) stringOrientNPC = "top";
         if (tools.isBetween(Math.abs(targetCameraLon - this.queueMovement[0][1][0]), 149, 211) ) stringOrientNPC = "down";
         if (tools.isBetween(targetCameraLon - this.queueMovement[0][1][0],  59, 121) || tools.isBetween(targetCameraLon - this.queueMovement[0][1][0], -301, -239) ) stringOrientNPC = "right";
@@ -693,14 +694,7 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
         // arrow on the floor : tile at x = hintDirectionAbs[0], z = hintDirectionAbs[1]
         // arrow toward : "stringOrientGround" {top / down / left or right}
 
-        //TODO : Popux' code !!! display the hinted texture on the floor !!! GOGOGO lazy man !!!!
         this.indiceMeshGround = new THREE.Mesh( this.resourceManager["quad_geom"], this.resourceManager["mat_tex_point"] );
-        // console.log(hintDirectionAbs[0] * CUBE_SIZE);
-        // console.log(hintDirectionAbs[1] * CUBE_SIZE);
-        // console.log(hintDirectionAbs[0]);
-        // console.log(hintDirectionAbs[1]);
-        // console.log(stringOrientGround);
-        // console.log(stringOrientNPC);
         this.indiceMeshGround.position.x = hintDirectionAbs[0] * CUBE_SIZE;
         this.indiceMeshGround.position.z = hintDirectionAbs[1] * CUBE_SIZE;
         this.indiceMeshGround.position.y = -CUBE_SIZE*0.48;
@@ -749,7 +743,7 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
         // current tile
         var curItem = stack.pop();
         // the road from its (potential) neighbor go toward the current tile
-        console.log("current tile : " + curItem[0] + " - " + curItem[1]);
+        // console.log("current tile : " + curItem[0] + " - " + curItem[1]);
         if ((curItem[0] > 0)
             && (!this.arrayTowardExit[curItem[0] - 1][curItem[1]][0])
             && (!this.arrayTowardExit[curItem[0] - 1][curItem[1]][1])
@@ -759,8 +753,8 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
             this.arrayTowardExit[curItem[0] - 1][curItem[1]][1] = 0;
             stack.push([curItem[0] - 1, curItem[1]]);
             var curr = curItem[0] - 1;
-        console.log("next tile : " + curr + " - " + curItem[1]);
-        console.log("direction : 1 - 0");
+        // console.log("next tile : " + curr + " - " + curItem[1]);
+        // console.log("direction : 1 - 0");
         }
         if ((curItem[0] < this.level.height - 1)
             && (!this.arrayTowardExit[curItem[0] + 1][curItem[1]][0])
@@ -771,8 +765,8 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
             this.arrayTowardExit[curItem[0] + 1][curItem[1]][1] = 0;
             stack.push([curItem[0] + 1, curItem[1]]);
             var curr = curItem[0] + 1;
-        console.log("next tile : " + curr + " - " + curItem[1]);
-        console.log("direction : -1 - 0");
+        // console.log("next tile : " + curr + " - " + curItem[1]);
+        // console.log("direction : -1 - 0");
         }
         if ((curItem[1] > 0)
             && (!this.arrayTowardExit[curItem[0]][curItem[1] - 1][0])
@@ -783,8 +777,8 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
             this.arrayTowardExit[curItem[0]][curItem[1] - 1][1] = 1;
             stack.push([curItem[0], curItem[1] - 1]);
             var curr = curItem[1] - 1;
-        console.log("next tile : " + curItem[0] + " - " + curr);
-        console.log("direction : 0 - 1");
+        // console.log("next tile : " + curItem[0] + " - " + curr);
+        // console.log("direction : 0 - 1");
         }
         if ((curItem[1] < this.level.width - 1)
             && (!this.arrayTowardExit[curItem[0]][curItem[1] + 1][0])
@@ -795,8 +789,8 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
             this.arrayTowardExit[curItem[0]][curItem[1] + 1][1] = -1;
             stack.push([curItem[0], curItem[1] +1]);
             var curr = curItem[1] + 1;
-        console.log("next tile : " + curItem[0] + " - " + curr);
-        console.log("direction : 0 - -1");
+        // console.log("next tile : " + curItem[0] + " - " + curr);
+        // console.log("direction : 0 - -1");
         }
         if (stack.length != 0){
             this.computeDirectionTowardExit(stack);
