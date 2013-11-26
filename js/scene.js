@@ -683,12 +683,11 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
             // hint tile not next to the current one : should never happen !!!
             console.log("hint unknown !!!");
         }
-
         // handle some angle tolerance
-        if (tools.isBetween(targetCameraLon, 0, 31) || tools.isBetween(targetCameraLon, 329, 359) ) stringOrientNPC = "top";
-        if (tools.isBetween(Math.abs(targetCameraLon - this.controls.lon), 149, 211) ) stringOrientNPC = "down";
-        if (tools.isBetween(targetCameraLon - this.controls.lon, 59, 121) ) stringOrientNPC = "right";
-        if (tools.isBetween(targetCameraLon - this.controls.lon, -121, -59) ) stringOrientNPC = "left";
+        if (tools.isBetween(targetCameraLon - this.queueMovement[0][1][0], -31,  31) || tools.isBetween(Math.abs(targetCameraLon - this.queueMovement[0][1][0]), 329, 360) ) stringOrientNPC = "top";
+        if (tools.isBetween(Math.abs(targetCameraLon - this.queueMovement[0][1][0]), 149, 211) ) stringOrientNPC = "down";
+        if (tools.isBetween(targetCameraLon - this.queueMovement[0][1][0],  59, 121) || tools.isBetween(targetCameraLon - this.queueMovement[0][1][0], -301, -239) ) stringOrientNPC = "right";
+        if (tools.isBetween(targetCameraLon - this.queueMovement[0][1][0], 239, 301) || tools.isBetween(targetCameraLon - this.queueMovement[0][1][0], -121, -59) ) stringOrientNPC = "left";
 
         // show hint GROUND :
         // arrow on the floor : tile at x = hintDirectionAbs[0], z = hintDirectionAbs[1]
