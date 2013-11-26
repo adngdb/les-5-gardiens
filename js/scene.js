@@ -361,12 +361,12 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
                         }
 
                         // remove npc indice
-                        for(var i=0; i<this.scene.children.length; ++i) {
-                            var obj2 = this.scene.children[i];
-                            if(obj.name.substring(0,3) == "tip") {
+                        for(var j=0; j<this.scene.children.length; ++j) {
+                            var obj2 = this.scene.children[j];
+                            if(obj2.name.substring(0,3) == "tip") {
                                 var style = obj2.name.substring(4);
                                 obj2.material = this.resourceManager["mat_"+style+"_question"];
-                                //console.log("mat_cerberus"+Math.floor(this.animCounter/10));
+                                //console.log("mat_"+style+"_question");
                             }
                         }
 
@@ -657,7 +657,7 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
         var orient = [hintDirectionAbs[0] - currentIndI, hintDirectionAbs[1] - currentIndJ];
         var stringOrientGround;
         var orientGround = 0;
-        var stringOrientNPC = "top";
+        var stringOrientNPC = "question";
         var targetCameraLon;
         if ((orient[0] == -1) && (orient[1] ==  0)) {
             targetCameraLon = 180;
@@ -679,10 +679,12 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
             orientGround = Math.PI*0.5;
             stringOrientGround = "left";
         }
-        if (targetCameraLon == this.controls.lon) stringOrientNPC = "top";
-        if (Math.abs(targetCameraLon - this.controls.lon) == 180) stringOrientNPC = "down";
-        if ((targetCameraLon - this.controls.lon ==  90) || (targetCameraLon - this.controls.lon == -270)) stringOrientNPC = "right";
-        if ((targetCameraLon - this.controls.lon == -90) || (targetCameraLon - this.controls.lon ==  270)) stringOrientNPC = "left";
+
+        // handle some angle tolerance
+        if (tools.isBetween(targetCameraLon, 0, 31) || tools.isBetween(targetCameraLon, 329, 359) ) stringOrientNPC = "top";
+        if (tools.isBetween(Math.abs(targetCameraLon - this.controls.lon), 149, 211) ) stringOrientNPC = "down";
+        if (tools.isBetween(targetCameraLon - this.controls.lon, 59, 121) ) stringOrientNPC = "right";
+        if (tools.isBetween(targetCameraLon - this.controls.lon, -121, -59) ) stringOrientNPC = "left";
 
         // show hint GROUND :
         // arrow on the floor : tile at x = hintDirectionAbs[0], z = hintDirectionAbs[1]

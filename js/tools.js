@@ -15,8 +15,13 @@ define(function () {
         }
     }
 
+    function isBetween(val, min, max) {
+        return (val >= min && val <= max)
+    }
+
     return {
         'getRandomInt': getRandomInt,
         'shuffleArray': shuffleArray,
+        'isBetween' : isBetween
     }
 });
