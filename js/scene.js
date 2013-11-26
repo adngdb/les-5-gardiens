@@ -78,6 +78,8 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
         this.INTERSECTED;
 
         this.queueMovement = [];
+        this.translationSpeed = 10;
+        this.rotationSpeed = 10;
 
         this.animCounter = 0;
         this.pnjArray = [];
@@ -488,9 +490,9 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
         }else {
             // slowly change the longitude toward the target
             if (this.queueMovement[0][1][0] > this.controls.lon) {
-                this.controls.lon += 10;
+                this.controls.lon += this.rotationSpeed;
             }else {
-                this.controls.lon -= 10;
+                this.controls.lon -= this.rotationSpeed;
             }
         }
         if (Math.abs(this.queueMovement[0][1][1] - this.controls.lat) < 10) {
@@ -499,9 +501,9 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
         }else {
             // slowly change the longitude toward the target
             if (this.queueMovement[0][1][1] > this.controls.lat) {
-                this.controls.lat += 10;
+                this.controls.lat += this.rotationSpeed;
             }else {
-                this.controls.lat -= 10;
+                this.controls.lat -= this.rotationSpeed;
             }
         }
         // if arrived a target longitude and lattitude : remove queued move
@@ -520,9 +522,9 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
         }else {
             // slowly change the X position toward the target
             if (this.queueMovement[0][1][0] > this.camera.position.x) {
-                this.camera.position.x += 10;
+                this.camera.position.x += this.translationSpeed;
             }else {
-                this.camera.position.x -= 10;
+                this.camera.position.x -= this.translationSpeed;
             }
         }
         if (Math.abs(this.queueMovement[0][1][1] - this.camera.position.y) < 10) {
@@ -531,9 +533,9 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
         }else {
             // slowly change the Y position toward the target
             if (this.queueMovement[0][1][1] > this.camera.position.y) {
-                this.camera.position.y += 10;
+                this.camera.position.y += this.translationSpeed;
             }else {
-                this.camera.position.y -= 10;
+                this.camera.position.y -= this.translationSpeed;
             }
         }
         if (Math.abs(this.queueMovement[0][1][2] - this.camera.position.z) < 10) {
@@ -542,9 +544,9 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
         }else {
             // slowly change the Z position toward the target
             if (this.queueMovement[0][1][2] > this.camera.position.z) {
-                this.camera.position.z += 10;
+                this.camera.position.z += this.translationSpeed;
             }else {
-                this.camera.position.z -= 10;
+                this.camera.position.z -= this.translationSpeed;
             }
         }
         // if arrived at target position : remove queued move
