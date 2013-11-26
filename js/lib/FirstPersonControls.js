@@ -288,9 +288,6 @@ define(['lib/three'], function (three) {
 
             if (this.mouseMoved) {
                 this.lon -= this.mouseRelX * actualLookSpeed;
-                while (this.lon > 360) {
-                    this.lon -= 360;
-                }
                 if ( this.lookVertical ) {
                     this.lat += this.mouseRelY * actualLookSpeed * verticalLookRatio;
                 }

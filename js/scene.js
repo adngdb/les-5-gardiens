@@ -451,6 +451,8 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
 
 
         if (this.detectCrossroad(target.x, target.z)){
+            console.log("current longitude : " + this.controls.lon);
+            console.log("target longitude : " + targetLon);
             // target tile = crossroad -> special movement for the riddle's UI
             this.queueMovement.push(["translation", [(target.x + cameraPos.x ) / 2, -60, (target.z + cameraPos.z ) / 2]]);
             this.queueMovement.push(["rotation", [targetLon + 30, 30]]);
@@ -663,21 +665,21 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
             targetCameraLon = 180;
             orientGround = Math.PI;
             stringOrientGround = "down";
-        }
-        if ((orient[0] ==  1) && (orient[1] ==  0)) {
+        }else if ((orient[0] ==  1) && (orient[1] ==  0)) {
             targetCameraLon = 0;
             orientGround = 0;
             stringOrientGround = "top";
-        }
-        if ((orient[0] ==  0) && (orient[1] == -1)) {
+        }else if ((orient[0] ==  0) && (orient[1] == -1)) {
             targetCameraLon = 270;
             orientGround = -Math.PI*0.5;
             stringOrientGround = "right";
-        }
-        if ((orient[0] ==  0) && (orient[1] ==  1)) {
+        }else if ((orient[0] ==  0) && (orient[1] ==  1)) {
             targetCameraLon = 90;
             orientGround = Math.PI*0.5;
             stringOrientGround = "left";
+        }else {
+            // hint tile not next to the current one : should never happen !!!
+            console.log("hint unknown !!!");
         }
 
         // handle some angle tolerance
@@ -690,7 +692,7 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
         // arrow on the floor : tile at x = hintDirectionAbs[0], z = hintDirectionAbs[1]
         // arrow toward : "stringOrientGround" {top / down / left or right}
 
-        //TODO : Popux' code !!! display the hinted texture on the floor !!! GOGOGO lasy man !!!!
+        //TODO : Popux' code !!! display the hinted texture on the floor !!! GOGOGO lazy man !!!!
         this.indiceMeshGround = new THREE.Mesh( this.resourceManager["quad_geom"], this.resourceManager["mat_tex_point"] );
         // console.log(hintDirectionAbs[0] * CUBE_SIZE);
         // console.log(hintDirectionAbs[1] * CUBE_SIZE);
