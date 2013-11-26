@@ -121,6 +121,14 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
             for (var i = 0; i < this.level.width; ++i) {
 
                 // wall
+                if (i==4 && j==6)
+                    console.log("level value [4][6]= " + this.level.map[i][j]);
+                if (i==6 && j==6)
+                    console.log("level value [6][6]= " + this.level.map[i][j]);
+                if (i==5 && j==5)
+                    console.log("level value [5][5]= " + this.level.map[i][j]);
+                if (i==5 && j==7)
+                    console.log("level value [5][7]= " + this.level.map[i][j]);
                 if (this.level.map[i][j]) {
                     // geometry = new THREE.CubeGeometry( CUBE_SIZE, CUBE_SIZE, CUBE_SIZE );
                     // material = new THREE.MeshBasicMaterial({
@@ -615,7 +623,7 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
         // compute the "exitMap" for the whole maze
         var stack = [];
         stack.push(this.level.objects.exit);
-        this.computeDirectionTowardExit(stack, 0);
+        this.computeDirectionTowardExit(stack);
     };
 
     Scene.prototype.stopRiddle = function (riddleRenderer) {
@@ -641,9 +649,6 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
             self.pause = false;
             riddleRenderer.hide();
         }, 3000);
-
-        // resume movement toward the center of the tile
-        // this.resumeMovement();
     };
 
     Scene.prototype.showHint = function (hintDirectionAbs) {
@@ -693,7 +698,7 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
         // console.log(stringOrientNPC);
         this.indiceMeshGround.position.x = hintDirectionAbs[0] * CUBE_SIZE;
         this.indiceMeshGround.position.z = hintDirectionAbs[1] * CUBE_SIZE;
-        this.indiceMeshGround.position.y = -CUBE_SIZE*0.4;
+        this.indiceMeshGround.position.y = -CUBE_SIZE*0.48;
         this.indiceMeshGround.rotation.x = -Math.PI*0.5;
         //this.indiceMeshGround.rotation.y = orientGround;
         this.scene.add( this.indiceMeshGround );
@@ -717,25 +722,17 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
         var currentIndI = Math.round(x / CUBE_SIZE);
         var currentIndJ = Math.round(z / CUBE_SIZE);
         var hintDirectionAbs = [];
-// console.log("current pos");
-// console.log(x);
-// console.log(z);
-        hintDirectionAbs.push(currentIndI + this.arrayTowardExit[currentIndI][currentIndJ][0]);
-        hintDirectionAbs.push(currentIndJ + this.arrayTowardExit[currentIndI][currentIndJ][1]);
-
         if (answer) {   // the correct answer was given
-// console.log("next pos");
-// console.log(hintDirectionAbs[0]);
-// console.log(hintDirectionAbs[1]);
-
+            hintDirectionAbs.push(currentIndI + this.arrayTowardExit[currentIndI][currentIndJ][0]);
+            hintDirectionAbs.push(currentIndJ + this.arrayTowardExit[currentIndI][currentIndJ][1]);
             return hintDirectionAbs;
         }else {         // a wrong answer was given
             var possibleDirection = [];
             var towardExit = this.arrayTowardExit[currentIndI][currentIndJ];
-            if ((towardExit[0]!= -1) && (!this.level.map[currentIndI - 1][currentIndJ][0])) possibleDirection.push([-1, 0]);
-            if ((towardExit[0]!=  1) && (!this.level.map[currentIndI + 1][currentIndJ][0])) possibleDirection.push([ 1, 0]);
-            if ((towardExit[1]!= -1) && (!this.level.map[currentIndI][currentIndJ - 1][0])) possibleDirection.push([ 0,-1]);
-            if ((towardExit[1]!=  1) && (!this.level.map[currentIndI][currentIndJ + 1][0])) possibleDirection.push([ 0, 1]);
+            if ((towardExit[0]!= -1) && (!this.level.map[currentIndI - 1][currentIndJ])) possibleDirection.push([-1, 0]);
+            if ((towardExit[0]!=  1) && (!this.level.map[currentIndI + 1][currentIndJ])) possibleDirection.push([ 1, 0]);
+            if ((towardExit[1]!= -1) && (!this.level.map[currentIndI][currentIndJ - 1])) possibleDirection.push([ 0,-1]);
+            if ((towardExit[1]!=  1) && (!this.level.map[currentIndI][currentIndJ + 1])) possibleDirection.push([ 0, 1]);
             tools.shuffleArray(possibleDirection);
             hintDirectionAbs.push(currentIndI + possibleDirection[0][0]);
             hintDirectionAbs.push(currentIndJ + possibleDirection[0][1]);
@@ -743,23 +740,11 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
         }
     };
 
-    Scene.prototype.resumeMovement = function () {
-        // reset the targeted tile and resume movement
-        this.targetPosX = this.saveTargetX;
-        this.targetPosZ = this.saveTargetZ;
-        this.targetLon = this.saveTargetLon;
-        //
-        this.stepLon = (this.targetLon - this.controls.lon) / this.nbStep;
-        this.stepLat = (0 - this.controls.lat) / this.nbStep;
-        this.stepTrX = (this.targetPosX - this.camera.position.x) / (2 * this.nbStep);
-        this.stepTrZ = (this.targetPosZ - this.camera.position.z) / (2 * this.nbStep);
-        this.count = 0;
-    }
-
-    Scene.prototype.computeDirectionTowardExit = function (stack, depth) {
+    Scene.prototype.computeDirectionTowardExit = function (stack) {
         // current tile
         var curItem = stack.pop();
         // the road from its (potential) neighbor go toward the current tile
+        console.log("current tile : " + curItem[0] + " - " + curItem[1]);
         if ((curItem[0] > 0)
             && (!this.arrayTowardExit[curItem[0] - 1][curItem[1]][0])
             && (!this.arrayTowardExit[curItem[0] - 1][curItem[1]][1])
@@ -768,7 +753,9 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
             this.arrayTowardExit[curItem[0] - 1][curItem[1]][0] = 1;
             this.arrayTowardExit[curItem[0] - 1][curItem[1]][1] = 0;
             stack.push([curItem[0] - 1, curItem[1]]);
-
+            var curr = curItem[0] - 1;
+        console.log("next tile : " + curr + " - " + curItem[1]);
+        console.log("direction : 1 - 0");
         }
         if ((curItem[0] < this.level.height - 1)
             && (!this.arrayTowardExit[curItem[0] + 1][curItem[1]][0])
@@ -778,6 +765,9 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
             this.arrayTowardExit[curItem[0] + 1][curItem[1]][0] = -1;
             this.arrayTowardExit[curItem[0] + 1][curItem[1]][1] = 0;
             stack.push([curItem[0] + 1, curItem[1]]);
+            var curr = curItem[0] + 1;
+        console.log("next tile : " + curr + " - " + curItem[1]);
+        console.log("direction : -1 - 0");
         }
         if ((curItem[1] > 0)
             && (!this.arrayTowardExit[curItem[0]][curItem[1] - 1][0])
@@ -787,6 +777,9 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
             this.arrayTowardExit[curItem[0]][curItem[1] - 1][0] = 0;
             this.arrayTowardExit[curItem[0]][curItem[1] - 1][1] = 1;
             stack.push([curItem[0], curItem[1] - 1]);
+            var curr = curItem[1] - 1;
+        console.log("next tile : " + curItem[0] + " - " + curr);
+        console.log("direction : 0 - 1");
         }
         if ((curItem[1] < this.level.width - 1)
             && (!this.arrayTowardExit[curItem[0]][curItem[1] + 1][0])
@@ -796,9 +789,12 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
             this.arrayTowardExit[curItem[0]][curItem[1] + 1][0] = 0;
             this.arrayTowardExit[curItem[0]][curItem[1] + 1][1] = -1;
             stack.push([curItem[0], curItem[1] +1]);
+            var curr = curItem[1] + 1;
+        console.log("next tile : " + curItem[0] + " - " + curr);
+        console.log("direction : 0 - -1");
         }
         if (stack.length != 0){
-            this.computeDirectionTowardExit(stack, ++depth);
+            this.computeDirectionTowardExit(stack);
         }
     };
 
@@ -839,17 +835,17 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
     Scene.prototype.animate = function () {
         requestAnimationFrame( this.animate.bind(this) );
 
+        this.animatePNJ();
         // In pause mode, do nothing but wait until the pause mode is stopped.
         if (this.pause) {
+            this.render();
             return;
         }
 
-        this.animatePNJ();
 
         var delta = this.clock.getDelta(),
         time = this.clock.getElapsedTime() * 5;
         this.controls.update(delta);
-//        this.checkPosition();
         this.executeMove();
         this.findIntersections();
 
@@ -862,7 +858,6 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
     };
 
     Scene.prototype.animatePNJ = function () {
-
         ++this.animCounter;
         if(this.animCounter >= 40) this.animCounter = 0;
 
