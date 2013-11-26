@@ -484,7 +484,7 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
     }
 
     Scene.prototype.executeRotation = function () {
-        if (Math.abs(this.queueMovement[0][1][0] - this.controls.lon) < 10) {
+        if (Math.abs(this.queueMovement[0][1][0] - this.controls.lon) < this.rotationSpeed) {
             // longitude close enough to the target : set to the target one
             this.controls.lon = this.queueMovement[0][1][0];
         }else {
@@ -495,7 +495,7 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
                 this.controls.lon -= this.rotationSpeed;
             }
         }
-        if (Math.abs(this.queueMovement[0][1][1] - this.controls.lat) < 10) {
+        if (Math.abs(this.queueMovement[0][1][1] - this.controls.lat) < this.rotationSpeed) {
             // latitude close enough to the target : set to the target one
             this.controls.lat = this.queueMovement[0][1][1];
         }else {
@@ -516,7 +516,7 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
     }
 
     Scene.prototype.executeTranslation = function () {
-        if (Math.abs(this.queueMovement[0][1][0] - this.camera.position.x) < 10) {
+        if (Math.abs(this.queueMovement[0][1][0] - this.camera.position.x) < this.translationSpeed) {
             // X position close enough to the target : set to the target one
             this.camera.position.x = this.queueMovement[0][1][0];
         }else {
@@ -527,7 +527,7 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
                 this.camera.position.x -= this.translationSpeed;
             }
         }
-        if (Math.abs(this.queueMovement[0][1][1] - this.camera.position.y) < 10) {
+        if (Math.abs(this.queueMovement[0][1][1] - this.camera.position.y) < this.translationSpeed) {
             // Y position close enough to the target : set to the target one
             this.camera.position.y = this.queueMovement[0][1][1];
         }else {
@@ -538,7 +538,7 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
                 this.camera.position.y -= this.translationSpeed;
             }
         }
-        if (Math.abs(this.queueMovement[0][1][2] - this.camera.position.z) < 10) {
+        if (Math.abs(this.queueMovement[0][1][2] - this.camera.position.z) < this.translationSpeed) {
             // Z position close enough to the target : set to the target one
             this.camera.position.z = this.queueMovement[0][1][2];
         }else {
