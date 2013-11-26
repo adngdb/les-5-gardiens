@@ -128,7 +128,7 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
                     //     wireframe: false
                     // });
                     //var mesh = this.resourceManager['mesh_wall'];
-                    if (exit[0] == j && exit[1] == i) {
+                    if (exit[0] == j && exit[1] == i) { ///!!!! POPO : ??? exit[0] in J => 1st coord Z ? and 2nd coord X ?? sure ?
                         // This is the exit, show a door on each face.
                         mesh = new THREE.Mesh( this.resourceManager['door_geom'], this.resourceManager['mat_door'] );
                         mesh.name = "exit";
@@ -231,7 +231,7 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
                     }
 
                     // pnj
-                    if(this.detectCrossroad(i * CUBE_SIZE, j * CUBE_SIZE, true)) {
+                    if(this.detectCrossroad(i * CUBE_SIZE, j * CUBE_SIZE)) {
 
                         var gardian = this.level.gardians.getRandomGardian();
                         this.gardiansMap[i][j] = gardian;
@@ -316,19 +316,18 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
             for(i=0; i<intersects.length; ++i) {
                 var tmpObj = intersects[i].object;
 
-                if(tmpObj.name == "exit" || tmpObj.name == "floor") {
+                if(tmpObj.name == "exit" || tmpObj.name == "floor" || tmpObj.name == "wall") {
                     obj = tmpObj;
                     break;
                 }
             }
-
             // skip sprites
             // while(i < intersects.length && (intersects[ i ].object instanceof THREE.Sprite || intersects[ i ].object.position.y == -CUBE_SIZE*0.4))
             // {
             //     ++i;
             // }
-            //console.log("nbintersects : " + intersects.length);
-            //console.log(intersects[0].distance);
+            // console.log("nbintersects : " + intersects.length);
+            // console.log(intersects[0].distance);
 
             //if(intersects[ i ].object.position.y == -CUBE_SIZE*0.5) {
             if(obj) {
@@ -339,31 +338,33 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
 
                     this.INTERSECTED = obj;
                     this.INTERSECTED.currentHex = this.INTERSECTED.material.emissive.getHex();
-                    this.INTERSECTED.material.emissive.setHex( 0x888888 );
+                    if (obj.name != "wall") this.INTERSECTED.material.emissive.setHex( 0x888888 );
                 }
                 //this.INTERSECTED = obj;
 
                 // set target pos if we click
                 if (this.controls.realClick) {
                     this.controls.realClick = false;
-                    this.setMovement(this.INTERSECTED.position);
-                    // remove indice
-                    if(this.indiceMeshGround) {
-                        this.scene.remove(this.indiceMeshGround);
-                    }
-
-                    // remove npc indice
-                    for(var i=0; i<this.scene.children.length; ++i) {
-                        var obj2 = this.scene.children[i];
-                        if(obj.name.substring(0,3) == "tip") {
-                            var style = obj2.name.substring(4);
-                            obj2.material = this.resourceManager["mat_"+style+"_question"];
-                            //console.log("mat_cerberus"+Math.floor(this.animCounter/10));
+                    if (obj.name != "wall") {
+                        this.setMovement(this.INTERSECTED.position);
+                        // remove indice
+                        if(this.indiceMeshGround && (this.queueMovement.length != 0)) {
+                            this.scene.remove(this.indiceMeshGround);
                         }
-                    }
 
-                    if(obj.name == "exit") {
-                        this.endGame();
+                        // remove npc indice
+                        for(var i=0; i<this.scene.children.length; ++i) {
+                            var obj2 = this.scene.children[i];
+                            if(obj.name.substring(0,3) == "tip") {
+                                var style = obj2.name.substring(4);
+                                obj2.material = this.resourceManager["mat_"+style+"_question"];
+                                //console.log("mat_cerberus"+Math.floor(this.animCounter/10));
+                            }
+                        }
+
+                        if(obj.name == "exit") {
+                            this.endGame();
+                        }
                     }
                 }
                 else {
@@ -442,7 +443,6 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
 
 
         if (this.detectCrossroad(target.x, target.z)){
-            console.log("cross detected");
             // target tile = crossroad -> special movement for the riddle's UI
             this.queueMovement.push(["translation", [(target.x + cameraPos.x ) / 2, -60, (target.z + cameraPos.z ) / 2]]);
             this.queueMovement.push(["rotation", [targetLon + 30, 30]]);
@@ -545,7 +545,7 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
         }
     }
 
-    Scene.prototype.detectCrossroad = function (x , z, dotest = false) { // x, y abxolute world position
+    Scene.prototype.detectCrossroad = function (x , z) { // x, y abxolute world position
         var currentIndI = Math.round(x / CUBE_SIZE);
         var currentIndJ = Math.round(z / CUBE_SIZE);
         var nbAdjacentTile = 0;
@@ -685,12 +685,12 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
 
         //TODO : Popux' code !!! display the hinted texture on the floor !!! GOGOGO lasy man !!!!
         this.indiceMeshGround = new THREE.Mesh( this.resourceManager["quad_geom"], this.resourceManager["mat_tex_point"] );
-        console.log(hintDirectionAbs[0] * CUBE_SIZE);
-        console.log(hintDirectionAbs[1] * CUBE_SIZE);
-        console.log(hintDirectionAbs[0]);
-        console.log(hintDirectionAbs[1]);
-        console.log(stringOrientGround);
-        console.log(stringOrientNPC);
+        // console.log(hintDirectionAbs[0] * CUBE_SIZE);
+        // console.log(hintDirectionAbs[1] * CUBE_SIZE);
+        // console.log(hintDirectionAbs[0]);
+        // console.log(hintDirectionAbs[1]);
+        // console.log(stringOrientGround);
+        // console.log(stringOrientNPC);
         this.indiceMeshGround.position.x = hintDirectionAbs[0] * CUBE_SIZE;
         this.indiceMeshGround.position.z = hintDirectionAbs[1] * CUBE_SIZE;
         this.indiceMeshGround.position.y = -CUBE_SIZE*0.4;
@@ -717,16 +717,16 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
         var currentIndI = Math.round(x / CUBE_SIZE);
         var currentIndJ = Math.round(z / CUBE_SIZE);
         var hintDirectionAbs = [];
-console.log("current pos");
-console.log(x);
-console.log(z);
+// console.log("current pos");
+// console.log(x);
+// console.log(z);
         hintDirectionAbs.push(currentIndI + this.arrayTowardExit[currentIndI][currentIndJ][0]);
         hintDirectionAbs.push(currentIndJ + this.arrayTowardExit[currentIndI][currentIndJ][1]);
 
         if (answer) {   // the correct answer was given
-console.log("next pos");
-console.log(hintDirectionAbs[0]);
-console.log(hintDirectionAbs[1]);
+// console.log("next pos");
+// console.log(hintDirectionAbs[0]);
+// console.log(hintDirectionAbs[1]);
 
             return hintDirectionAbs;
         }else {         // a wrong answer was given
