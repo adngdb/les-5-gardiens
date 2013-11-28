@@ -1,5 +1,5 @@
-define(['lib/three', 'lib/FirstPersonControls', 'riddle_renderer', 'resource', 'tools', 'screen'],
-function(three,       first_person_controls,     RiddleRenderer,    ResourceManager,    tools, Screen) {
+define(['lib/three', 'lib/FirstPersonControls', 'riddle_renderer', 'resource', 'tools', 'screen', 'lib/stats'],
+function(three,       first_person_controls,     RiddleRenderer,    ResourceManager,    tools, Screen, _stats) {
     var Scene = function (level) {
         this.level = level;
         this.pause = false;
@@ -53,19 +53,25 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
         this.controls = new THREE.FirstPersonControls( this.camera );
 
         this.controls.lon = this.level.properties.startLon;
-        this.controls.movementSpeed = 500;
+        this.controls.movementSpeed = 5000;
         this.controls.lookSpeed = 10.0;
         this.controls.noFly = true;
         this.controls.lookVertical = true;
         this.controls.activeLook = true;
         this.controls.mouseDragOn = false;
 
+        this.stats = new Stats();
+        var container = document.createElement('div');
+        document.body.appendChild(container);
+        this.stats.domElement.style.position = 'absolute';
+        this.stats.domElement.style.top = '0px';
+        container.appendChild(this.stats.domElement);
+
         this.clock = new THREE.Clock();
 
         this.scene.fog = new THREE.Fog( 0x000000, 1, CUBE_SIZE*5 );
         this.scene.add( new THREE.AmbientLight( 0x888888 ) );
-        //this.scene.add( new THREE.AmbientLight( 0xffffff ) );
-        this.torchLight = new THREE.PointLight( 0xffffff, 1, CUBE_SIZE*2 );
+        this.torchLight = new THREE.PointLight( 0xffffff, 1, CUBE_SIZE*1.5 );
         this.scene.add(this.torchLight);
 
         this.renderer = new THREE.WebGLRenderer({antialias:true});
@@ -87,9 +93,9 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
 
         // array with the direction toward the exit for every tile
         this.arrayTowardExit = [];
-        for (var i=0; i<this.level.height; ++i) {
+        for (var i=0; i<this.level.width; ++i) {
             var line = [];
-            for (var j=0; j<this.level.width; ++j) {
+            for (var j=0; j<this.level.height; ++j) {
                 line.push([0,0]);
             }
             this.arrayTowardExit.push(line);
@@ -132,90 +138,61 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
                 if (i==5 && j==7)
                     console.log("level value [5][7]= " + this.level.map[i][j]);
                 if (this.level.map[i][j]) {
-                    // geometry = new THREE.CubeGeometry( CUBE_SIZE, CUBE_SIZE, CUBE_SIZE );
-                    // material = new THREE.MeshBasicMaterial({
-                    //     color: 0xff0000 + i * (255 / this.level.height) + j * (255/this.level.width) * 256,
-                    //     wireframe: false
-                    // });
-                    //var mesh = this.resourceManager['mesh_wall'];
-                    if (exit[0] == j && exit[1] == i) { ///!!!! POPO : ??? exit[0] in J => 1st coord Z ? and 2nd coord X ?? sure ?
+                    if (exit[0] == i && exit[1] == j) { ///!!!! POPO : ??? exit[0] in J => 1st coord Z ? and 2nd coord X ?? sure ?
                         // This is the exit, show a door on each face.
                         mesh = new THREE.Mesh( this.resourceManager['door_geom'], this.resourceManager['mat_door'] );
                         mesh.name = "exit";
-                        mesh.position.x = i * CUBE_SIZE;
-                        mesh.position.z = (j+0.52) * CUBE_SIZE;
-                        mesh.position.y = 0;
+                        mesh.position.set(i * CUBE_SIZE, 0, (j+0.52) * CUBE_SIZE);
                         mesh.rotation.y = 0;
                         this.scene.add( mesh );
                         mesh = new THREE.Mesh( this.resourceManager['door_geom'], this.resourceManager['mat_door'] );
                         mesh.name = "exit";
-                        mesh.position.x = i * CUBE_SIZE;
-                        mesh.position.z = (j-0.52) * CUBE_SIZE;
-                        mesh.position.y = 0;
+                        mesh.position.set(i * CUBE_SIZE, 0, (j-0.52) * CUBE_SIZE);
                         mesh.rotation.y = Math.PI;
                         this.scene.add( mesh );
                         mesh = new THREE.Mesh( this.resourceManager['door_geom'], this.resourceManager['mat_door'] );
                         mesh.name = "exit";
-                        mesh.position.x = (i-0.52) * CUBE_SIZE;
-                        mesh.position.z = j * CUBE_SIZE;
-                        mesh.position.y = 0;
+                        mesh.position.set((i-0.52) * CUBE_SIZE, 0, j * CUBE_SIZE);
                         mesh.rotation.y = -Math.PI*0.5;
                         this.scene.add( mesh );
                         mesh = new THREE.Mesh( this.resourceManager['door_geom'], this.resourceManager['mat_door'] );
                         mesh.name = "exit";
-                        mesh.position.x = (i+0.52) * CUBE_SIZE;
-                        mesh.position.z = j * CUBE_SIZE;
-                        mesh.position.y = 0;
+                        mesh.position.set((i+0.52) * CUBE_SIZE, 0, j * CUBE_SIZE);
                         mesh.rotation.y = Math.PI*0.5;
                         this.scene.add( mesh );
                     }
 
                     mesh = new THREE.Mesh( this.resourceManager['cube'], this.resourceManager['mat_wall'] );
                     mesh.name = "wall";
-                    mesh.position.x = i * CUBE_SIZE;
-                    mesh.position.z = j * CUBE_SIZE;
+                    mesh.position.set(i * CUBE_SIZE, 0, j * CUBE_SIZE);
                     this.scene.add( mesh );
                 }
                 else
                 {
                     // floor
-                    //var mesh = this.resourceManager['mesh_floor'];
-                    //var mesh = new THREE.Mesh( this.resourceManager['cube'], this.resourceManager['mat_floor'].clone() );
                     var mesh = new THREE.Mesh( this.resourceManager['quad_geom'], this.resourceManager['mat_floor'].clone() );
                     mesh.name = "floor";
-                    mesh.position.x = i * CUBE_SIZE;
-                    mesh.position.z = j * CUBE_SIZE;
-                    mesh.position.y = -CUBE_SIZE*0.5;
+                    mesh.position.set(i * CUBE_SIZE, -CUBE_SIZE*0.5, j * CUBE_SIZE)
                     mesh.rotation.x = -Math.PI*0.5;
                     this.scene.add( mesh );
 
                     // roof
-                    //var mesh = this.resourceManager['mesh_roof'];
-                    //mesh = new THREE.Mesh( this.resourceManager['cube'], this.resourceManager['mat_roof'] );
                     mesh = new THREE.Mesh( this.resourceManager['quad_geom'], this.resourceManager['mat_roof'] );
                     mesh.name = "roof";
-                    mesh.position.x = i * CUBE_SIZE;
-                    mesh.position.z = j * CUBE_SIZE;
-                    mesh.position.y = CUBE_SIZE*0.5;
+                    mesh.position.set(i * CUBE_SIZE, CUBE_SIZE*0.5, j * CUBE_SIZE);
                     mesh.rotation.x = Math.PI*0.5;
                     this.scene.add( mesh );
 
-                    // light test
-                    // var sprite2 = new THREE.Sprite( this.resourceManager['mat_light'] );
-                    // sprite2.position.set( i * CUBE_SIZE, 100, j * CUBE_SIZE );
-                    // sprite2.scale.set( 64, 64, 1.0 ); // imageWidth, imageHeight
-                    // this.scene.add( sprite2 );
+                    // light
                     if((i+j) % 2) {
                         mesh = new THREE.Mesh( this.resourceManager['light_geom'], this.resourceManager['mat_light'] );
-                        mesh.position.x = i * CUBE_SIZE;
-                        mesh.position.z = j * CUBE_SIZE;
-                        mesh.position.y = CUBE_SIZE/2.1;
+                        mesh.position.set(i * CUBE_SIZE, CUBE_SIZE/2.1, j * CUBE_SIZE);
                         mesh.rotation.x = Math.PI/2;
                         this.scene.add( mesh );
 
-                        // var light = new THREE.PointLight( 0xffffff, 1, CUBE_SIZE*1.5 );
-                        // light.position.set( i * CUBE_SIZE, CUBE_SIZE/2.5, j * CUBE_SIZE );
-                        // this.scene.add( light );
+                        var light = new THREE.PointLight( 0xffffff, 1, CUBE_SIZE*1.5 );
+                        light.position.set( i * CUBE_SIZE, CUBE_SIZE/2.5, j * CUBE_SIZE );
+                        //this.scene.add( light );
                     }
 
                     // random prop
@@ -223,79 +200,82 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
                         //console.log("i : "+i+", j : "+j);
 
                         // test left
-                        if(this.level.map[i-1][j]) {
-
+                        if(this.level.map[i-1][j] && exit[0] != i-1 && exit[1] != j && Math.random() < 0.25) {
+                            var id = tools.getRandomInt(0,4);
+                            var mesh = new THREE.Mesh( this.resourceManager["quad_geom"], this.resourceManager["mat_deco"+id] );
+                            mesh.name = "prop";
+                            mesh.position.set((i-0.48) * CUBE_SIZE, 0, j * CUBE_SIZE);
+                            mesh.rotation.y = Math.PI*0.5;
+                            this.scene.add( mesh );
                         }
                         // test right
-                        if(this.level.map[i+1][j]) {
-
+                        if(this.level.map[i+1][j] && exit[0] != i+1 && exit[1] != j && Math.random() < 0.25) {
+                            var id = tools.getRandomInt(0,4);
+                            var mesh = new THREE.Mesh( this.resourceManager["quad_geom"], this.resourceManager["mat_deco"+id] );
+                            mesh.name = "prop";
+                            mesh.position.set((i+0.48) * CUBE_SIZE, 0, j * CUBE_SIZE);
+                            mesh.rotation.y = -Math.PI*0.5;
+                            this.scene.add( mesh );
                         }
                         // test up
-                        if(this.level.map[i][j+1]) {
-
+                        if(this.level.map[i][j+1] && exit[0] != i && exit[1] != j+1 && Math.random() < 0.25) {
+                            var id = tools.getRandomInt(0,4);
+                            var mesh = new THREE.Mesh( this.resourceManager["quad_geom"], this.resourceManager["mat_deco"+id] );
+                            mesh.name = "prop";
+                            mesh.position.set(i * CUBE_SIZE, 0, (j+0.48) * CUBE_SIZE);
+                            mesh.rotation.y = Math.PI;
+                            this.scene.add( mesh );
                         }
-                        // test down
-                        if(this.level.map[i][j-1]) {
-
+                        // // test down
+                        if(this.level.map[i][j-1] && exit[0] != i && exit[1] != j-1 && Math.random() < 0.25) {
+                            var id = tools.getRandomInt(0,4);
+                            var mesh = new THREE.Mesh( this.resourceManager["quad_geom"], this.resourceManager["mat_deco"+id] );
+                            mesh.name = "prop";
+                            mesh.position.set(i * CUBE_SIZE, 0, (j-0.48) * CUBE_SIZE);
+                            mesh.rotation.y = 0;
+                            this.scene.add( mesh );
                         }
                     }
 
-                    // pnj
+                    // crossroads
                     if(this.detectCrossroad(i * CUBE_SIZE, j * CUBE_SIZE)) {
 
+                        // guardians
                         var gardian = this.level.gardians.getRandomGardian();
                         this.gardiansMap[i][j] = gardian;
 
-                        var sprite;
-                        sprite = new THREE.Sprite( this.resourceManager["mat_"+gardian.file+"_question"] );
-                        sprite.name = "tip_"+gardian.file;
-                        sprite.position.set( i * CUBE_SIZE, -40, j * CUBE_SIZE );
-                        sprite.scale.set( gardian.width, gardian.height, 1.0 ); // imageWidth, imageHeight
-                        this.scene.add( sprite );
+                        var mesh;
+                        mesh = new THREE.Mesh( new THREE.PlaneGeometry( gardian.width, gardian.height ), this.resourceManager["mat_tex_"+gardian.file+0] );
+                        mesh.name = "pnj_"+gardian.file;
+                        mesh.position.set( i * CUBE_SIZE, -40, j * CUBE_SIZE );
+                        this.scene.add( mesh );
 
-                        sprite = new THREE.Sprite( this.resourceManager["mat_"+gardian.file+0] );
-                        sprite.name = "pnj_"+gardian.file;
-                        sprite.position.set( i * CUBE_SIZE, -40, j * CUBE_SIZE );
-                        sprite.scale.set( gardian.width, gardian.height, 1.0 ); // imageWidth, imageHeight
-                        this.scene.add( sprite );
+                                                mesh = new THREE.Mesh( new THREE.PlaneGeometry( gardian.width, gardian.height ), this.resourceManager["mat_tex_"+gardian.file+"_question"] );
+                        mesh.name = "tip_"+gardian.file;
+                        mesh.position.set( i * CUBE_SIZE, -40, j * CUBE_SIZE );
+                        this.scene.add( mesh );
 
-                        // curtain
-                        // mesh = new THREE.Mesh( this.resourceManager["quad_geom"], this.resourceManager["mat_curtain"] );
-                        // mesh.name = "curtain";
-                        // mesh.position.x = i * CUBE_SIZE;
-                        // mesh.position.z = j * CUBE_SIZE;
-                        // //mesh.position.y = CUBE_SIZE*0.5;
-                        // //mesh.rotation.x = Math.PI*0.5;
-                        // this.scene.add( mesh );
-
-                        // mesh = new THREE.Mesh( this.resourceManager["quad_geom"], this.resourceManager["mat_curtain"] );
-                        // mesh.name = "curtain";
-                        // mesh.position.x = i * CUBE_SIZE;
-                        // mesh.position.z = (j+0.5) * CUBE_SIZE;
-                        // mesh.position.y = 0;
-                        // mesh.rotation.y = 0;
-                        // this.scene.add( mesh );
-                        // mesh = new THREE.Mesh( this.resourceManager["quad_geom"], this.resourceManager["mat_curtain"] );
-                        // mesh.name = "curtain";
-                        // mesh.position.x = i * CUBE_SIZE;
-                        // mesh.position.z = (j-0.5) * CUBE_SIZE;
-                        // mesh.position.y = 0;
-                        // mesh.rotation.y = Math.PI;
-                        // this.scene.add( mesh );
-                        // mesh = new THREE.Mesh( this.resourceManager["quad_geom"], this.resourceManager["mat_curtain"] );
-                        // mesh.name = "curtain";
-                        // mesh.position.x = (i-0.5) * CUBE_SIZE;
-                        // mesh.position.z = j * CUBE_SIZE;
-                        // mesh.position.y = 0;
-                        // mesh.rotation.y = -Math.PI*0.5;
-                        // this.scene.add( mesh );
-                        // mesh = new THREE.Mesh( this.resourceManager["quad_geom"], this.resourceManager["mat_curtain"] );
-                        // mesh.name = "curtain";
-                        // mesh.position.x = (i+0.5) * CUBE_SIZE;
-                        // mesh.position.z = j * CUBE_SIZE;
-                        // mesh.position.y = 0;
-                        // mesh.rotation.y = Math.PI*0.5;
-                        // this.scene.add( mesh );
+                        // curtains
+                        mesh = new THREE.Mesh( this.resourceManager["quad_geom"], this.resourceManager["mat_curtain"] );
+                        mesh.name = "curtain";
+                        mesh.position.set(i * CUBE_SIZE, 0, (j+0.48) * CUBE_SIZE);
+                        mesh.rotation.y = 0;
+                        this.scene.add( mesh );
+                        mesh = new THREE.Mesh( this.resourceManager["quad_geom"], this.resourceManager["mat_curtain"] );
+                        mesh.name = "curtain";
+                        mesh.position.set(i * CUBE_SIZE, 0, (j-0.48) * CUBE_SIZE);
+                        mesh.rotation.y = Math.PI;
+                        this.scene.add( mesh );
+                        mesh = new THREE.Mesh( this.resourceManager["quad_geom"], this.resourceManager["mat_curtain"] );
+                        mesh.name = "curtain";
+                        mesh.position.set((i-0.48) * CUBE_SIZE, 0, j * CUBE_SIZE);
+                        mesh.rotation.y = -Math.PI*0.5;
+                        this.scene.add( mesh );
+                        mesh = new THREE.Mesh( this.resourceManager["quad_geom"], this.resourceManager["mat_curtain"] );
+                        mesh.name = "curtain";
+                        mesh.position.set((i+0.48) * CUBE_SIZE, 0, j * CUBE_SIZE);
+                        mesh.rotation.y = Math.PI*0.5;
+                        this.scene.add( mesh );
                     }
                 }
             };
@@ -367,7 +347,7 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
                             var obj2 = this.scene.children[j];
                             if(obj2.name.substring(0,3) == "tip") {
                                 var style = obj2.name.substring(4);
-                                obj2.material = this.resourceManager["mat_"+style+"_question"];
+                                obj2.material = this.resourceManager["mat_tex_"+style+"_question"];
                                 //console.log("mat_"+style+"_question");
                             }
                         }
@@ -711,7 +691,7 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
             var obj = this.scene.children[i];
             if(obj.name.substring(0,3) == "tip") {
                 var style = obj.name.substring(4);
-                obj.material = this.resourceManager["mat_"+style+"_"+stringOrientNPC];
+                obj.material = this.resourceManager["mat_tex_"+style+"_"+stringOrientNPC];
                 //console.log("mat_cerberus"+Math.floor(this.animCounter/10));
             }
         }
@@ -854,32 +834,66 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
         this.torchLight.position.z = this.camera.position.z;
 
         this.render();
+
+        this.stats.update();
     };
 
+    // TODO : framerate independant animation speed (using THREE.clock ?)
     Scene.prototype.animatePNJ = function () {
         ++this.animCounter;
         if(this.animCounter >= 40) this.animCounter = 0;
+
+        //console.log(this.camera.position.x);
+        //console.log(this.camera.position.z);
 
         for(var i=0; i<this.scene.children.length; ++i) {
             var obj = this.scene.children[i];
             if(obj.name.substring(0,3) == "pnj") {
                 var style = obj.name.substring(4);
-                obj.material = this.resourceManager["mat_"+style+Math.floor(this.animCounter/10)];
-                //console.log("mat_cerberus"+Math.floor(this.animCounter/10));
+                obj.material = this.resourceManager["mat_tex_"+style+Math.floor(this.animCounter/10)];
+                //console.log("mat_tex_"+style+Math.floor(this.animCounter/10));
+            }
+
+            if(obj.name.substring(0,3) == "pnj" || obj.name.substring(0,3) == "tip") {
+
+                var posCam = new THREE.Vector2(this.camera.position.x, this.camera.position.z);
+                var posPnj = new THREE.Vector2(obj.position.x, obj.position.z);
+
+                var dist = posCam.distanceTo(posPnj);
+
+                // better rotation test
+                // var vec = (posPnj.sub(posCam)).normalize();
+                // var vec1 = new THREE.Vector2(Math.cos(this.controls.lon*Math.PI/180), Math.sin(this.controls.lon*Math.PI/180));
+                // var ang = Math.acos(vec1.dot(vec));
+                // obj.rotation.y = -ang-Math.PI*1.5;
+
+                obj.rotation.y = -(this.controls.lon*Math.PI/180)-Math.PI*0.5; // parallel to near plane
+                
+                // hide pnj when too close
+                if(dist < 50) {
+                    obj.visible = false;
+                }
+                else {
+                    obj.visible = true;
+                }
             }
         }
     }
 
     Scene.prototype.culling = function () {
-        // for(var i=0; i<this.scene.children.length; ++i) {
-        //     var v = new THREE.Vector2(this.scene.children[i].position.x - this.camera.position.x, this.scene.children[i].position.z - this.camera.position.z);
-        //     if(v.dot(v) < 16000000000) {
-        //         this.scene.children[i].visible = true;
-        //     }
-        //     else {
-        //         this.scene.children[i].visible = false;
-        //     }
-        // }
+        for(var i=0; i<this.scene.children.length; ++i) {
+            var obj = this.scene.children[i];
+            //if(obj.name == "floor" || obj.name == "wall" || obj.name == "roof") {
+            if(obj instanceof THREE.Mesh || obj instanceof THREE.PointLight) {
+                var v = new THREE.Vector2(this.camera.position.x - obj.position.x, this.camera.position.z - obj.position.z);
+                if(v.length() < CUBE_SIZE*5) {
+                    obj.visible = true;
+                }
+                else {
+                    obj.visible = false;
+                }
+            }
+        }
     };
 
     Scene.prototype.render = function () {

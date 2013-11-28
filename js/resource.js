@@ -56,6 +56,12 @@ define(function () {
             this.loadSprite("img/presentateur_0"+j+".png", "mat_presentateur"+i);
             this.loadSprite("img/pythie_0"+j+".png", "mat_pythie"+i);
             this.loadSprite("img/sphynx_0"+j+".png", "mat_sphynx"+i);
+
+            this.loadPhongMat("img/cerberus_0"+j+".png", "mat_tex_cerberus"+i, true);
+            this.loadPhongMat("img/janus_0"+j+".png", "mat_tex_janus"+i, true);
+            this.loadPhongMat("img/presentateur_0"+j+".png", "mat_tex_presentateur"+i, true);
+            this.loadPhongMat("img/pythie_0"+j+".png", "mat_tex_pythie"+i, true);
+            this.loadPhongMat("img/sphynx_0"+j+".png", "mat_tex_sphynx"+i, true);
         }
 
         var names = [ "cerberus", "janus", "presentateur", "pythie", "sphynx"];
