@@ -101,7 +101,7 @@
             ]
         },
         {
-            "text": "Combien d'arrondissement la ville de Marseilles possède-t-elle ?",
+            "text": "Combien d'arrondissement la ville de Marseille possède-t-elle ?",
             "answers": [
                 "16",
                 "9",
@@ -191,9 +191,9 @@
             ]
         },
         {
-            "text": "Qui a écrit : \"20 000 lieux sous les mers\" ?",
+            "text": "Qui a écrit : \"Vingt mille lieues sous les mers\" ?",
             "answers": [
-                "Victor Hugo.",
+                "Jules Verne.",
                 "Emile Zola.",
                 "Molière.",
                 "Diderot."

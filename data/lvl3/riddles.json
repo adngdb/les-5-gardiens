@@ -82,5 +82,14 @@
                 "ainsi font font font...!"
             ]
         },
+        {
+            "text": "Quelle est la distance entre la Terre et le Soleil ?",
+            "answers": [
+                "1 UA.",
+                "0,33 année lumière."
+                "150 000 000 m.",
+                "36 000 km."
+            ]
+        }
     ]
 }

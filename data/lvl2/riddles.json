@@ -20,48 +20,210 @@
             ]
         },
         {
-            "text": "Mon poids est élevé, mais malgré ma petite taille, des flammes je triomphe..",
+            "text": "Mon poids est élevé, mais malgré ma petite taille, des flammes je triomphe. Je suis ...",
             "answers": [
                 "L'extincteur.",
-                "Le pompier",
-                "Le pénis",
-                "La salamandre"
+                "Le pompier.",
+                "Le pénis.",
+                "La salamandre."
             ]
         },
         {
             "text": "Nous sommes nés de la même mère, la même année, le même mois, le même jour et à la même heure. Pourtant nous ne sommes pas jumeaux, ni même jumelles. Pourquoi ?",
             "answers": [
-                "car nous sommes des triplés",
-                "car nous sommes des cellules",
-                "car nous ne sommes pas issus du même placenta",
-                "car l'un de nous était retourné"
+                "car nous sommes des triplés.",
+                "car nous sommes des cellules.",
+                "car nous ne sommes pas issus du même placenta.",
+                "car l'un de nous était retourné."
             ]
         },
         {
             "text": "Vous participez à une course cycliste. A un moment donné, vous doublez le second. Vous êtes alors ? ",
             "answers": [
-                "Second",
-                "Premier",
-                "Troisième",
-                "Dernier"
+                "Second.",
+                "Premier.",
+                "Troisième.",
+                "Dernier."
             ]
         },
         {
-            "text": "Pourquoi ne peut-on pas glisser une carte entre les pages 103 et 104 d'un livre ? ",
+            "text": "Pourquoi ne peut-on pas glisser un marque-page entre les pages 103 et 104 d'un livre ? ",
             "answers": [
-                "C'est impossible, car ces pages ne sont pas des feuilles",
-                "car à partir de 100 pages, on a plus besoin de marque-page",
-                "pourquoi ne le pourrions-nous pas?",
-                "car ce livre n'a que 102 pages"
+                "Car ces pages ne sont pas des feuilles.",
+                "Car à partir de 100 pages, on a plus besoin de marque-page.",
+                "Pourquoi ne le pourrions-nous pas ?",
+                "Car ce livre n'a que 102 pages."
             ]
         },
         {
-            "text": "Un gardien de nuit meurt de jour. Pourquoi ne touchera-t'il pas de pansion? ",
+            "text": "Un gardien de nuit meurt de jour. Pourquoi ne touchera-t'il pas de pansion ? ",
             "answers": [
-                "Car il est mort",
-                "Car il est mort en plein jour, en dehors de son travail",
-                "Car les pensions ne concernent que des assurances vie",
-                "Car il n'avait pas pu souscrire avant de mourir une assurance-vie"
+                "Car il est mort.",
+                "Car il est mort en plein jour, en dehors de son travail.",
+                "Car les pensions ne concernent que des assurances vie.",
+                "Car il n'avait pas pu souscrire avant de mourir une assurance-vie."
+            ]
+        },
+        {
+            "text": "Quelle note complète l'arpège en DO Majeur : Do, Mi, ...",
+            "answers": [
+                "Sol.",
+                "Ré.",
+                "Fa.",
+                "La."
+            ]
+        },
+        {
+            "text": "Combien de satélite(s) naturel(s) la Terre possède-t-elle ?",
+            "answers": [
+                "1",
+                "0",
+                "2",
+                "42"
+            ]
+        },
+        {
+            "text": "Combien de satélite(s) naturel(s) Mars possède-t-elle ?",
+            "answers": [
+                "2",
+                "1",
+                "0",
+                "42"
+            ]
+        },
+        {
+            "text": "Quel site internet a été créé par Marc Zukerberg ? ",
+            "answers": [
+                "Facebook.fr",
+                "Google.fr",
+                "Yahoo.fr",
+                "GameDevParty.fr"
+            ]
+        },
+        {
+            "text": "A quelle température l'eau bout-elle ?",
+            "answers": [
+                "212 °F",
+                "273 °K",
+                "0 °C",
+                "100 °F"
+            ]
+        },
+        {
+            "text": "Qui a écrit : \"J'accuse !\" ?",
+            "answers": [
+                "Emile Zola.",
+                "Victor Hugo.",
+                "Jules Verne.",
+                "Montesquieu."
+            ]
+        },
+        {
+            "text": "Qui a écrit : \"Les misérables\" ?",
+            "answers": [
+                "Victor Hugo.",
+                "Emile Zola.",
+                "Jules Verne.",
+                "Montesquieu."
+            ]
+        },
+        {
+            "text": "De combien de films est actuellement composés la saga cinématographique \"Star Wars\" ?",
+            "answers": [
+                "6",
+                "7",
+                "9",
+                "3"
+            ]
+        },
+        {
+            "text": "De combien de films est actuellement composés la saga cinématographique \"Alien\" ?",
+            "answers": [
+                "5",
+                "6",
+                "4",
+                "7"
+            ]
+        },
+        {
+            "text": "Quelle ville de France est la plus peuplée après Marseille ?",
+            "answers": [
+                "Lyon.",
+                "Paris.",
+                "Bordeaux.",
+                "Lille."
+            ]
+        },
+        {
+            "text": "Quel jeu vidéo demande d'assembler des blocs pour former des lignes ?",
+            "answers": [
+                "Tétris.",
+                "Pong.",
+                "Space invaders.",
+                "Arkanoïd."
+            ]
+        },
+        {
+            "text": "Quel jeu vidéo demande de casser des blocs à l'aide d'une bille qu'on controle avec une barre ?",
+            "answers": [
+                "Arkanoïd.",
+                "Tétris.",
+                "Pong.",
+                "Space invaders."
+            ]
+        },
+        {
+            "text": "Quel est l'ingrédien indispensable à un gratin dauphinois ?",
+            "answers": [
+                "La pomme de terre.",
+                "Les pâtes.",
+                "Le riz.",
+                "Le reblochon."
+            ]
+        },
+        {
+            "text": "Que signifie le \"V\" dans l'acronyme \"OVNI\" ?",
+            "answers": [
+                "Volant.",
+                "Visible.",
+                "Vaisseau.",
+                "Vu."
+            ]
+        },
+        {
+            "text": "Que signifie le \"B\" dans l'acronyme \"BD\" ?",
+            "answers": [
+                "Bande.",
+                "Bouquin.",
+                "Book.",
+                "Bulle."
+            ]
+        },
+        {
+            "text": "Quand débute l'hiver ?",
+            "answers": [
+                "Le 21 décembre.",
+                "Le 21 novembre.",
+                "Le 21 septembre.",
+                "Le 21 janvier."
+            ]
+        },
+        {
+            "text": "Quelle est la 3e couleur primaire (dans la synthèse soustractive) : rouge, bleu et ???",
+            "answers": [
+                "Vert.",
+                "Jaune.",
+                "Cyan.",
+                "Magenta."
+            ]
+        },
+        {
+            "text": "Quelle est la fréquence de parution d'un magazine bimensuel ?",
+            "answers": [
+                "2 fois par mois.",
+                "Tous les mois.",
+                "Tous les 2 mois.",
+                "Toutes les semaines."
             ]
         }
     ]
