@@ -1,0 +1,41 @@
+{
+    "_comment" : "The correct answer is always the first one proposed in the file.",
+    "enigmas": [
+        {
+            "text": "Quelle est la moitié de 2 + 2 ?",
+            "answers": [
+                "3",
+                "1",
+                "2",
+                "4"
+            ]
+        },
+        {
+            "text": "Un escargot décide d'atteindre le toit d'une maison. Le mur fait 10 mètres de haut. L'escargot monte pendant la journée de trois mètres, mais la nuit, il glisse et redescend de deux mètres. En combien de temps parvient-il sur le toit ?",
+            "answers": [
+                "L'escargot arrive donc au sommet le 8ème jour.",
+                "L'escargot arrive donc au sommet le 7ème jour.",
+                "L'escargot arrive donc au sommet le 10ème jour.",
+                "L'escargot est mort sans jamais avoir pu atteindre le toit de la maison."
+            ]
+        },
+        {
+            "text": "Je fus demain, je serai hier. Qui suis-je ? ",
+            "answers": [
+                "aujourd'hui",
+                "Jésus",
+                "le temps",
+                "L'univers"
+            ]
+        },
+        {
+            "text": "Un homme et son fils ont ensemble 44 ans. Leurs âges respectifs sont formés des 2 mêmes chiffres renversés. Quel âge ont-ils ?",
+            "answers": [
+                "13 ans et 31 ans",
+                "40 ans et 4 ans",
+                "73 ans et 37 ans",
+                "21 ans et 12 ans"
+            ]
+        },
+    ]
+}

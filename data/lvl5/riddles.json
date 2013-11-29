@@ -1,0 +1,59 @@
+{
+    "_comment" : "The correct answer is always the first one proposed in the file.",
+    "enigmas": [
+        {
+            "text": "Une personne garde l’entrée d’un club privé. Une personne arrive, le gardien lui dit « Sept » et l’autre réponds « Quatre ». Une deuxième personne arrive, le gardien lui lance « Un » et l’autre lui dit « Deux ». Vous voulez entrez, le gardien vous dit « Treize ». Que devriez vous lui dire ?",
+            "answers": [
+                "Six.",
+                "Deux.",
+                "Quatre.",
+                "Huit."
+            ]
+        },
+        {
+            "text": "quel est l'angle entre les aiguilles d'une horloge quand elle affiche 3h15 ?",
+            "answers": [
+                "7.5",
+                "10",
+                "12",
+                "0"
+            ]
+        },
+        {
+            "text": "10! / (5*5!*12²) = ???",
+            "answers": [
+                "42",
+                "1",
+                "5",
+                "2013"
+            ]
+        },
+        {
+            "text": "Un ballon à l'hélium monte dans l'air tout doucement. La première seconde il parcourt 1 m, la deuxième 50 cm, la troisième 25 cm et de suite. Indéfiniment le ballon ne s'arrête pas de monter. Par seconde il parcourt la moitié de ce qu'il a monté la seconde précédente. Jusqu'où le ballon va-t-il monter? ",
+            "answers": [
+                "Le ballon tend vers la hauteur de 2 mètres, sans jamais l'atteindre.",
+                "Le ballon tend vers la hauteur de 7.29 mètres, sans jamais l'atteindre.",
+                "Le ballon tend vers la hauteur de 5.42 mètres, sans jamais l'atteindre.",
+                "Le ballon s'élèvera jusqu'à l'infini."
+            ]
+        },
+        {
+            "text": "En observant les aiguilles d'une horloge pendant 12 heures, combien de fois les aiguilles de l'horloge font un angle droit entre elles ? ",
+            "answers": [
+                "22",
+                "11",
+                "7",
+                "19"
+            ]
+        },
+        {
+            "text": "Le TGV Paris-Lyon part à midi de Paris à une vitesse constante de 200 km/h. Le TGV Lyon-Paris part de Lyon une heure plus tard et roule à vitesse constante à 300 km/h. Au moment où ils se croisent, lequel des deux est le plus prêt de Paris ? ",
+            "answers": [
+                "Ils sont à la même distance de l'une ou de l'autre ville.",
+                "Le TGV Lyon-Paris est le plus prêt de Paris ",
+                "Le TGV Paris-Lyon est le plus prêt de Paris",
+                "Le TGV Lyon-Paris le plus loin de Paris"
+            ]
+        },
+    ]
+}

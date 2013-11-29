@@ -1,0 +1,86 @@
+{
+    "_comment" : "The correct answer is always the first one proposed in the file.",
+    "enigmas": [
+        {
+            "text": "Le lion ment le lundi, le mardi et le mercredi. La licorne ment le jeudi, le vendredi et le samedi. Les autres jours, ils disent la vérité. Un jour, la licorne affirme « hier je mentais ». Le lion lui répond « moi aussi ! ». Quel jour de la semaine sommes-nous ?",
+            "answers": [
+                "Jeudi.",
+                "Lundi.",
+                "Samedi.",
+                "Dimanche."
+            ]
+        },
+        {
+            "text": "Treize oiseaux sont dans un cerisier. Un chasseur passe et tue un oiseau. Combien reste-t-il d'oiseaux dans le cerisier ?",
+            "answers": [
+                "0",
+                "12",
+                "13",
+                "Les oiseaux ne se posent jamais sur des branches de cerisiers"
+            ]
+        },
+        {
+            "text": " Il faut 56 biscuits à Marthe pour nourrir ses 10 chiens et chats. Un chien mange 6 biscuits et un chat seulement 5. Combien Marthe possède de chats et de chiens? ",
+            "answers": [
+                "6 chiens et 4 chats",
+                "7 chiens et 9 chats",
+                "2 chiens et 7 chats",
+                "4 chiens et 3 chats"
+            ]
+        },
+        {
+            "text": "Plus il y en a et moins cela pèse. Qui suis je?",
+            "answers": [
+                "Le vide",
+                "L'argent",
+                "L'or",
+                "Les plumes"
+            ]
+        },
+        {
+            "text": "Un libraire achète un livre 70€, le vend 80€, le rachète 90€, le revend 100€. Quel a été son bénéfice ? ",
+            "answers": [
+                "20 €",
+                "30 €",
+                "0 €",
+                "10 €"
+            ]
+        },
+        {
+            "text": "Prenez trois fois mon âge dans trois ans, et enlevez trois fois mon âge il y a trois ans, vous obtiendrez mon âge actuel.",
+            "answers": [
+                "18 ans",
+                "16 ans",
+                "14 ans",
+                "12 ans"
+            ]
+        },
+        {
+            "text": " Une encyclopédie en dix volumes est rangée dans l'ordre sur une planche de bibliothèque. Chaque volume est épais de 4,5 cm pour les feuilles et de deux fois 0,25 cm pour la couverture. Un vers né en page 1 du volume 1 se nourrit en traversant perpendiculairement et en ligne droite la collection complète et meurt à la dernière page du dixième volume. Quelle distance aura-t-il parcourue pendant son existance ? ",
+            "answers": [
+                "40.5 cm",
+                "41.5 cm",
+                "42.5 cm",
+                "43.5 cm"
+            ]
+        },
+        {
+            "text": "Vous avez le sommeil lourd et vous avez réglez votre réveil à aiguilles de grand-mère à sonner pour 10h00. Vous allez vous couché à 21h00. Combien de temps dormirez-vous ?",
+            "answers": [
+                "1 heure",
+                "13 heures",
+                "...il faudra remonter le réveil avant le matin",
+                "9 heures"
+            ]
+        },
+        {
+            "text": "Un homme et une femme très amoureux sont dans un lit. Sur la table de nuit à côté il y a une bougie. Qu'est-ce qu'y fond?",
+            "answers": [
+                "la bougie fond",
+                "ils fondent l'amour",
+                "ils s'en serviront de la bougie...pour s'éclairer",
+                "ainsi font font font...!"
+            ]
+        },
+    ]
+}

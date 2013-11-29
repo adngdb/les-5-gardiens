@@ -2,15 +2,6 @@
     "_comment" : "The correct answer is always the first one proposed in the file.",
     "enigmas": [
         {
-            "text": "Quelle est la moitié de 2 + 2 ?",
-            "answers": [
-                "3",
-                "1",
-                "2",
-                "4"
-            ]
-        },
-        {
             "text": "Je suis un homme et le fils de Jean est le père de mon fils. Quel est le lien de parenté entre Jean et moi ?",
             "answers": [
                 "Jean est mon père.",
@@ -20,246 +11,219 @@
             ]
         },
         {
-            "text": "Si ce n’est pas le lendemain de lundi ou le jour avant jeudi, que demain n’est pas dimanche, que ce n’était pas dimanche hier et que le jour après demain n’est pas samedi, et que le jour avant hier n’était pas mercredi, quel jour sommes-nous ?",
+            "text": "A quelle température l'eau gèle-t-elle ?",
             "answers": [
-                "Dimanche.",
-                "Lundi.",
-                "Mercredi.",
-                "Vendredi."
+                "273 °K",
+                "100 °C",
+                "0 °F",
+                "212 °F"
             ]
         },
         {
-            "text": "Une personne garde l’entrée d’un club privé. Une personne arrive, le gardien lui dit « Sept » et l’autre réponds « Quatre ». Une deuxième personne arrive, le gardien lui lance « Un » et l’autre lui dit « Deux ». Vous voulez entrez, le gardien vous dit « Treize ». Que devriez vous lui dire ?",
+            "text": "Dans notre système solaire, quelle est la planète la plus éloignée du soleil ?",
             "answers": [
-                "Six.",
-                "Deux.",
-                "Quatre.",
-                "Huit."
+                "Neptune.",
+                "Pluton.",
+                "La Terre.",
+                "Jupiter."
             ]
         },
         {
-            "text": "Le lion ment le lundi, le mardi et le mercredi. La licorne ment le jeudi, le vendredi et le samedi. Les autres jours, ils disent la vérité. Un jour, la licorne affirme « hier je mentais ». Le lion lui répond « moi aussi ! ». Quel jour de la semaine sommes-nous ?",
+            "text": "Dans notre système solaire, quelle est la planète la plus proche du soleil ?",
             "answers": [
-                "Jeudi.",
-                "Lundi.",
-                "Samedi.",
-                "Dimanche."
+                "Mercure.",
+                "Vénus.",
+                "La Terre.",
+                "Jupiter."
             ]
         },
         {
-            "text": "quel est l'angle angulaire entre les aiguilles d'une horloge quand elle affiche 3h15 ?",
+            "text": "Je suis Pierre, mais je ne suis pas Pierre ... Qui suis-je ?",
             "answers": [
-                "7.5",
-                "10",
-                "12",
-                "36"
+                "Son ombre.",
+                "Son frère jumeaux.",
+                "Une rumeur.",
+                "Son chien."
             ]
         },
         {
-            "text": "10! / (5*5!*12²) = ???",
+            "text": "Quelle est l'étoile la plus proche de la Terre ?",
             "answers": [
-                "42",
-                "1",
-                "5",
-                "2013"
+                "Le soleil.",
+                "Proxima du centaure.",
+                "Atlantis.",
+                "Andromède."
             ]
         },
         {
-            "text": "Treize oiseaux sont dans un cerisier. Un chasseur passe et tue un oiseau. Combien reste-t-il d'oiseaux dans le cerisier ?",
+            "text": "Combien y'a-t-il de case sur un plateau d'echec ?",
             "answers": [
-                "Il n'en reste aucun, les autres se sont envolés.",
-                "Il en reste 12",
-                "Il en reste 13 car le chasseur s'est trompé, il n'a pas tiré sur un oiseau...",
-                "Les oiseaux ne se posent jamais sur des branches de cerisiers"
+                "64",
+                "100",
+                "36",
+                "144"
             ]
         },
         {
-            "text": "Je suppose que nous possédons, toi et moi, la même somme d'argent. Combien dois-je te donner pour que tu aies 10€ de plus que moi ?",
+            "text": "Combien y'a-t-il de case sur un plateau de dames ?",
             "answers": [
-                "5€",
-                "81€",
-                "121€",
-                "37.80€"
+                "100",
+                "64",
+                "36",
+                "144"
             ]
         },
         {
-            "text": "Un escargot décide d'atteindre le toit d'une maison. Le mur fait 10 mètres de haut. L'escargot monte pendant la journée de trois mètres, mais la nuit, il glisse et redescend de deux mètres. En combien de temps parvient-il sur le toit ?",
+            "text": "Qui est le 5e président de la Ve république ?",
             "answers": [
-                "L'escargot arrive donc au sommet le soir du 8ème jour, car les 7 premiers jours, il ne montait que de 1 mètre par jour; le 8ème, il parvient au sommet).",
-                "L'escargot arrive donc au sommet le soir du 7ème jour, car les 6 premiers jours, il a bien travaillé et le 7ième il a fait sa meilleure journée de 4 mètres!",
-                "L'escargot arrive donc au sommet le matin du 10ème jour, car il ne montait que de 1 mètre par jour",
-                "L'escargot est mort sans jamais avoir pu atteindre le toit de la maison, car un escargot a besoin de s'alimenter tous les 3 jours."
+                "Jaques Chirac.",
+                "Valéry Giscard d'Estaing.",
+                "Nicolas Sarkozy.",
+                "François Mitterrand."
             ]
         },
         {
-            "text": " Il faut 56 biscuits à Marthe pour nourrir ses 10 chiens et chats. Un chien mange 6 biscuits et un chat seulement 5. Combien Marthe possède de chats et de chiens? ",
+            "text": "Quelle est la capitale de Monaco ?",
             "answers": [
-                "6 chiens et 4 chats",
-                "7 chiens et 9 chats",
-                "2 chiens et 7 chats",
-                "4 chiens et 3 chats"
+                "Monaco.",
+                "Monte-Carlo.",
+                "Le rocher.",
+                "Monaco-Ville."
             ]
         },
         {
-            "text": "Je fus demain, je serai hier. Qui suis-je ? ",
+            "text": "Combien d'arrondissement la ville de Lyon possède-t-elle ?",
             "answers": [
-                "aujourd'hui",
-                "Jésus",
-                "le temps",
-                "L'univers"
+                "9",
+                "16",
+                "20",
+                "0"
             ]
         },
         {
-            "text": "Mon poids est élevé, mais malgré ma petite taille, des flammes je triomphe..",
+            "text": "Combien d'arrondissement la ville de Marseilles possède-t-elle ?",
             "answers": [
-                "L'extincteur.",
-                "Le pompier",
-                "Le pénis",
-                "La salamandre"
+                "16",
+                "9",
+                "20",
+                "0"
             ]
         },
         {
-            "text": "Plus il y en a et moins cela pèse. Qui suis je?",
+            "text": "3 * 11 * 61 = ??",
             "answers": [
-                "Le vide",
-                "L'argent",
-                "L'or",
-                "Les plumes"
+                "2013",
+                "1789",
+                "1945",
+                "2077"
             ]
         },
         {
-            "text": "Un ballon à l'hélium monte dans l'air tout doucement. La première seconde il parcourt 1 m, la deuxième 50 cm, la troisième 25 cm et de suite. Indéfiniment le ballon ne s'arrête pas de monter. Par seconde il parcourt la moitié de ce qu'il a monté la seconde précédente. Jusqu'où le ballon va-t-il monter? ",
+            "text": "D'où sont lancées les fusées Ariane ?",
             "answers": [
-                "Le ballon tend vers la hauteur de 2 mètres, sans jamais l'atteindre.",
-                "Le ballon tend vers la hauteur de 7.29 mètres, sans jamais l'atteindre.",
-                "Le ballon tend vers la hauteur de 5.42 mètres, sans jamais l'atteindre.",
-                "Le ballon tend vers la hauteur de 8.21 mètres, sans jamais l'atteindre."
+                "A Kourou.",
+                "A cap Canaveral.",
+                "A Baïkonour.",
+                "A Xichang."
             ]
         },
         {
-            "text": "Un libraire achète un livre 70€, le vend 80€, le rachète 90€, le revend 100€. Quel a été son bénéfice ? ",
+            "text": "Comment s'appellent les centrales qui tirent leur énergie du vent ?",
             "answers": [
-                "20€",
-                "30€",
-                "40€",
-                "50€"
+                "Les centrales éoliennes.",
+                "Les centrales hydroélectriques.",
+                "Les centrales marémotrices.",
+                "Les centrales photovoltaïques."
             ]
         },
         {
-            "text": "Un homme et son fils ont ensemble 44 ans. Leurs âges respectifs sont formés des 2 mêmes chiffres renversés. Quel âge ont-ils ?",
+            "text": "Comment s'appellent les centrales qui tirent leur énergie du soleil ?",
             "answers": [
-                "13 ans et 31 ans",
-                "40 ans et 4 ans",
-                "73 ans et 37 ans",
-                "21 ans et 12 ans"
+                "Les centrales photovoltaïques.",
+                "Les centrales éoliennes.",
+                "Les centrales hydroélectriques.",
+                "Les centrales marémotrices."
             ]
         },
         {
-            "text": "Prenez trois fois mon âge dans trois ans, et enlevez trois fois mon âge il y a trois ans, vous obtiendrez mon âge actuel.",
+            "text": "Lequel de ces personnages est issu de la mythologie grecque ?",
             "answers": [
-                "18 ans",
-                "16 ans",
-                "14 ans",
-                "12 ans"
+                "Athéna.",
+                "Jupiter.",
+                "Râ.",
+                "Thor."
             ]
         },
         {
-            "text": "En observant les aiguilles d'une horloge pendant 12 heures, combien de fois les aiguilles de l'horloge font un angle droit entre elles ? ",
+            "text": "Lequel de ces personnages est issu de la mythologie scandinave ?",
             "answers": [
-                "Elles auront donc fait 22 fois un angle droit au cours des 12 heures",
-                "Elles auront donc fait 11 fois un angle droit au cours des 12 heures",
-                "Elles auront donc fait 7 fois un angle droit au cours des 12 heures",
-                "Elles auront donc fait 19 fois un angle droit au cours des 12 heures"
+                "Thor.",
+                "Athéna.",
+                "Jupiter.",
+                "Râ."
             ]
         },
         {
-            "text": "Le TGV Paris-Lyon part à midi de Paris à une vitesse constante de 200 km/h. Le TGV Lyon-Paris part de Lyon une heure plus tard et roule à vitesse constante à 300 km/h. Au moment où ils se croisent, lequel des deux est le plus prêt de Paris ? ",
+            "text": "Quelle version du système d'exploitation de Microsoft est apparue en 2001 ?",
             "answers": [
-                "Au moment où les trains se croisent, ils sont à la même distance de l'une ou de l'autre ville.",
-                "Au moment où les trains se croisent, le TGV Lyon-Paris est le plus prêt de Paris ",
-                "Au moment où les trains se croisent, le TGV Paris-Lyon est le plus prêt de Paris",
-                "Au moment où les trains se croisent, le TGV Lyon-Paris le plus loin de Paris"
+                "Windows XP.",
+                "Windows 2000.",
+                "Windows Vista.",
+                "Windows 7."
             ]
         },
         {
-            "text": " Une encyclopédie en dix volumes est rangée dans l'ordre sur une planche de bibliothèque. Chaque volume est épais de 4,5 cm pour les feuilles et de deux fois 0,25 cm pour la couverture. Un vers né en page 1 du volume 1 se nourrit en traversant perpendiculairement et en ligne droite la collection complète et meurt à la dernière page du dixième volume. Quelle distance aura-t-il parcourue pendant son existance ? ",
+            "text": "Qui a écrit la saga de livre : \"Harry Potter\" ?",
             "answers": [
-                "40.5 cm",
-                "41.5 cm",
-                "42.5 cm",
-                "43.5 cm"
+                "J.K. Rowling.",
+                "J.R.R. Tolkien.",
+                "Voldemort.",
+                "Suzanne Collins."
             ]
         },
         {
-            "text": "A quelle époque de l'humanité cette égalité [ 31 octobre = 25 décembre ] a-t-elle été vérifiée ?",
+            "text": "Qui a écrit la saga de livre : \"le seigneur des anneaux\" ?",
             "answers": [
-                "31 en octal vaut toujours 25 en décimal",
-                "jamais dans l'humanité, cette égalité n'a pu être vérifiée",
-                "à la naissance du Christianisme",
-                "en 74866 avant JC, le premier solstice d'hivers de la planète terre"
+                "J.K. Rowling.",
+                "J.R.R. Tolkien.",
+                "Voldemort.",
+                "Suzanne Collins."
             ]
         },
         {
-            "text": "Nous sommes nés de la même mère, la même année, le même mois, le même jour et à la même heure. Pourtant nous ne sommes pas jumeaux, ni même jumelles. Pourquoi ?",
+            "text": "Qui a écrit : \"20 000 lieux sous les mers\" ?",
             "answers": [
-                "car nous sommes des triplés",
-                "car nous ne sommes des cellules",
-                "car nous ne sommes pas issus du même placenta",
-                "car l'un de nous était retourné"
+                "Victor Hugo.",
+                "Emile Zola.",
+                "Molière.",
+                "Diderot."
             ]
         },
         {
-            "text": "Vous avez le sommeil lourd et vous avez réglez votre réveil à aiguilles de grand-mère à sonner pour 10h00. Vous allez vous couché à 21h00. Combien de temps dormirez-vous ?",
+            "text": "Qui a écrit : \"Le médecin malgré lui\" ?",
             "answers": [
-                "1 heure",
-                "13 heures",
-                "...il faudra remonter le réveil avant le matin",
-                "9 heures"
+                "Molière.",
+                "Victor Hugo.",
+                "Emile Zola.",
+                "Diderot."
             ]
         },
         {
-            "text": "Quand après-demain sera hier, il nous faudra autant de jours pour atteindre dimanche qu'il nous en a fallu quand avant-hier était demain, pour que nous soyons aujourd'hui. Quel jour sommes nous ? ",
+            "text": "Quel jeu vidéo demande de lancer des oiseaux pour tuer des cochons verts ?",
             "answers": [
-                "Lundi",
-                "Mardi",
-                "Mercredi",
-                "Samedi"
+                "Angry birds.",
+                "Candy crush.",
+                "Pac Man.",
+                "Mario Bros."
             ]
         },
         {
-            "text": "Vous participez à une course cycliste. A un moment donné, vous doublez le second. Vous êtes alors ? ",
+            "text": "Dans quel jeu vidéo une princesse est-elle perdu dans le chateau de Browser ?",
             "answers": [
-                "Second",
-                "Premier",
-                "Troisième",
-                "Dernier"
-            ]
-        },
-        {
-            "text": "Pourquoi ne peut-on pas glisser une carte entre les pages 103 et 104 d'un livre ? ",
-            "answers": [
-                "C'est impossible, car ces pages ne sont pas des feuilles",
-                "car à partir de 100 pages, on a plus besoin de marque-page",
-                "pourquoi ne le pourrions-nous pas?",
-                "car ce livre n'a que 102 pages"
-            ]
-        },
-        {
-            "text": "Un homme et une femme très amoureux sont dans un lit. Sur la table de nuit à côté il y a une bougie. Qu'est-ce qu'y fond?",
-            "answers": [
-                "la bougie fond",
-                "ils fondent l'amour",
-                "ils s'en serviront de la bougie...pour s'éclairer",
-                "ainsi font font font...!"
-            ]
-        },
-        {
-            "text": "Un gardien de nuit meurt de jour. Touche-t-il une pension? ",
-            "answers": [
-                "Il ne peut rien toucher puisqu'il est mort",
-                "Il ne peut rien toucher car il est mort en plein jour, en dehors de son travail",
-                "Il ne peut rien toucher car les pensions ne concernent que des assurances vie",
-                "Il ne peut rien toucher car il n'avait pas pu souscrire avant de mourir une assurance-vie"
+                "Mario Bros.",
+                "Angry birds.",
+                "Candy crush.",
+                "Pac Man."
             ]
         }
     ]
