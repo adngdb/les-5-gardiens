@@ -16,25 +16,25 @@
                 "0",
                 "12",
                 "13",
-                "Les oiseaux ne se posent jamais sur des branches de cerisiers"
+                "Les oiseaux ne se posent jamais sur des branches de cerisiers."
             ]
         },
         {
             "text": " Il faut 56 biscuits à Marthe pour nourrir ses 10 chiens et chats. Un chien mange 6 biscuits et un chat seulement 5. Combien Marthe possède de chats et de chiens? ",
             "answers": [
-                "6 chiens et 4 chats",
-                "7 chiens et 9 chats",
-                "2 chiens et 7 chats",
-                "4 chiens et 3 chats"
+                "6 chiens et 4 chats.",
+                "7 chiens et 9 chats.",
+                "2 chiens et 7 chats.",
+                "4 chiens et 3 chats."
             ]
         },
         {
             "text": "Plus il y en a et moins cela pèse. Qui suis je?",
             "answers": [
-                "Le vide",
-                "L'argent",
-                "L'or",
-                "Les plumes"
+                "Le vide.",
+                "L'argent.",
+                "L'or.",
+                "Les plumes."
             ]
         },
         {
@@ -49,46 +49,181 @@
         {
             "text": "Prenez trois fois mon âge dans trois ans, et enlevez trois fois mon âge il y a trois ans, vous obtiendrez mon âge actuel.",
             "answers": [
-                "18 ans",
-                "16 ans",
-                "14 ans",
-                "12 ans"
+                "18 ans.",
+                "16 ans.",
+                "14 ans.",
+                "12 ans."
             ]
         },
         {
             "text": " Une encyclopédie en dix volumes est rangée dans l'ordre sur une planche de bibliothèque. Chaque volume est épais de 4,5 cm pour les feuilles et de deux fois 0,25 cm pour la couverture. Un vers né en page 1 du volume 1 se nourrit en traversant perpendiculairement et en ligne droite la collection complète et meurt à la dernière page du dixième volume. Quelle distance aura-t-il parcourue pendant son existance ? ",
             "answers": [
-                "40.5 cm",
-                "41.5 cm",
-                "42.5 cm",
-                "43.5 cm"
+                "40.5 cm.",
+                "41.5 cm.",
+                "42.5 cm.",
+                "43.5 cm."
             ]
         },
         {
             "text": "Vous avez le sommeil lourd et vous avez réglez votre réveil à aiguilles de grand-mère à sonner pour 10h00. Vous allez vous couché à 21h00. Combien de temps dormirez-vous ?",
             "answers": [
-                "1 heure",
-                "13 heures",
-                "...il faudra remonter le réveil avant le matin",
-                "9 heures"
+                "1 heure.",
+                "13 heures.",
+                "...il faudra remonter le réveil avant le matin.",
+                "9 heures."
             ]
         },
         {
             "text": "Un homme et une femme très amoureux sont dans un lit. Sur la table de nuit à côté il y a une bougie. Qu'est-ce qu'y fond?",
             "answers": [
-                "la bougie fond",
-                "ils fondent l'amour",
-                "ils s'en serviront de la bougie...pour s'éclairer",
-                "ainsi font font font...!"
+                "La bougie fond.",
+                "Ils fondent l'amour.",
+                "Ils s'en serviront de la bougie...pour s'éclairer.",
+                "Ainsi font font font...!"
             ]
         },
         {
             "text": "Quelle est la distance entre la Terre et le Soleil ?",
             "answers": [
                 "1 UA.",
-                "0,33 année lumière."
+                "0,33 année lumière.",
                 "150 000 000 m.",
                 "36 000 km."
+            ]
+        },
+        {
+            "text": "Dans notre système solaire, quelle est la 5e planète en partant du soleil ?",
+            "answers": [
+                "Saturne.",
+                "Jupiter.",
+                "Uranus.",
+                "Mars."
+            ]
+        },
+        {
+            "text": "Au pari sportif, je parie 10€ sur l'équipe A avec une côte de 1,5 contre 1. Combien vais-je gagner si l'équipe A gagne le match ?",
+            "answers": [
+                "5 €.",
+                "10 €.",
+                "15 €.",
+                "0 €."
+            ]
+        },
+        {
+            "text": "En quelle année se déroule les évènements du roman écrit par George Orwell, décrivant un monde post-apocalyptique avec \"Big Brother\" comme principale figure ?",
+            "answers": [
+                "1984",
+                "2000",
+                "1945",
+                "2070"
+            ]
+        },
+        {
+            "text": "Où Tintin n'est-il jamais allé ?",
+            "answers": [
+                "Au pole nord.",
+                "Sur la lune.",
+                "En Amérique.",
+                "Au Tibet."
+            ]
+        },
+        {
+            "text": "Dans quelle saga cinématographique voit-on les personnages de \"Jar Jar Bings\", \"Windu\" et \"Palpatine\" ?",
+            "answers": [
+                "Star Wars.",
+                "Le seigneur des anneaux.",
+                "Matrix.",
+                "Harry Potter."
+            ]
+        },
+        {
+            "text": "Dans quelle film voit-on un groupe d'humain essayant de repousser la fin du monde ?",
+            "answers": [
+                "Terminator.",
+                "James Bond.",
+                "Twilight.",
+                "Alien."
+            ]
+        },
+        {
+            "text": "Quelle est la traduction du mot anglais \"Actually\" ?",
+            "answers": [
+                "En fait.",
+                "Actuellement.",
+                "Couramment.",
+                "Pourtant."
+            ]
+        },
+        {
+            "text": "Quelle est la traduction du mot anglais \"shirt\" ?",
+            "answers": [
+                "Chemise.",
+                "Tee-Shirt.",
+                "Short.",
+                "Bermuda."
+            ]
+        },
+        {
+            "text": "Que signifie le \"D\" dans le sigle \"Radar\" ?",
+            "answers": [
+                "Detection.",
+                "Direction.",
+                "Détermination.",
+                "Distance."
+            ]
+        },
+        {
+            "text": "Que signifie le \"A\" dans l'acronyme \"HADOPI\" ?",
+            "answers": [
+                "Autorité.",
+                "Autonome.",
+                "Anti-piratage.",
+                "Administrative."
+            ]
+        },
+        {
+            "text": "Sur un clavier d'ordinateur, comment fait-on pour écrire \"|\" ? ",
+            "answers": [
+                "Alt gr + 6",
+                "Maj + :",
+                "Alt gr + 8",
+                "on ne peut pas !"
+            ]
+        },
+        {
+            "text": "Laquelle de ces propositions désigne un système d'exploitation ?",
+            "answers": [
+                "Firefox OS.",
+                "Chrome.",
+                "Mac.",
+                "Microsoft Visual Studio."
+            ]
+        },
+        {
+            "text": "Combien de pixel y'a-t-il sur un écran de télévision à la norme \"4K\" ?",
+            "answers": [
+                "Environ 8 millions.",
+                "Environ 2 millions.",
+                "Environ 4 millions.",
+                "Environ 1 millions."
+            ]
+        },
+        {
+            "text": "Dans une boutique, je repère un vêtement avec une réduction de 20% à 32 €. Au passage en caisse, on m'informe que la réduction est passée à 50%, combien vais-je payer ?",
+            "answers": [
+                "20 €",
+                "25 €",
+                "24 €",
+                "16 €"
+            ]
+        },
+        {
+            "text": "Combien y'a-t-il de bille au début d'une partie de billard américain ?",
+            "answers": [
+                "16",
+                "15",
+                "22",
+                "3"
             ]
         }
     ]
