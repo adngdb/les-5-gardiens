@@ -68,7 +68,7 @@
             "text": "Qu'est-ce que la \"sensible\" en musique ?",
             "answers": [
                 "Le 7ième degré de la gamme.",
-                "Le Si.",
+                "La note La.",
                 "L'accord de Si mineur ",
                 "Ca n'existe pas."
             ]
@@ -83,129 +83,174 @@
             ]
         },
         {
-            "text": "",
+            "text": "Laquelle de ces années sera bissextile ?",
             "answers": [
-                "",
-                "",
-                "",
-                ""
+                "2300",
+                "2400",
+                "2500",
+                "2200"
             ]
         },
         {
-            "text": "",
+            "text": "Au début du film \"Aliens, le retour\", combien de temps Ellen Ripley est-elle restée en stase ?",
             "answers": [
-                "",
-                "",
-                "",
-                ""
+                "57 ans.",
+                "42 ans.",
+                "79 ans.",
+                "10 ans."
             ]
         },
         {
-            "text": "",
+            "text": "Où peut-on voir un exemple d'\"œcumenopole\" ?",
             "answers": [
-                "",
-                "",
-                "",
-                ""
+                "Dans Starwars : sur la planète Coruscant.",
+                "Dans Le seigneur des anneaux : dans la Comté.",
+                "Dans Star Trek : la ville de Los Angeles.",
+                "Dans Avatar : sur la planète Pandora."
             ]
         },
         {
-            "text": "",
+            "text": "Quand est né Harry Potter ?",
             "answers": [
-                "",
-                "",
-                "",
-                ""
+                "Le 31 juillet 1980.",
+                "Le 19 septembre 1979.",
+                "Le 11 août 1981.",
+                "On ne le sait pas."
             ]
         },
         {
-            "text": "",
+            "text": "A quelle distance équivaut une année-lumière ?",
             "answers": [
-                "",
-                "",
-                "",
-                ""
+                "Environ 9 500 milliards de km.",
+                "Environ 505 milliards de km.",
+                "Environ 122 Unité Astronomique.",
+                "Environ 3 parsec."
             ]
         },
         {
-            "text": "",
+            "text": "Quel est le nom de l'amas de galaxie, dans lequel se situe la Terre ?",
             "answers": [
-                "",
-                "",
-                "",
-                ""
+                "Le groupe local.",
+                "Le groupe du sculpteur.",
+                "La nébuleuse du crabe.",
+                "L'amas de la vierge."
             ]
         },
         {
-            "text": "",
+            "text": "Dans la mythologie nordique, quel est le nom du marteau de Thor ?",
             "answers": [
-                "",
-                "",
-                "",
-                ""
+                "Mjöllnir.",
+                "Bilskirnir.",
+                "Megingjord.",
+                "Jörd."
             ]
         },
         {
-            "text": "",
+            "text": "Dans la mythologie égyptienne, quel est le nom du dieu de la Terre ?",
             "answers": [
-                "",
-                "",
-                "",
-                ""
+                "Geb.",
+                "Shou.",
+                "Thot.",
+                "Nout."
             ]
         },
         {
-            "text": "",
+            "text": "Quelle est la capitale du Canada ?",
             "answers": [
-                "",
-                "",
-                "",
-                ""
+                "Ottawa.",
+                "Toronto.",
+                "Vancouver.",
+                "Montréal."
             ]
         },
         {
-            "text": "",
+            "text": "Quelle est la capitale de la Nouvelle Zélande ?",
             "answers": [
-                "",
-                "",
-                "",
-                ""
+                "Wellington.",
+                "Auckland.",
+                "Christchurch.",
+                "Hamilton."
             ]
         },
         {
-            "text": "",
+            "text": "Qui est l'actuel chef d'état de l'Australie ?",
             "answers": [
-                "",
-                "",
-                "",
-                ""
+                "Elizabeth II.",
+                "Tony Abbott.",
+                "Quentin Bryce.",
+                "Kevin Rudd."
             ]
         },
         {
-            "text": "",
+            "text": "Au hockey sur glace, quelle est la durée total d'un match ?",
             "answers": [
-                "",
-                "",
-                "",
-                ""
+                "60 minutes, divisés en 3 périodes.",
+                "48 minutes, divisés en 4 périodes.",
+                "80 minutes, divisés en 2 périodes.",
+                "50 minutes, divisés en 2 périodes."
             ]
         },
         {
-            "text": "",
+            "text": "Au tennis, quelle est la hauteur règlementaire du filet au milieu du terrain ?",
             "answers": [
-                "",
-                "",
-                "",
-                ""
+                "0,914 m.",
+                "1,07 m.",
+                "1,2 m.",
+                "0,796 m."
             ]
         },
         {
-            "text": "",
+            "text": "Quel est le 78e élément du tableau périodique ?",
             "answers": [
-                "",
-                "",
-                "",
-                ""
+                "Pt",
+                "Ag",
+                "Au",
+                "Hg"
+            ]
+        },
+        {
+            "text": "Combien de coté possède un henicosagone ?",
+            "answers": [
+                "21",
+                "17",
+                "11",
+                "20"
+            ]
+        },
+        {
+            "text": "Comment s'appelle un polygone à 9 côtés ?",
+            "answers": [
+                "Ennéagone.",
+                "Ennéaicosagone.",
+                "Nonagone.",
+                "Hendécagone."
+            ]
+        },
+        {
+            "text": "Quelle est la surface d'une sphère de rayon 5 ?",
+            "answers": [
+                "314",
+                "523,33",
+                "78,5",
+                "104,67"
+            ]
+        },
+        {
+            "text": "e^(i*π) = ???",
+            "answers": [
+                "-1",
+                "1",
+                "i",
+                "-i"
+            ]
+        },
+        {
+            "text": "Sur quoi repose la technologie de cryptage RSA ?",
+            "answers": [
+                "Les nombres premiers.",
+                "L'alphabet.",
+                "Une clef de cryptage définie aléatoirement.",
+                "Une représentation du message à l'aide d'image."
             ]
         }
     ]
