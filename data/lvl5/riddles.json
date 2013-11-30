@@ -55,5 +55,158 @@
                 "Le TGV Lyon-Paris le plus loin de Paris"
             ]
         },
+        {
+            "text": "Une cantatrice arrive devant son pianiste favori et lui dit: \"j'ai mal dormi, du coup ma voix est plus basse, je ne peux pas chanter la partition à la hauteur normale. Peux-tu m'accompagner 1 ton plus bas... ?\" En quelle clef le pianiste devra accompagner sa cantatrice ?",
+            "answers": [
+                "En clef d'Ut 4 (pour la main droite) et en clef d'Ut 3 (pour la main gauche).",
+                "En clef de Sol.",
+                "En clef de Fa",
+                "En clef d'Ut 4."
+            ]
+        },
+        {
+            "text": "Qu'est-ce que la \"sensible\" en musique ?",
+            "answers": [
+                "Le 7ième degré de la gamme.",
+                "Le Si.",
+                "L'accord de Si mineur ",
+                "Ca n'existe pas."
+            ]
+        },
+        {
+            "text": "Si je joue un accord de dominante, composé des notes suivantes: Fa, La, Do, Mi bémol. Et que la mélodie de ce morceau, contient un Ré bémol... En quelle tonalité suis-je ?",
+            "answers": [
+                "En Si bémol mineur.",
+                "En Fa # majeur.",
+                "En Mi majeur.",
+                "En Do # mineur."
+            ]
+        },
+        {
+            "text": "",
+            "answers": [
+                "",
+                "",
+                "",
+                ""
+            ]
+        },
+        {
+            "text": "",
+            "answers": [
+                "",
+                "",
+                "",
+                ""
+            ]
+        },
+        {
+            "text": "",
+            "answers": [
+                "",
+                "",
+                "",
+                ""
+            ]
+        },
+        {
+            "text": "",
+            "answers": [
+                "",
+                "",
+                "",
+                ""
+            ]
+        },
+        {
+            "text": "",
+            "answers": [
+                "",
+                "",
+                "",
+                ""
+            ]
+        },
+        {
+            "text": "",
+            "answers": [
+                "",
+                "",
+                "",
+                ""
+            ]
+        },
+        {
+            "text": "",
+            "answers": [
+                "",
+                "",
+                "",
+                ""
+            ]
+        },
+        {
+            "text": "",
+            "answers": [
+                "",
+                "",
+                "",
+                ""
+            ]
+        },
+        {
+            "text": "",
+            "answers": [
+                "",
+                "",
+                "",
+                ""
+            ]
+        },
+        {
+            "text": "",
+            "answers": [
+                "",
+                "",
+                "",
+                ""
+            ]
+        },
+        {
+            "text": "",
+            "answers": [
+                "",
+                "",
+                "",
+                ""
+            ]
+        },
+        {
+            "text": "",
+            "answers": [
+                "",
+                "",
+                "",
+                ""
+            ]
+        },
+        {
+            "text": "",
+            "answers": [
+                "",
+                "",
+                "",
+                ""
+            ]
+        },
+        {
+            "text": "",
+            "answers": [
+                "",
+                "",
+                "",
+                ""
+            ]
+        }
     ]
 }

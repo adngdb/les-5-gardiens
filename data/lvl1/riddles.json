@@ -225,6 +225,42 @@
                 "Candy crush.",
                 "Pac Man."
             ]
+        },
+        {
+            "text": "Combien de son contient un accord parfait Majeur ?",
+            "answers": [
+                "3",
+                "2",
+                "4",
+                "5"
+            ]
+        },
+        {
+            "text": "Combien de bémols doit-on rajouter à l'armure pour être en Fa Majeur ?",
+            "answers": [
+                "1",
+                "2",
+                "3",
+                "0"
+            ]
+        },
+        {
+            "text": "Au basket-ball, combien y'a-t-il de joueur par équipe sur le terrain ?",
+            "answers": [
+                "5",
+                "6",
+                "7",
+                "11"
+            ]
+        },
+        {
+            "text": "Au tennis, quel score y'a-t-il après une égalité ?",
+            "answers": [
+                "Avantage.",
+                "Jeu.",
+                "40-A",
+                "Set."
+            ]
         }
     ]
 }

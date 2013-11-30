@@ -55,5 +55,203 @@
                 "Evaluation."
             ]
         },
+        {
+            "text": "Sachant que Michel est un ténor, Sarah est soprano et Maxime est une basse. Que doit être Paul ?",
+            "answers": [
+                "Une alto.",
+                "Un contre-ténor.",
+                "Un castrat.",
+                "Un baryton."
+            ]
+        },
+        {
+            "text": "Si je joue une variation Goldberg, je joue du ... ",
+            "answers": [
+                "Jean Sébastien Bach.",
+                "Wolfgang Amadeus Mozart.",
+                "Frédéric Chopin.",
+                "Johann Strauss (père)."
+            ]
+        },
+        {
+            "text": "Au golf, comment appelle-t-on le fait de faire un trou en 4 coup de moins que le bogey ?",
+            "answers": [
+                "Albatros.",
+                "Par.",
+                "Birdie.",
+                "Eagle."
+            ]
+        },
+        {
+            "text": "Au foot-ball, au début d'un match, combien de personnes participent au jeu ?",
+            "answers": [
+                "25",
+                "22",
+                "11",
+                "12"
+            ]
+        },
+        {
+            "text": "Au cinéma, dans quel film retrouve-t-on des \"facehugger\" ?",
+            "answers": [
+                "Alien.",
+                "Starwars.",
+                "Star trek.",
+                "Le seigneur des anneaux."
+            ]
+        },
+        {
+            "text": "Au cinéma, quel est le modèle du Terminator joué par \"Sam Worthington\" dans le 4e volet de la saga ?",
+            "answers": [
+                "T-H",
+                "T-101",
+                "T-800",
+                "T-X"
+            ]
+        },
+        {
+            "text": "Pendant combien de temps Proxima du centaure restera l'étoile la plus proche de notre système solaire ?",
+            "answers": [
+                "33 000 ans.",
+                "Indéfiniment (Pourquoi ça changerai ?).",
+                "2 million d'années.",
+                "Plusieurs milliard d'années : jusqu'à son extinction, elle ne sera alors plus une étoile."
+            ]
+        },
+        {
+            "text": "En astronomie, de combien de constellation est composée la sphère céleste ?",
+            "answers": [
+                "88",
+                "12",
+                "24",
+                "42"
+            ]
+        },
+        {
+            "text": "Quel langage de programmation a été principalement utilisé pour créer ce jeu ?",
+            "answers": [
+                "JavaScript.",
+                "HTML.",
+                "C++.",
+                "Shell."
+            ]
+        },
+        {
+            "text": "En informatique, que représente l'unité \"Flops\" ?",
+            "answers": [
+                "Le nombre d'opération à virgule flotante par seconde.",
+                "La fréquence d'éxécution des micro-processeurs.",
+                "Le nombre de données qu'un micro-processeurs peut traiter par seconde.",
+                "La quantité de stockage disponible en mémoire RAM."
+            ]
+        },
+        {
+            "text": "Quel jeu vidéo a été créé par \"Tōru Iwatani\" ?",
+            "answers": [
+                "Pac Man.",
+                "Mario Bros.",
+                "Tetris.",
+                "Bomber-Man."
+            ]
+        },
+        {
+            "text": "Quel console de jeu vidéo fait parti de la 2e génération de console ?",
+            "answers": [
+                "Atari 5200.",
+                "Coleco Telstar",
+                "Nintendo Entertainment System (NES)",
+                "Neo-Geo."
+            ]
+        },
+        {
+            "text": "Dans le roman de Jules Verne \"Le tour du monde en 80 jours\", pour quelles raisons Phileas fogg arrive-t-il a faire son tour du monde dans les temps ?",
+            "answers": [
+                "Grâce au décallage horaire.",
+                "Il a oublié de compter le 29 février dans son calendrier.",
+                "Il a triché sur une partie du parcours.",
+                "C'est faux, il n'arrive pas à faire son tour du monde dans les temps."
+            ]
+        },
+        {
+            "text": "A quelle distance équivaut 1 angström ?",
+            "answers": [
+                "0,1 nm.",
+                "10 mm.",
+                "1 000 pm.",
+                "0,1 fm."
+            ]
+        },
+        {
+            "text": "A quoi équivaut 1pc ?",
+            "answers": [
+                "Environ 30 000 milliards de km.",
+                "Un ordinateur.",
+                "Un membre du parti communiste.",
+                "Cette unité/abbréviation n'existe pas !"
+            ]
+        },
+        {
+            "text": "Quels sont les seuls atomes qui composent un diamant ?",
+            "answers": [
+                "Le carbone.",
+                "Le verre.",
+                "Le fer.",
+                "Le platine."
+            ]
+        },
+        {
+            "text": "Quelle est la particularité du livre de Georges Perec : \"la disparition\" ?",
+            "answers": [
+                "Il ne comporte pas une seule fois la lettre \"E\".",
+                "Il est uniquement composé d'image.",
+                "Il donne tout l'intrigue dès le 1er chapitre.",
+                "Il n'y a pas de particularité, c'est un roman comme un autre."
+            ]
+        },
+        {
+            "text": "Quel super héros ne fait pas parti de l'univers \"MARVEL\" ?",
+            "answers": [
+                "Green Lantern.",
+                "Spider-Man.",
+                "Ghost Rider.",
+                "Doctor Octopus."
+            ]
+        },
+        {
+            "text": "Quelle est la capitale de l'Australie ?",
+            "answers": [
+                "Canberra.",
+                "Sydney.",
+                "Melbourne.",
+                "Adélaïde."
+            ]
+        },
+        {
+            "text": "Quelle est la capitale politique des Pays-Bas ?",
+            "answers": [
+                "La Haye.",
+                "Amsterdam.",
+                "Rotterdam.",
+                "Utrecht."
+            ]
+        },
+        {
+            "text": "Dans la mythologie grecque, qui est la mère de Zeus ?",
+            "answers": [
+                "Rhéa.",
+                "Chronos.",
+                "Gaïa.",
+                "Héra."
+            ]
+        },
+        {
+            "text": "Combien de génération séparent Louis XIV de Louis XVI ?",
+            "answers": [
+                "5 (arrière-arrière-arrière-petit-fils).",
+                "4 (arrière-arrière-petit-fils).",
+                "3 (arrière-petit-fils).",
+                "2 (petit-fils)."
+            ]
+        }
     ]
 }

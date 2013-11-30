@@ -218,6 +218,33 @@
             ]
         },
         {
+            "text": "Au hand-ball, à quelle distance se situe le point de pénalty ?",
+            "answers": [
+                "7 m.",
+                "6 m.",
+                "9 m.",
+                "8 m."
+            ]
+        },
+        {
+            "text": "Tout le monde sait qu'une clarinette est en Si bémol, elle est un instrument transpositeur: lorsqu'elle joue son doigté de do, on entend un si bémol. Le piano est plus simple: lorsqu'on joue un do sur un piano, on entend un do! Alors, qu'elle note doit jouer la clarinette pour qu'on entende un La bémol ?",
+            "answers": [
+                "Si bémol.",
+                "Si.",
+                "Sol #.",
+                "La."
+            ]
+        },
+        {
+            "text": "A quel tempo peut-on jouer ?",
+            "answers": [
+                "Andante.",
+                "Al dente.",
+                "Crescendo.",
+                "Piano."
+            ]
+        },
+        {
             "text": "Combien y'a-t-il de bille au début d'une partie de billard américain ?",
             "answers": [
                 "16",

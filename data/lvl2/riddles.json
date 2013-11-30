@@ -218,6 +218,33 @@
             ]
         },
         {
+            "text": "En natation, par quelle nage une épreuve individuel de 4-nages commence-t-elle ?",
+            "answers": [
+                "Papillon.",
+                "Dos.",
+                "Brasse.",
+                "Crawl."
+            ]
+        },
+        {
+            "text": "Au rugby, combien de fait marque-t-on en transformant un essai ?",
+            "answers": [
+                "2",
+                "7",
+                "3",
+                "0"
+            ]
+        },
+        {
+            "text": "Quelle note faut-il rajouter à Fa# et Do# pour obtenir un accord de Fa# Majeur ?",
+            "answers": [
+                "La#",
+                "Sol#",
+                "Si",
+                "Sol"
+            ]
+        },
+        {
             "text": "Quelle est la fréquence de parution d'un magazine bimensuel ?",
             "answers": [
                 "2 fois par mois.",
