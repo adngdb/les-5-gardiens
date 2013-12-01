@@ -184,8 +184,8 @@
         {
             "text": "Qui a écrit la saga de livre : \"le seigneur des anneaux\" ?",
             "answers": [
-                "J.K. Rowling.",
                 "J.R.R. Tolkien.",
+                "J.K. Rowling.",
                 "Voldemort.",
                 "Suzanne Collins."
             ]
