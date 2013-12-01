@@ -1,4 +1,4 @@
-define(['jquery'], function (jquery) {
+define(['lib/jquery'], function (jquery) {
     var ResourceManager = function () {
         this.resMan = {};
     };

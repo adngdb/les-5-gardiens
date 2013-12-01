@@ -13,31 +13,6 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
         }
     };
 
-    // var Sound = function ( sources, radius, volume, loop=false ) {
-    //     var audio = document.createElement( 'audio' );
-    //     for ( var i = 0; i < sources.length; i ++ ) {
-    //         var source = document.createElement( 'source' );
-    //         source.src = sources[ i ];
-    //         audio.appendChild( source );
-    //         audio.loop = loop;
-    //     }
-
-    //     this.position = new THREE.Vector3();
-
-    //     this.play = function () {
-    //         audio.play();
-    //     }
-
-    //     this.update = function ( camera ) {
-    //         var distance = this.position.distanceTo( camera.position );
-    //         if ( distance <= radius ) {
-    //             audio.volume = volume * ( 1 - distance / radius );
-    //         } else {
-    //             audio.volume = 0;
-    //         }
-    //     }
-    // }
-
     var CUBE_SIZE = 200; //px
 
     Scene.prototype.init = function () {
@@ -46,9 +21,9 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
         this.gameEnded = false;
 
         this.camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 1, 10000 );
-        this.camera.position.x = CUBE_SIZE * this.level.objects.entrance[1];
+        this.camera.position.x = CUBE_SIZE * this.level.objects.entrance[0];
         this.camera.position.y = 0;
-        this.camera.position.z = CUBE_SIZE * this.level.objects.entrance[0];
+        this.camera.position.z = CUBE_SIZE * this.level.objects.entrance[1];
 
         this.controls = new THREE.FirstPersonControls( this.camera );
 
@@ -60,12 +35,12 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
         this.controls.activeLook = true;
         this.controls.mouseDragOn = false;
 
-        this.stats = new Stats();
-        var container = document.createElement('div');
-        document.body.appendChild(container);
-        this.stats.domElement.style.position = 'absolute';
-        this.stats.domElement.style.top = '0px';
-        container.appendChild(this.stats.domElement);
+        // this.stats = new Stats();
+        // var container = document.createElement('div');
+        // document.body.appendChild(container);
+        // this.stats.domElement.style.position = 'absolute';
+        // this.stats.domElement.style.top = '0px';
+        // container.appendChild(this.stats.domElement);
 
         this.clock = new THREE.Clock();
 
@@ -118,6 +93,7 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
         this.music.eventStress = new buzz.sound("sound/event_stress.ogg");
 
         this.music.mainTheme.loop().play();
+        this.music.currentlyPlaying = this.music.mainTheme;
 
         this.sound = {};
         this.sound.riddleEnd = new buzz.sound("sound/event_riddle_end.ogg");
@@ -345,7 +321,7 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
                         }
 
                         if(obj.name == "exit") {
-                            this.endGame();
+                            this.end();
                         }
                     }
                 }
@@ -670,9 +646,11 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
         // Randomly chose what theme to play.
         if (Math.random() < 0.5) {
             this.music.mainTheme.loop().play();
+            this.music.currentlyPlaying = this.music.mainTheme;
         }
         else {
             this.music.secondTheme.loop().play();
+            this.music.currentlyPlaying = this.music.secondTheme;
         }
 
         // at the end of the 3 seconds, fade out the UI
@@ -816,7 +794,11 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
         }
     };
 
-    Scene.prototype.endGame = function () {
+    Scene.prototype.onEnd = function (callback) {
+        this.onEndCallback = callback;
+    }
+
+    Scene.prototype.end = function () {
         var self = this;
 
         if (this.gameEnded) {
@@ -825,10 +807,10 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
 
         this.gameEnded = true;
         this.pause = true;
-        console.log("End game, haha");
 
         // Play the door opening sound
         this.sound.doorOpening.play();
+        this.music.currentlyPlaying.fadeOut(1000);
 
         // Fade to black
         var fade = new Screen('fade-to-black');
@@ -836,19 +818,11 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
             // Play the door banging sound
             self.sound.doorBanging.play();
 
-            // Show the end screen
-            end = new Screen('end-game');
-            fade.hide();
-            end.display();
-            self.music.endTheme.loop().play();
+            setTimeout(function () {
+                self.onEndCallback();
+            }, 2000);
         });
     };
-
-    // Scene.prototype.getCoordFromCamera = function () {
-    //     var coord = [];
-    //     coord[0] =
-    //     coord[1]
-    // }
 
     Scene.prototype.animate = function () {
         requestAnimationFrame( this.animate.bind(this) );

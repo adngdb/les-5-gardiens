@@ -2,11 +2,19 @@ body {
     background-color: black;
     color: white;
     line-height: 1.5;
+    overflow: hidden;
 }
 
 html, body, #screen {
     height: 100%;
     width: 100%;
+}
+
+canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 0;
 }
 
 @keyframes blink {
@@ -25,6 +33,7 @@ html, body, #screen {
     display: none;
     position: relative;
     text-align: center;
+    z-index: 1;
 }
     #screen img {
         width: 100%;
