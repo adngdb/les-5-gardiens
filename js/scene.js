@@ -129,14 +129,14 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
             for (var i = 0; i < this.level.width; ++i) {
 
                 // wall
-                if (i==4 && j==6)
-                    console.log("level value [4][6]= " + this.level.map[i][j]);
-                if (i==6 && j==6)
-                    console.log("level value [6][6]= " + this.level.map[i][j]);
-                if (i==5 && j==5)
-                    console.log("level value [5][5]= " + this.level.map[i][j]);
-                if (i==5 && j==7)
-                    console.log("level value [5][7]= " + this.level.map[i][j]);
+                // if (i==4 && j==6)
+                //     console.log("level value [4][6]= " + this.level.map[i][j]);
+                // if (i==6 && j==6)
+                //     console.log("level value [6][6]= " + this.level.map[i][j]);
+                // if (i==5 && j==5)
+                //     console.log("level value [5][5]= " + this.level.map[i][j]);
+                // if (i==5 && j==7)
+                //     console.log("level value [5][7]= " + this.level.map[i][j]);
                 if (this.level.map[i][j]) {
                     if (exit[0] == i && exit[1] == j) { ///!!!! POPO : ??? exit[0] in J => 1st coord Z ? and 2nd coord X ?? sure ?
                         // This is the exit, show a door on each face.
@@ -332,7 +332,7 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
                 }
                 //this.INTERSECTED = obj;
 
-                // set target pos if we click
+                // set movement if we click
                 if (this.controls.realClick) {
                     this.controls.realClick = false;
                     if (obj.name != "wall") {
@@ -404,7 +404,9 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
         while (this.controls.lat > 360) {
             this.controls.lat -= 360;
         }
-        if (cameraPos.z - target.z) {
+        // console.log("cameraPos = " + cameraPos.x + ":" + cameraPos.z);
+        // console.log("targetPos = " + target.x + ":" + target.z);
+        if (Math.abs(cameraPos.z - target.z) > 0.1) {
             // movement along Z axis
             if (cameraPos.z - target.z > 0){ // -Z axis
                 if (this.controls.lon < 90)
@@ -417,7 +419,7 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
                 else
                     targetLon = 450;
             }
-        }else if (cameraPos.x - target.x) {
+        }else if (Math.abs(cameraPos.x - target.x) > 0.1) {
             // movement along X axis
             if (cameraPos.x - target.x > 0){ // -X axis
                 targetLon = 180;
@@ -428,16 +430,18 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
                     targetLon = 360;
             }
         }
+        // console.log("targetLon = " + targetLon);
         // add rotation movement toward the target
         this.queueMovement.push(["rotation", [targetLon, 0]]);
 
 
         if (this.detectCrossroad(target.x, target.z)){
-            console.log("current longitude : " + this.controls.lon);
-            console.log("target longitude : " + targetLon);
+            // console.log("current longitude : " + this.controls.lon);
+            // console.log("target longitude : " + targetLon);
             // target tile = crossroad -> special movement for the riddle's UI
-            this.queueMovement.push(["translation", [(target.x + cameraPos.x ) / 2, -60, (target.z + cameraPos.z ) / 2]]);
-            this.queueMovement.push(["rotation", [targetLon + 30, 30]]);
+            this.queueMovement.push(["translation", [(target.x + 2 * cameraPos.x ) / 3, -20, (target.z + 2 * cameraPos.z ) / 3]]);
+            this.queueMovement.push(["rotation", [targetLon + 30, 0]]);
+            this.queueMovement.push(["riddle"]);
             this.queueMovement.push(["rotation", [targetLon, 0]]);
         }else {
             if(this.detectRoadTurn(this.camera.position.x, this.camera.position.z))
@@ -456,6 +460,10 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
             }else if (this.queueMovement[0][0] == "translation") {
             // translation queued
                 this.executeTranslation();
+            }else if (this.queueMovement[0][0] == "riddle") {
+            // riddle queued
+                this.queueMovement.shift();
+                this.showRiddle(this.queueMovement[1][1][0] / CUBE_SIZE, this.queueMovement[1][1][2] / CUBE_SIZE);
             }else { // should never happen : unkwnon key word
                 console.log("unkwnon key word in queueMovement !!!");
                 this.queueMovement.shift();
@@ -490,8 +498,8 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
         if (    (this.queueMovement[0][1][1] == this.controls.lat)
             &&  (this.queueMovement[0][1][0] == this.controls.lon)) {
             this.queueMovement.shift();
-            if (this.controls.lat == 30)
-                this.showRiddle(this.queueMovement[1][1][0] / CUBE_SIZE, this.queueMovement[1][1][2] / CUBE_SIZE);
+            // if (this.controls.lon % 90)
+            //     this.showRiddle(this.queueMovement[1][1][0] / CUBE_SIZE, this.queueMovement[1][1][2] / CUBE_SIZE);
         }
     }
 
@@ -868,7 +876,7 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
                 // obj.rotation.y = -ang-Math.PI*1.5;
 
                 obj.rotation.y = -(this.controls.lon*Math.PI/180)-Math.PI*0.5; // parallel to near plane
-                
+
                 // hide pnj when too close
                 if(dist < 50) {
                     obj.visible = false;
