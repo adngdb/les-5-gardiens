@@ -84,10 +84,12 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
         this.INTERSECTED;
 
         this.queueMovement = [];
+        this.queuePath = [];
         this.translationSpeed = 10;
         this.rotationSpeed = 10;
 
         this.animCounter = 0;
+        this.nbFramePerAnim = 5;
         this.pnjArray = [];
         this.indiceMeshGround = null;
 
@@ -129,14 +131,6 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
             for (var i = 0; i < this.level.width; ++i) {
 
                 // wall
-                // if (i==4 && j==6)
-                //     console.log("level value [4][6]= " + this.level.map[i][j]);
-                // if (i==6 && j==6)
-                //     console.log("level value [6][6]= " + this.level.map[i][j]);
-                // if (i==5 && j==5)
-                //     console.log("level value [5][5]= " + this.level.map[i][j]);
-                // if (i==5 && j==7)
-                //     console.log("level value [5][7]= " + this.level.map[i][j]);
                 if (this.level.map[i][j]) {
                     if (exit[0] == i && exit[1] == j) { ///!!!! POPO : ??? exit[0] in J => 1st coord Z ? and 2nd coord X ?? sure ?
                         // This is the exit, show a door on each face.
@@ -197,8 +191,6 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
 
                     // random prop
                     if(i>0 && i<this.level.width && j>0 && j<this.level.height) {
-                        //console.log("i : "+i+", j : "+j);
-
                         // test left
                         if(this.level.map[i-1][j] && exit[0] != i-1 && exit[1] != j && Math.random() < 0.25) {
                             var id = tools.getRandomInt(0,4);
@@ -338,7 +330,7 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
                     if (obj.name != "wall") {
                         this.setMovement(this.INTERSECTED.position);
                         // remove indice
-                        if(this.indiceMeshGround && (this.queueMovement.length != 0)) {
+                        if(this.indiceMeshGround && (this.queuePath.length != 0)) {
                             this.scene.remove(this.indiceMeshGround);
                         }
 
@@ -373,28 +365,73 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
         var oldIndJ = Math.round(this.camera.position.z / CUBE_SIZE);
         var newIndI = Math.round(target.x / CUBE_SIZE);
         var newIndJ = Math.round(target.z / CUBE_SIZE);
-
+        var distance = Math.abs(newIndI - oldIndI) + Math.abs(newIndJ - oldIndJ);
         // check the validity of the target
-        if ((Math.abs(newIndI - oldIndI) > 1) || (Math.abs(newIndJ - oldIndJ) > 1)) {
-            // invalid movement : more than 1 tile away
-            console.log("Invalid move : too far away !!!");
-        } else if ((Math.abs(newIndI - oldIndI) == 1) && (Math.abs(newIndJ - oldIndJ) == 1)) {
-            // invalid move : diagonal move
-            console.log("Invalid move : diagonal move !!!");
-        } else if (((newIndI - oldIndI) == 0) && ((newIndJ - oldIndJ) == 0)) {
+        if (distance == 0) {
             // invalid move : same tile
             console.log("Invalid move : same tile !!!");
         } else {
-            // movement to the next tile
-            this.addMovement(target);
+            // movement to the targeted tile
+            this.addPath(target, distance);
         }
+    }
 
+    Scene.prototype.addPath = function (target, distance) {
+        var currentPos = [Math.round(this.camera.position.x / CUBE_SIZE), Math.round(this.camera.position.z / CUBE_SIZE)];
+        var finish = [target.x / CUBE_SIZE, target.z / CUBE_SIZE];
+        this.computePath (currentPos, finish, distance);
+    }
+
+    Scene.prototype.computePath = function (start, finish, maxDepth) {
+        // end of recursion
+        if (maxDepth == 0) {
+            // no more move allowed : if (start = finish) : good path
+            if ((start[0] == finish[0]) && (start[1] == finish[1])) {
+                return true;
+            }else
+                return false;
+        }
+        // explore all 4 possible neighbors by recursion
+        // [x-1][z]
+        var newFinish = [finish[0] - 1, finish[1]];
+        if (!this.level.map[newFinish[0]][finish[1]]) {
+            if (this.computePath(start, newFinish, maxDepth - 1)){
+                this.queuePath.push(finish);
+                return true;
+            }
+        }
+        // [x+1][z]
+        var newFinish = [finish[0] + 1, finish[1]];
+        if (!this.level.map[newFinish[0]][finish[1]]) {
+            if (this.computePath(start, newFinish, maxDepth - 1)){
+                this.queuePath.push(finish);
+                return true;
+            }
+        }
+        // [x][z-1]
+        var newFinish = [finish[0], finish[1] - 1];
+        if (!this.level.map[newFinish[0]][finish[1]]) {
+            if (this.computePath(start, newFinish, maxDepth - 1)){
+                this.queuePath.push(finish);
+                return true;
+            }
+        }
+        // [x][z+1]
+        var newFinish = [finish[0], finish[1] + 1];
+        if (!this.level.map[newFinish[0]][finish[1]]) {
+            if (this.computePath(start, newFinish, maxDepth - 1)){
+                this.queuePath.push(finish);
+                return true;
+            }
+        }
+        return false;
     }
 
     Scene.prototype.addMovement = function (target) {
         // add a list of movement to execute to go to the target tile
         var targetLon;
         var cameraPos = this.camera.position;
+        // var target = this.queuePath.shift;
         while (this.controls.lon > 360) {
             this.controls.lon -= 360;
         }
@@ -404,11 +441,9 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
         while (this.controls.lat > 360) {
             this.controls.lat -= 360;
         }
-        // console.log("cameraPos = " + cameraPos.x + ":" + cameraPos.z);
-        // console.log("targetPos = " + target.x + ":" + target.z);
-        if (Math.abs(cameraPos.z - target.z) > 0.1) {
+        if (Math.abs(cameraPos.z - target[1]) > 0.1) {
             // movement along Z axis
-            if (cameraPos.z - target.z > 0){ // -Z axis
+            if (cameraPos.z - target[1] > 0){ // -Z axis
                 if (this.controls.lon < 90)
                     targetLon = -90;
                 else
@@ -419,9 +454,9 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
                 else
                     targetLon = 450;
             }
-        }else if (Math.abs(cameraPos.x - target.x) > 0.1) {
+        }else if (Math.abs(cameraPos.x - target[0]) > 0.1) {
             // movement along X axis
-            if (cameraPos.x - target.x > 0){ // -X axis
+            if (cameraPos.x - target[0] > 0){ // -X axis
                 targetLon = 180;
             }else {                     // +X axis
                 if (this.controls.lon < 180)
@@ -430,16 +465,13 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
                     targetLon = 360;
             }
         }
-        // console.log("targetLon = " + targetLon);
         // add rotation movement toward the target
         this.queueMovement.push(["rotation", [targetLon, 0]]);
 
 
-        if (this.detectCrossroad(target.x, target.z)){
-            // console.log("current longitude : " + this.controls.lon);
-            // console.log("target longitude : " + targetLon);
+        if (this.detectCrossroad(target[0], target[1])){
             // target tile = crossroad -> special movement for the riddle's UI
-            this.queueMovement.push(["translation", [(target.x + 2 * cameraPos.x ) / 3, -20, (target.z + 2 * cameraPos.z ) / 3]]);
+            this.queueMovement.push(["translation", [(target[0] + 2 * cameraPos.x ) / 3, -20, (target[1] + 2 * cameraPos.z ) / 3]]);
             this.queueMovement.push(["rotation", [targetLon + 30, 0]]);
             this.queueMovement.push(["riddle"]);
             this.queueMovement.push(["rotation", [targetLon, 0]]);
@@ -447,13 +479,20 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
             if(this.detectRoadTurn(this.camera.position.x, this.camera.position.z))
                 this.roadTurnEvent();
         }
-        this.queueMovement.push(["translation", [target.x, 0, target.z]]);
+        this.queueMovement.push(["translation", [target[0], 0, target[1]]]);
 
     }
 
     Scene.prototype.executeMove = function() {
-        // excute the current move (if needed)
-        if (this.queueMovement.length != 0) {
+        if (this.queueMovement.length == 0) {
+            // retrieve the next queued movement in queuePath
+            if (this.queuePath.length != 0) {
+                var newPosition = this.queuePath.shift();
+                var newTarget = [newPosition[0] * CUBE_SIZE, newPosition[1] * CUBE_SIZE];
+                this.addMovement(newTarget);
+            }
+        }else {
+            // excute the current move (if needed)
             if (this.queueMovement[0][0] == "rotation") {
             // rotation queued
                 this.executeRotation();
@@ -461,9 +500,10 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
             // translation queued
                 this.executeTranslation();
             }else if (this.queueMovement[0][0] == "riddle") {
-            // riddle queued
+            // riddle queued : remove all queued path
                 this.queueMovement.shift();
                 this.showRiddle(this.queueMovement[1][1][0] / CUBE_SIZE, this.queueMovement[1][1][2] / CUBE_SIZE);
+                this.queuePath.length = 0;
             }else { // should never happen : unkwnon key word
                 console.log("unkwnon key word in queueMovement !!!");
                 this.queueMovement.shift();
@@ -731,7 +771,6 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
         // current tile
         var curItem = stack.pop();
         // the road from its (potential) neighbor go toward the current tile
-        // console.log("current tile : " + curItem[0] + " - " + curItem[1]);
         if ((curItem[0] > 0)
             && (!this.arrayTowardExit[curItem[0] - 1][curItem[1]][0])
             && (!this.arrayTowardExit[curItem[0] - 1][curItem[1]][1])
@@ -741,8 +780,6 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
             this.arrayTowardExit[curItem[0] - 1][curItem[1]][1] = 0;
             stack.push([curItem[0] - 1, curItem[1]]);
             var curr = curItem[0] - 1;
-        // console.log("next tile : " + curr + " - " + curItem[1]);
-        // console.log("direction : 1 - 0");
         }
         if ((curItem[0] < this.level.height - 1)
             && (!this.arrayTowardExit[curItem[0] + 1][curItem[1]][0])
@@ -753,8 +790,6 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
             this.arrayTowardExit[curItem[0] + 1][curItem[1]][1] = 0;
             stack.push([curItem[0] + 1, curItem[1]]);
             var curr = curItem[0] + 1;
-        // console.log("next tile : " + curr + " - " + curItem[1]);
-        // console.log("direction : -1 - 0");
         }
         if ((curItem[1] > 0)
             && (!this.arrayTowardExit[curItem[0]][curItem[1] - 1][0])
@@ -765,8 +800,6 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
             this.arrayTowardExit[curItem[0]][curItem[1] - 1][1] = 1;
             stack.push([curItem[0], curItem[1] - 1]);
             var curr = curItem[1] - 1;
-        // console.log("next tile : " + curItem[0] + " - " + curr);
-        // console.log("direction : 0 - 1");
         }
         if ((curItem[1] < this.level.width - 1)
             && (!this.arrayTowardExit[curItem[0]][curItem[1] + 1][0])
@@ -777,8 +810,6 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
             this.arrayTowardExit[curItem[0]][curItem[1] + 1][1] = -1;
             stack.push([curItem[0], curItem[1] +1]);
             var curr = curItem[1] + 1;
-        // console.log("next tile : " + curItem[0] + " - " + curr);
-        // console.log("direction : 0 - -1");
         }
         if (stack.length != 0){
             this.computeDirectionTowardExit(stack);
@@ -849,16 +880,13 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
     // TODO : framerate independant animation speed (using THREE.clock ?)
     Scene.prototype.animatePNJ = function () {
         ++this.animCounter;
-        if(this.animCounter >= 40) this.animCounter = 0;
-
-        //console.log(this.camera.position.x);
-        //console.log(this.camera.position.z);
+        if(this.animCounter >= (this.nbFramePerAnim * 4)) this.animCounter = 0;
 
         for(var i=0; i<this.scene.children.length; ++i) {
             var obj = this.scene.children[i];
             if(obj.name.substring(0,3) == "pnj") {
                 var style = obj.name.substring(4);
-                obj.material = this.resourceManager["mat_tex_"+style+Math.floor(this.animCounter/10)];
+                obj.material = this.resourceManager["mat_tex_"+style+Math.floor(this.animCounter/this.nbFramePerAnim)];
                 //console.log("mat_tex_"+style+Math.floor(this.animCounter/10));
             }
 
