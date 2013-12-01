@@ -1,4 +1,4 @@
-define(function () {
+define(['jquery'], function (jquery) {
     var ResourceManager = function () {
         this.resMan = {};
     };
@@ -75,6 +75,64 @@ define(function () {
         this.loadPhongMat("img/ground_arrow.png", "mat_tex_arrow", true);
         this.loadPhongMat("img/ground_point.png", "mat_tex_point", true);
 
+    };
+
+    ResourceManager.prototype.preload = function(callback) {
+        var count = 0;
+        var totalNumberOfResources = 0;
+        var loaded = function () {
+            count++;
+
+            // Make sure all expected resources are loaded before going on.
+            if (count >= totalNumberOfResources) {
+                callback();
+            }
+        }
+
+        // List of all the images used in the game, for preloading and caching.
+        var resources = [
+            'img/screen/title-1.png',
+            'img/screen/title-2.png',
+            'img/screen/credits.png',
+            'img/screen/tutorial.png',
+            'img/screen/end-game.png',
+            'img/ground_arrow.png',
+            'img/ground_point.png',
+            'img/ground_1-1.png',
+            'img/roof_1-1.png',
+            'img/wall_1-1.png',
+            'img/door_1-1.png',
+            'img/light_1-1.png',
+            'img/curtains_1-1.png',
+            'img/door_nextlevel.png',
+            'img/wall_deco_01.png',
+            'img/wall_deco_02.png',
+            'img/wall_deco_03.png',
+            'img/wall_deco_04.png'
+        ];
+
+        var names = [ "cerberus", "janus", "presentateur", "pythie", "sphynx"];
+        var arrowsNames = [ "left", "right", "top", "down", "question"];
+
+        for (var id = 0; id < names.length; ++id) {
+            var name = names[id];
+            for (var idAnim = 0; idAnim < 4; idAnim++) {
+                resources.push('img/' + name + '_0' + (idAnim + 1) + '.png');
+            }
+            for (var idArrows = 0; idArrows < arrowsNames.length; ++idArrows) {
+                resources.push('img/' + name + '_arrows_' + arrowsNames[idArrows] + '.png');
+            }
+        }
+
+        totalNumberOfResources = resources.length;
+
+        var body = $('body');
+
+        // Load all those resources, and add them, hidden, to the <body>
+        // so the browser caches them.
+        for (var i = resources.length - 1; i >= 0; i--) {
+            $('<img />', { src: resources[i] }).bind('load', loaded).appendTo(body).hide();
+        };
     };
 
     return ResourceManager;

@@ -5,7 +5,7 @@ require.config({
     }
 });
 
-require(['level', 'scene', 'screen'], function (Level, Scene, Screen) {
+require(['level', 'scene', 'screen', 'resource'], function (Level, Scene, Screen, ResourceManager) {
     "use strict";
 
     var splash = new Screen('splash');
@@ -15,8 +15,17 @@ require(['level', 'scene', 'screen'], function (Level, Scene, Screen) {
     var title_theme = new buzz.sound('sound/title_theme.ogg');
     title_theme.loop().play();
 
-    var lvl1 = new Level(2);
-    lvl1.load(function () {
+    var resManager = new ResourceManager();
+
+    var startLevel = function (levelIndex) {
+        var level = new Level(levelIndex);
+        level.load(function () {
+            var scene = new Scene(level);
+            scene.init();
+        });
+    }
+
+    resManager.preload(function () {
         var title = new Screen('title');
         splash.hide();
         title.display(function () {
@@ -25,8 +34,7 @@ require(['level', 'scene', 'screen'], function (Level, Scene, Screen) {
                 var tutorial = new Screen('tutorial');
                 tutorial.display(function () {
                     title_theme.stop();
-                    var scene = new Scene(lvl1);
-                    scene.init();
+                    startLevel(2);
                 });
             });
         });
