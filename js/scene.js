@@ -579,6 +579,7 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
     };
 
     Scene.prototype.showRiddle = function (i, j) {
+        console.log('Showing a riddle');
         var self = this;
 
         // Pause the game.
@@ -805,6 +806,7 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
 
             setTimeout(function () {
                 console.log(self.onEndCallback);
+                fade.hide();
                 self.onEndCallback();
             }, 2000);
         });
@@ -834,7 +836,7 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
 
         this.render();
 
-        this.stats.update();
+        // this.stats.update();
     };
 
     // TODO : framerate independant animation speed (using THREE.clock ?)
