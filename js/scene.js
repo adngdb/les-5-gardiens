@@ -1,8 +1,46 @@
-define(['lib/three', 'lib/FirstPersonControls', 'riddle_renderer', 'resource', 'tools', 'screen', 'lib/stats'],
-function(three,       first_person_controls,     RiddleRenderer,    ResourceManager,    tools, Screen, _stats) {
-    var Scene = function (level) {
+define(['lib/three', 'lib/FirstPersonControls', 'riddle_renderer', 'resource',          'tools',    'screen'],
+function(three,       first_person_controls,     RiddleRenderer,    ResourceManager,    tools,      Screen) {
+
+    var CUBE_SIZE = 200; //px
+
+    var Scene = function () {
+        this.pause = true;
+        this.gameEnded = false;
+
+        this.camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 1, 10000 );
+        this.controls = new THREE.FirstPersonControls( this.camera );
+        this.clock = new THREE.Clock();
+
+        this.renderer = new THREE.WebGLRenderer({antialias:true});
+        this.renderer.setSize( window.innerWidth, window.innerHeight );
+        this.renderer.setClearColor( 0x000000, 1 );
+
+        this.projector = new THREE.Projector();
+        this.raycaster = new THREE.Raycaster();
+
+        this.resman = new ResourceManager();
+        this.resourceManager = this.resman.getResMan();
+        this.resourceManager['cube_size'] = CUBE_SIZE; // remove that and all is lost
+        this.resourceManager['renderer'] = this.renderer; // remove that and all is lost
+        this.resman.loadAll();
+
+        // sounds
+        this.resman.loadSounds();
+
+        this.sound = function (resource) {
+            return this.resman.get('sound', resource);
+        }
+        this.sound('main_theme').loop().play();
+        this.currentlyPlayingMusic = this.sound('main_theme');
+
+        document.body.appendChild( this.renderer.domElement );
+    };
+
+    Scene.prototype.init = function (level) {
         this.level = level;
-        this.pause = false;
+
+        var exit = this.level.objects.exit;
+        var entrance = this.level.objects.entrance;
 
         this.gardiansMap = [];
         for (var i = 0; i < this.level.map.length; i++) {
@@ -11,21 +49,17 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
                 this.gardiansMap[i][j] = 0;
             }
         }
-    };
 
-    var CUBE_SIZE = 200; //px
-
-    Scene.prototype.init = function () {
         this.scene = new THREE.Scene();
+        this.scene.fog = new THREE.Fog( 0x000000, 1, CUBE_SIZE * 5 );
+        this.scene.add( new THREE.AmbientLight( 0x888888 ) );
+        this.torchLight = new THREE.PointLight( 0xffffff, 1, CUBE_SIZE * 1.5 );
+        this.scene.add(this.torchLight);
 
-        this.gameEnded = false;
-
-        this.camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 1, 10000 );
-        this.camera.position.x = CUBE_SIZE * this.level.objects.entrance[0];
+        // Place camera.
+        this.camera.position.x = CUBE_SIZE * entrance[0];
         this.camera.position.y = 0;
-        this.camera.position.z = CUBE_SIZE * this.level.objects.entrance[1];
-
-        this.controls = new THREE.FirstPersonControls( this.camera );
+        this.camera.position.z = CUBE_SIZE * entrance[1];
 
         this.controls.lon = this.level.properties.startLon;
         this.controls.movementSpeed = 5000;
@@ -35,28 +69,7 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
         this.controls.activeLook = true;
         this.controls.mouseDragOn = false;
 
-        // this.stats = new Stats();
-        // var container = document.createElement('div');
-        // document.body.appendChild(container);
-        // this.stats.domElement.style.position = 'absolute';
-        // this.stats.domElement.style.top = '0px';
-        // container.appendChild(this.stats.domElement);
-
-        this.clock = new THREE.Clock();
-
-        this.scene.fog = new THREE.Fog( 0x000000, 1, CUBE_SIZE*5 );
-        this.scene.add( new THREE.AmbientLight( 0x888888 ) );
-        this.torchLight = new THREE.PointLight( 0xffffff, 1, CUBE_SIZE*1.5 );
-        this.scene.add(this.torchLight);
-
-        this.renderer = new THREE.WebGLRenderer({antialias:true});
-        this.renderer.setSize( window.innerWidth, window.innerHeight );
-        this.renderer.setClearColor( 0x000000, 1 );
-        //this.renderer.setFaceCulling(false);
-
-        this.projector = new THREE.Projector();
-        this.raycaster = new THREE.Raycaster();
-        this.INTERSECTED;
+        this.INTERSECTED = null;
 
         this.queueMovement = [];
         this.queuePath = [];
@@ -70,38 +83,13 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
 
         // array with the direction toward the exit for every tile
         this.arrayTowardExit = [];
-        for (var i=0; i<this.level.width; ++i) {
+        for (var i = 0; i < this.level.width; ++i) {
             var line = [];
-            for (var j=0; j<this.level.height; ++j) {
+            for (var j = 0; j < this.level.height; ++j) {
                 line.push([0,0]);
             }
             this.arrayTowardExit.push(line);
         }
-
-        var resman = new ResourceManager();
-        this.resourceManager = resman.getResMan();
-        this.resourceManager['cube_size'] = CUBE_SIZE; // remove that and all is lost
-        this.resourceManager['renderer'] = this.renderer; // remove that and all is lost
-        resman.loadAll();
-
-        // sounds
-        this.music = {};
-        this.music.mainTheme = new buzz.sound("sound/main_theme.ogg");
-        this.music.secondTheme = new buzz.sound("sound/title_theme.ogg");
-        this.music.riddleTheme = new buzz.sound("sound/riddle_theme.ogg");
-        this.music.endTheme = new buzz.sound("sound/end_level_theme.ogg");
-        this.music.eventStress = new buzz.sound("sound/event_stress.ogg");
-
-        this.music.mainTheme.loop().play();
-        this.music.currentlyPlaying = this.music.mainTheme;
-
-        this.sound = {};
-        this.sound.riddleEnd = new buzz.sound("sound/event_riddle_end.ogg");
-        this.sound.doorOpening = new buzz.sound("sound/door_opening.ogg");
-        this.sound.doorBanging = new buzz.sound("sound/door_banging.ogg");
-
-        var exit = this.level.objects.exit;
-        var entrance = this.level.objects.entrance;
 
         for (var j = 0; j < this.level.height; ++j) {
             for (var i = 0; i < this.level.width; ++i) {
@@ -246,17 +234,12 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
                         this.scene.add( mesh );
                     }
                 }
-            };
-        };
+            }
+        }
 
-        document.body.appendChild( this.renderer.domElement );
-
+        this.pause = false;
         this.animate();
     };
-
-    Scene.prototype.addRandomProp = function () {
-
-    }
 
     Scene.prototype.findIntersections = function () {
         // find intersections
@@ -591,7 +574,7 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
     Scene.prototype.roadTurnEvent = function () {
         // Play some stressing music, only once every 5 turns in average.
         if (Math.random() < 0.2) {
-            this.music.eventStress.play();
+            this.sound('event_stress').play();
         }
     };
 
@@ -603,7 +586,7 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
 
         // Start playing the riddle theme.
         buzz.all().stop();
-        this.music.riddleTheme.loop().play();
+        this.sound('riddle_theme').loop().play();
 
         var gardian = this.gardiansMap[i][j];
         var riddle = this.level.riddles.getRandomRiddle();
@@ -638,19 +621,19 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
         var self = this;
 
         // play riddle end sound
-        this.sound.riddleEnd.play();
+        this.sound('event_riddle_end').play();
 
         // fade riddle theme to main theme
-        this.music.riddleTheme.stop();
+        this.sound('riddle_theme').stop();
 
         // Randomly chose what theme to play.
         if (Math.random() < 0.5) {
-            this.music.mainTheme.loop().play();
-            this.music.currentlyPlaying = this.music.mainTheme;
+            this.sound('main_theme').loop().play();
+            this.currentlyPlayingMusic = this.sound('main_theme');
         }
         else {
-            this.music.secondTheme.loop().play();
-            this.music.currentlyPlaying = this.music.secondTheme;
+            this.sound('title_theme').loop().play();
+            this.currentlyPlayingMusic = this.sound('title_theme');
         }
 
         // at the end of the 3 seconds, fade out the UI
@@ -796,7 +779,9 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
 
     Scene.prototype.onEnd = function (callback) {
         this.onEndCallback = callback;
-    }
+        console.log('Setting END callback');
+        console.log(callback);
+    };
 
     Scene.prototype.end = function () {
         var self = this;
@@ -809,16 +794,17 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
         this.pause = true;
 
         // Play the door opening sound
-        this.sound.doorOpening.play();
-        this.music.currentlyPlaying.fadeOut(1000);
+        this.sound('door_opening').play();
+        this.currentlyPlayingMusic.fadeOut(1000);
 
         // Fade to black
         var fade = new Screen('fade-to-black');
         fade.display(function () {
             // Play the door banging sound
-            self.sound.doorBanging.play();
+            self.sound('door_banging').play();
 
             setTimeout(function () {
+                console.log(self.onEndCallback);
                 self.onEndCallback();
             }, 2000);
         });

@@ -1,6 +1,10 @@
 define(['lib/jquery'], function (jquery) {
     var ResourceManager = function () {
         this.resMan = {};
+
+        this.sounds = {};
+        this.musics = {};
+        this.images = {};
     };
 
     ResourceManager.prototype.getResMan = function () {
@@ -96,33 +100,33 @@ define(['lib/jquery'], function (jquery) {
             'img/screen/credits.png',
             'img/screen/tutorial.png',
             'img/screen/end-game.png',
-            'img/ground_arrow.png',
-            'img/ground_point.png',
-            'img/ground_1-1.png',
-            'img/roof_1-1.png',
-            'img/wall_1-1.png',
-            'img/door_1-1.png',
-            'img/light_1-1.png',
-            'img/curtains_1-1.png',
-            'img/door_nextlevel.png',
-            'img/wall_deco_01.png',
-            'img/wall_deco_02.png',
-            'img/wall_deco_03.png',
-            'img/wall_deco_04.png'
+            // 'img/ground_arrow.png',
+            // 'img/ground_point.png',
+            // 'img/ground_1-1.png',
+            // 'img/roof_1-1.png',
+            // 'img/wall_1-1.png',
+            // 'img/door_1-1.png',
+            // 'img/light_1-1.png',
+            // 'img/curtains_1-1.png',
+            // 'img/door_nextlevel.png',
+            // 'img/wall_deco_01.png',
+            // 'img/wall_deco_02.png',
+            // 'img/wall_deco_03.png',
+            // 'img/wall_deco_04.png'
         ];
 
-        var names = [ "cerberus", "janus", "presentateur", "pythie", "sphynx"];
-        var arrowsNames = [ "left", "right", "top", "down", "question"];
+        // var names = [ "cerberus", "janus", "presentateur", "pythie", "sphynx"];
+        // var arrowsNames = [ "left", "right", "top", "down", "question"];
 
-        for (var id = 0; id < names.length; ++id) {
-            var name = names[id];
-            for (var idAnim = 0; idAnim < 4; idAnim++) {
-                resources.push('img/' + name + '_0' + (idAnim + 1) + '.png');
-            }
-            for (var idArrows = 0; idArrows < arrowsNames.length; ++idArrows) {
-                resources.push('img/' + name + '_arrows_' + arrowsNames[idArrows] + '.png');
-            }
-        }
+        // for (var id = 0; id < names.length; ++id) {
+        //     var name = names[id];
+        //     for (var idAnim = 0; idAnim < 4; idAnim++) {
+        //         resources.push('img/' + name + '_0' + (idAnim + 1) + '.png');
+        //     }
+        //     for (var idArrows = 0; idArrows < arrowsNames.length; ++idArrows) {
+        //         resources.push('img/' + name + '_arrows_' + arrowsNames[idArrows] + '.png');
+        //     }
+        // }
 
         totalNumberOfResources = resources.length;
 
@@ -133,6 +137,37 @@ define(['lib/jquery'], function (jquery) {
         for (var i = resources.length - 1; i >= 0; i--) {
             $('<img />', { src: resources[i] }).bind('load', loaded).appendTo(body).hide();
         };
+
+        this.loadAll();
+        this.loadSounds();
+    };
+
+    ResourceManager.prototype.get = function (resourceType, resourceName) {
+        if (resourceType === 'sound') {
+            if (!this.sounds[resourceName]) {
+                this.sounds[resourceName] = new buzz.sound('sound/' + resourceName + '.ogg');
+            }
+            return this.sounds[resourceName];
+        }
+        else if (resourceType === 'texture') {
+            if (!this.textures[resourceName]) {
+                this.textures[resourceName] = THREE.ImageUtils.loadTexture('img/' + resourceName + '.png');
+            }
+            return this.sounds[resourceName];
+        }
+
+        return null;
+    };
+
+    ResourceManager.prototype.loadSounds = function () {
+        this.get('sound', 'event_riddle_end');
+        this.get('sound', 'door_opening');
+        this.get('sound', 'door_banging');
+        this.get('sound', 'main_theme');
+        this.get('sound', 'title_theme');
+        this.get('sound', 'riddle_theme');
+        this.get('sound', 'end_level_theme');
+        this.get('sound', 'event_stress');
     };
 
     return ResourceManager;

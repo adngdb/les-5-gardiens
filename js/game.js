@@ -5,7 +5,7 @@ require.config({
     }
 });
 
-require(['level', 'scene', 'screen', 'resource'], function (Level, Scene, Screen, ResourceManager) {
+require(['level', 'scene', 'screen', 'resource', 'lib/stats'], function (Level, Scene, Screen, ResourceManager, _stats) {
     "use strict";
 
     var splash = new Screen('splash');
@@ -15,26 +15,10 @@ require(['level', 'scene', 'screen', 'resource'], function (Level, Scene, Screen
     var titleTheme = new buzz.sound('sound/title_theme.ogg');
     titleTheme.loop().play();
 
-    var resManager = new ResourceManager();
+    var scene = new Scene();
+    var resManager = scene.resman;
 
     var lastLevel = 5;
-
-    var startLevel = function (levelIndex) {
-        var level = new Level(levelIndex);
-        level.load(function () {
-            var scene = new Scene(level);
-            scene.init();
-            if (levelIndex >= lastLevel) {
-                // The player reached the end of the game.
-                scene.onEnd(endGame);
-            }
-            else {
-                scene.onEnd(function () {
-                    startLevel(levelIndex + 1);
-                });
-            }
-        });
-    };
 
     var endGame = function () {
         // GG WP.
@@ -44,9 +28,26 @@ require(['level', 'scene', 'screen', 'resource'], function (Level, Scene, Screen
         endTheme.loop().play();
     };
 
+    var startLevel = function (levelIndex) {
+        var level = new Level(levelIndex);
+        level.load(function () {
+            if (levelIndex >= lastLevel) {
+                // The player reached the end of the game.
+                scene.onEnd(endGame);
+            }
+            else {
+                scene.onEnd(function () {
+                    startLevel(levelIndex + 1);
+                });
+            }
+            scene.init(level);
+        });
+    };
+
     resManager.preload(function () {
         var title = new Screen('title');
         splash.hide();
+
         title.display(function () {
             var credits = new Screen('credits');
             credits.display(function () {
@@ -58,4 +59,11 @@ require(['level', 'scene', 'screen', 'resource'], function (Level, Scene, Screen
             });
         });
     });
+
+    // this.stats = new Stats();
+    // var container = document.createElement('div');
+    // document.body.appendChild(container);
+    // this.stats.domElement.style.position = 'absolute';
+    // this.stats.domElement.style.top = '0px';
+    // container.appendChild(this.stats.domElement);
 });
