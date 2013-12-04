@@ -388,7 +388,7 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
 
     Scene.prototype.addMovement = function (target) {
         // add a list of movement to execute to go to the target tile
-        var targetLon;
+        var targetLon = 0;
         var cameraPos = this.camera.position;
         // var target = this.queuePath.shift;
         while (this.controls.lon > 360) {
@@ -494,8 +494,9 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
             }
         }
         // if arrived a target longitude and lattitude : remove queued move
-        if (    (this.queueMovement[0][1][1] == this.controls.lat)
-            &&  (this.queueMovement[0][1][0] == this.controls.lon)) {
+        if (  (  (this.queueMovement[0][1][1] == this.controls.lat)
+              &&  (this.queueMovement[0][1][0] == this.controls.lon))
+            || (Math.abs(this.controls.lon) > 720 ) ) {
             this.queueMovement.shift();
             // if (this.controls.lon % 90)
             //     this.showRiddle(this.queueMovement[1][1][0] / CUBE_SIZE, this.queueMovement[1][1][2] / CUBE_SIZE);
