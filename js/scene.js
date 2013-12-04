@@ -291,7 +291,6 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
             // console.log("nbintersects : " + intersects.length);
             // console.log(intersects[0].distance);
 
-            //if(intersects[ i ].object.position.y == -CUBE_SIZE*0.5) {
             if(obj) {
                 // change selected cube, remove highligh on previous and set on new
                 if ( this.INTERSECTED != obj ) {
@@ -302,7 +301,6 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
                     this.INTERSECTED.currentHex = this.INTERSECTED.material.emissive.getHex();
                     if (obj.name != "wall") this.INTERSECTED.material.emissive.setHex( 0x888888 );
                 }
-                //this.INTERSECTED = obj;
 
                 // set movement if we click
                 if (this.controls.realClick) {
@@ -334,7 +332,7 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
                 }
             }
         }
-        else { //
+        else {
             if ( this.INTERSECTED ) this.INTERSECTED.material.emissive.setHex( this.INTERSECTED.currentHex );
             //this.INTERSECTED = null;
         }
@@ -519,8 +517,6 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
               &&  (this.queueMovement[0][1][0] == this.controls.lon))
             || (Math.abs(this.controls.lon) > 720 ) ) {
             this.queueMovement.shift();
-            // if (this.controls.lon % 90)
-            //     this.showRiddle(this.queueMovement[1][1][0] / CUBE_SIZE, this.queueMovement[1][1][2] / CUBE_SIZE);
         }
     }
 
@@ -673,24 +669,19 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
         var currentIndJ = Math.round(this.queueMovement[1][1][2] / CUBE_SIZE);
         var orient = [hintDirectionAbs[0] - currentIndI, hintDirectionAbs[1] - currentIndJ];
         var stringOrientGround;
-        // var orientGround = 0;
         var stringOrientNPC = "question";
         var targetCameraLon;
         if ((orient[0] == -1) && (orient[1] ==  0)) {
             targetCameraLon = 180;
-            // orientGround = Math.PI;
             stringOrientGround = "down";
         }else if ((orient[0] ==  1) && (orient[1] ==  0)) {
             targetCameraLon = 0;
-            // orientGround = 0;
             stringOrientGround = "top";
         }else if ((orient[0] ==  0) && (orient[1] == -1)) {
             targetCameraLon = 270;
-            // orientGround = -Math.PI*0.5;
             stringOrientGround = "right";
         }else if ((orient[0] ==  0) && (orient[1] ==  1)) {
             targetCameraLon = 90;
-            // orientGround = Math.PI*0.5;
             stringOrientGround = "left";
         }else {
             // hint tile not next to the current one : should never happen !!!
@@ -703,29 +694,19 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
         if (tools.isBetween(targetCameraLon - this.queueMovement[0][1][0],  59, 121) || tools.isBetween(targetCameraLon - this.queueMovement[0][1][0], -301, -239) ) stringOrientNPC = "right";
         if (tools.isBetween(targetCameraLon - this.queueMovement[0][1][0], 239, 301) || tools.isBetween(targetCameraLon - this.queueMovement[0][1][0], -121, -59) ) stringOrientNPC = "left";
 
-        // show hint GROUND :
-        // arrow on the floor : tile at x = hintDirectionAbs[0], z = hintDirectionAbs[1]
-        // arrow toward : "stringOrientGround" {top / down / left or right}
-
         this.indiceMeshGround = new THREE.Mesh( this.resourceManager["quad_geom"], this.resourceManager["mat_tex_point"] );
         this.indiceMeshGround.position.x = hintDirectionAbs[0] * CUBE_SIZE;
         this.indiceMeshGround.position.z = hintDirectionAbs[1] * CUBE_SIZE;
         this.indiceMeshGround.position.y = -CUBE_SIZE*0.48;
         this.indiceMeshGround.rotation.x = -Math.PI*0.5;
-        //this.indiceMeshGround.rotation.y = orientGround;
         this.scene.add( this.indiceMeshGround );
 
         // show hint NPC :
-        // arrow on the NPC's animation
-        // arrow toward : "stringOrientNPC" {top / down / left or right}
-
-        //TODO : Adrian's code (<--- fuck him) !!! display the hinted texture on the NPC !!! GOGOGO lazy man !!!!
         for(var i=0; i<this.scene.children.length; ++i) {
             var obj = this.scene.children[i];
             if(obj.name.substring(0,3) == "tip") {
                 var style = obj.name.substring(4);
                 obj.material = this.resourceManager["mat_tex_"+style+"_"+stringOrientNPC];
-                //console.log("mat_cerberus"+Math.floor(this.animCounter/10));
             }
         }
     };
@@ -840,6 +821,7 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
 
         this.animatePNJ();
         // In pause mode, do nothing but wait until the pause mode is stopped.
+        // keep the guardian animation
         if (this.pause) {
             this.render();
             return;
@@ -906,7 +888,6 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
 
         for(var i=0; i<this.scene.children.length; ++i) {
             var obj = this.scene.children[i];
-            //if(obj.name == "floor" || obj.name == "wall" || obj.name == "roof") {
             if(obj instanceof THREE.Mesh || obj instanceof THREE.PointLight) {
                 var v = new THREE.Vector2(this.camera.position.x - obj.position.x, this.camera.position.z - obj.position.z);
                 if(v.length() < CUBE_SIZE*5) {
