@@ -82,6 +82,7 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
         this.indiceMeshGround = null;
 
         this.needCulling = true;
+        this.frameId = 0;
 
         // array with the direction toward the exit for every tile
         this.arrayTowardExit = [];
@@ -832,7 +833,9 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
         time = this.clock.getElapsedTime() * 5;
         this.controls.update(delta);
         this.executeMove();
-        this.findIntersections();
+        if(this.frameId & 1) {
+            this.findIntersections();
+        }
 
         // update torch position
         this.torchLight.position.x = this.camera.position.x;
@@ -905,6 +908,8 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
     Scene.prototype.render = function () {
         this.culling();
         this.renderer.render( this.scene, this.camera );
+
+        ++this.frameId;
     };
 
     return Scene;
