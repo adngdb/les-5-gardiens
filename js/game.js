@@ -54,7 +54,7 @@ require(['level', 'scene', 'screen', 'resource', 'lib/stats'], function (Level, 
                 var tutorial = new Screen('tutorial');
                 tutorial.display(function () {
                     titleTheme.stop();
-                    startLevel(2);
+                    startLevel(1);
                 });
             });
         });
