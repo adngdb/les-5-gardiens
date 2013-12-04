@@ -47,6 +47,6 @@
         "exit": [27, 40]
     },
     "properties": {
-        "startLon": 0
+        "startLon": 90
     }
 }
