@@ -2,255 +2,264 @@
     "_comment" : "The correct answer is always the first one proposed in the file.",
     "enigmas": [
         {
-            "text": "Si ce n’est pas le lendemain de lundi ou le jour avant jeudi, que demain n’est pas dimanche, que ce n’était pas dimanche hier et que le jour après demain n’est pas samedi, et que le jour avant hier n’était pas mercredi, quel jour sommes-nous ?",
+            "text": "Je suis un homme et le fils de Jean est le père de mon fils. Quel est le lien de parenté entre Jean et moi ?",
             "answers": [
-                "Dimanche.",
-                "Lundi.",
-                "Mercredi.",
-                "Vendredi."
+                "Jean est mon père.",
+                "Jean est mon fils.",
+                "Jean est ma mère.",
+                "Jean est mon oncle."
             ]
         },
         {
-            "text": "Je suppose que nous possédons, toi et moi, la même somme d'argent. Combien dois-je te donner pour que tu aies 10€ de plus que moi ?",
+            "text": "A quelle température l'eau gèle-t-elle ?",
             "answers": [
-                "5€",
-                "81€",
-                "121€",
-                "37.80€"
-            ]
-        },
-        {
-            "text": "Mon poids est élevé, mais malgré ma petite taille, des flammes je triomphe. Je suis ...",
-            "answers": [
-                "L'extincteur.",
-                "Le pompier.",
-                "Le pénis.",
-                "La salamandre."
-            ]
-        },
-        {
-            "text": "Nous sommes nés de la même mère, la même année, le même mois, le même jour et à la même heure. Pourtant nous ne sommes pas jumeaux, ni même jumelles. Pourquoi ?",
-            "answers": [
-                "car nous sommes des triplés.",
-                "car nous sommes des cellules.",
-                "car nous ne sommes pas issus du même placenta.",
-                "car l'un de nous était retourné."
-            ]
-        },
-        {
-            "text": "Vous participez à une course cycliste. A un moment donné, vous doublez le second. Vous êtes alors ? ",
-            "answers": [
-                "Second.",
-                "Premier.",
-                "Troisième.",
-                "Dernier."
-            ]
-        },
-        {
-            "text": "Pourquoi ne peut-on pas glisser un marque-page entre les pages 103 et 104 d'un livre ? ",
-            "answers": [
-                "Car ces pages ne sont pas des feuilles.",
-                "Car à partir de 100 pages, on a plus besoin de marque-page.",
-                "Pourquoi ne le pourrions-nous pas ?",
-                "Car ce livre n'a que 102 pages."
-            ]
-        },
-        {
-            "text": "Un gardien de nuit meurt de jour. Pourquoi ne touchera-t'il pas de pansion ? ",
-            "answers": [
-                "Car il est mort.",
-                "Car il est mort en plein jour, en dehors de son travail.",
-                "Car les pensions ne concernent que des assurances vie.",
-                "Car il n'avait pas pu souscrire avant de mourir une assurance-vie."
-            ]
-        },
-        {
-            "text": "Quelle note complète l'arpège en DO Majeur : Do, Mi, ...",
-            "answers": [
-                "Sol.",
-                "Ré.",
-                "Fa.",
-                "La."
-            ]
-        },
-        {
-            "text": "Combien de satelite(s) naturel(s) la Terre possède-t-elle ?",
-            "answers": [
-                "1",
-                "0",
-                "2",
-                "42"
-            ]
-        },
-        {
-            "text": "Combien de satellite(s) naturel(s) Mars possède-t-elle ?",
-            "answers": [
-                "2",
-                "1",
-                "0",
-                "42"
-            ]
-        },
-        {
-            "text": "Quel site internet a été créé par Marc Zukerberg ? ",
-            "answers": [
-                "Facebook.fr",
-                "Google.fr",
-                "Yahoo.fr",
-                "GameDevParty.fr"
-            ]
-        },
-        {
-            "text": "A quelle température l'eau bout-elle ?",
-            "answers": [
-                "212 °F",
                 "273 °K",
-                "0 °C",
-                "100 °F"
+                "100 °C",
+                "0 °F",
+                "212 °F"
             ]
         },
         {
-            "text": "Qui a écrit : \"J'accuse !\" ?",
+            "text": "Dans notre système solaire, quelle est la planète la plus éloignée du soleil ?",
             "answers": [
-                "Emile Zola.",
-                "Victor Hugo.",
-                "Jules Verne.",
-                "Montesquieu."
+                "Neptune.",
+                "Pluton.",
+                "La Terre.",
+                "Jupiter."
             ]
         },
         {
-            "text": "Qui a écrit : \"Les misérables\" ?",
+            "text": "Dans notre système solaire, quelle est la planète la plus proche du soleil ?",
             "answers": [
-                "Victor Hugo.",
-                "Emile Zola.",
-                "Jules Verne.",
-                "Montesquieu."
+                "Mercure.",
+                "Vénus.",
+                "La Terre.",
+                "Jupiter."
             ]
         },
         {
-            "text": "De combien de films est actuellement composés la saga cinématographique \"Star Wars\" ?",
+            "text": "Je suis Pierre, mais je ne suis pas Pierre ... Qui suis-je ?",
             "answers": [
-                "6",
-                "7",
+                "Son ombre.",
+                "Son frère jumeaux.",
+                "Une rumeur.",
+                "Son chien."
+            ]
+        },
+        {
+            "text": "Quelle est l'étoile la plus proche de la Terre ?",
+            "answers": [
+                "Le soleil.",
+                "Proxima du centaure.",
+                "Atlantis.",
+                "Andromède."
+            ]
+        },
+        {
+            "text": "Combien y'a-t-il de case sur un plateau d'echec ?",
+            "answers": [
+                "64",
+                "100",
+                "36",
+                "144"
+            ]
+        },
+        {
+            "text": "Combien y'a-t-il de case sur un plateau de dames ?",
+            "answers": [
+                "100",
+                "64",
+                "36",
+                "144"
+            ]
+        },
+        {
+            "text": "Qui est le 5e président de la Ve république ?",
+            "answers": [
+                "Jaques Chirac.",
+                "Valéry Giscard d'Estaing.",
+                "Nicolas Sarkozy.",
+                "François Mitterrand."
+            ]
+        },
+        {
+            "text": "Quelle est la capitale de Monaco ?",
+            "answers": [
+                "Monaco.",
+                "Monte-Carlo.",
+                "Le rocher.",
+                "Monaco-Ville."
+            ]
+        },
+        {
+            "text": "Combien d'arrondissement la ville de Lyon possède-t-elle ?",
+            "answers": [
                 "9",
-                "3"
+                "16",
+                "20",
+                "0"
             ]
         },
         {
-            "text": "De combien de films est actuellement composés la saga cinématographique \"Alien\" ?",
+            "text": "Combien d'arrondissement la ville de Marseille possède-t-elle ?",
             "answers": [
-                "5",
-                "6",
-                "4",
-                "7"
+                "16",
+                "9",
+                "20",
+                "0"
             ]
         },
         {
-            "text": "Quelle ville de France est la plus peuplée après Marseille ?",
+            "text": "3 * 11 * 61 = ??",
             "answers": [
-                "Lyon.",
-                "Paris.",
-                "Bordeaux.",
-                "Lille."
+                "2013",
+                "1789",
+                "1945",
+                "2077"
             ]
         },
         {
-            "text": "Quel jeu vidéo demande d'assembler des blocs pour former des lignes ?",
+            "text": "D'où sont lancées les fusées Ariane ?",
             "answers": [
-                "Tétris.",
-                "Pong.",
-                "Space invaders.",
-                "Arkanoïd."
+                "A Kourou.",
+                "A cap Canaveral.",
+                "A Baïkonour.",
+                "A Xichang."
             ]
         },
         {
-            "text": "Quel jeu vidéo demande de casser des blocs à l'aide d'une bille qu'on fait rebondir sur une barre horizontale controlée par le joueur ?",
+            "text": "Comment s'appellent les centrales qui tirent leur énergie du vent ?",
             "answers": [
-                "Arkanoïd.",
-                "Tétris.",
-                "Pong.",
-                "Space invaders."
+                "Les centrales éoliennes.",
+                "Les centrales hydroélectriques.",
+                "Les centrales marémotrices.",
+                "Les centrales photovoltaïques."
             ]
         },
         {
-            "text": "Quel est l'ingrédien indispensable à un gratin dauphinois ?",
+            "text": "Comment s'appellent les centrales qui tirent leur énergie du soleil ?",
             "answers": [
-                "La pomme de terre.",
-                "Les pâtes.",
-                "Le riz.",
-                "Le reblochon."
+                "Les centrales photovoltaïques.",
+                "Les centrales éoliennes.",
+                "Les centrales hydroélectriques.",
+                "Les centrales marémotrices."
             ]
         },
         {
-            "text": "Que signifie le \"V\" dans l'acronyme \"OVNI\" ?",
+            "text": "Lequel de ces personnages est issu de la mythologie grecque ?",
             "answers": [
-                "Volant.",
-                "Visible.",
-                "Vaisseau.",
-                "Vu."
+                "Athéna.",
+                "Jupiter.",
+                "Râ.",
+                "Thor."
             ]
         },
         {
-            "text": "Que signifie le \"B\" dans l'acronyme \"BD\" ?",
+            "text": "Lequel de ces personnages est issu de la mythologie scandinave ?",
             "answers": [
-                "Bande.",
-                "Bouquin.",
-                "Book.",
-                "Bulle."
+                "Thor.",
+                "Athéna.",
+                "Jupiter.",
+                "Râ."
             ]
         },
         {
-            "text": "Quand débute l'hiver ?",
+            "text": "Quelle version du système d'exploitation de Microsoft est apparue en 2001 ?",
             "answers": [
-                "Le 21 décembre.",
-                "Le 21 novembre.",
-                "Le 21 septembre.",
-                "Le 21 janvier."
+                "Windows XP.",
+                "Windows 2000.",
+                "Windows Vista.",
+                "Windows 7."
             ]
         },
         {
-            "text": "Quelle est la 3e couleur primaire (dans la synthèse soustractive) : rouge, bleu et ???",
+            "text": "Qui a écrit la saga de livre : \"Harry Potter\" ?",
             "answers": [
-                "Vert.",
-                "Jaune.",
-                "Cyan.",
-                "Magenta."
+                "J.K. Rowling.",
+                "J.R.R. Tolkien.",
+                "Voldemort.",
+                "Suzanne Collins."
             ]
         },
         {
-            "text": "En natation, par quelle nage une épreuve individuel de 4-nages commence-t-elle ?",
+            "text": "Qui a écrit la saga de livre : \"le seigneur des anneaux\" ?",
             "answers": [
-                "Papillon.",
-                "Dos.",
-                "Brasse.",
-                "Crawl."
+                "J.R.R. Tolkien.",
+                "J.K. Rowling.",
+                "Ian Fleming.",
+                "Suzanne Collins."
             ]
         },
         {
-            "text": "Au rugby, combien de points marque-t-on en transformant un essai ?",
+            "text": "Qui a écrit : \"Vingt mille lieues sous les mers\" ?",
             "answers": [
+                "Jules Verne.",
+                "Emile Zola.",
+                "Molière.",
+                "Diderot."
+            ]
+        },
+        {
+            "text": "Qui a écrit : \"Le médecin malgré lui\" ?",
+            "answers": [
+                "Molière.",
+                "Victor Hugo.",
+                "Emile Zola.",
+                "Diderot."
+            ]
+        },
+        {
+            "text": "Quel jeu vidéo demande de lancer des oiseaux pour tuer des cochons verts ?",
+            "answers": [
+                "Angry birds.",
+                "Candy crush.",
+                "Pac Man.",
+                "Mario Bros."
+            ]
+        },
+        {
+            "text": "Dans quel jeu vidéo une princesse est-elle perdu dans le chateau de Browser ?",
+            "answers": [
+                "Mario Bros.",
+                "Angry birds.",
+                "Candy crush.",
+                "Pac Man."
+            ]
+        },
+        {
+            "text": "Combien de son contient un accord parfait Majeur ?",
+            "answers": [
+                "3",
                 "2",
-                "7",
+                "4",
+                "5"
+            ]
+        },
+        {
+            "text": "Combien de bémols doit-on rajouter à l'armure pour être en Fa Majeur ?",
+            "answers": [
+                "1",
+                "2",
                 "3",
                 "0"
             ]
         },
         {
-            "text": "Quelle note faut-il rajouter à Fa# et Do# pour obtenir un accord de Fa# Majeur ?",
+            "text": "Au basket-ball, combien y'a-t-il de joueur par équipe sur le terrain ?",
             "answers": [
-                "La#",
-                "Sol#",
-                "Si",
-                "Sol"
+                "5",
+                "6",
+                "7",
+                "11"
             ]
         },
         {
-            "text": "Quelle est la fréquence de parution d'un magazine bimensuel ?",
+            "text": "Au tennis, quel score y'a-t-il après une égalité ?",
             "answers": [
-                "2 fois par mois.",
-                "Tous les mois.",
-                "Tous les 2 mois.",
-                "Toutes les semaines."
+                "Avantage.",
+                "Jeu.",
+                "40-A",
+                "Set."
             ]
         }
     ]
