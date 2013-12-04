@@ -29,7 +29,7 @@
             ]
         },
         {
-            "text": "Un ballon à l'hélium monte dans l'air tout doucement. La première seconde il parcourt 1 m, la deuxième 50 cm, la troisième 25 cm et de suite. Indéfiniment le ballon ne s'arrête pas de monter. Par seconde il parcourt la moitié de ce qu'il a monté la seconde précédente. Jusqu'où le ballon va-t-il monter? ",
+            "text": "Un ballon à l'hélium monte dans l'air tout doucement. La première seconde il parcourt 1 m, la deuxième 50 cm, la troisième 25 cm et de suite. Indéfiniment le ballon ne s'arrête pas de monter. Par seconde il parcourt la moitié de ce qu'il a monté la seconde précédente. Jusqu'où le ballon va-t-il monter ? ",
             "answers": [
                 "Le ballon tend vers la hauteur de 2 mètres, sans jamais l'atteindre.",
                 "Le ballon tend vers la hauteur de 7.29 mètres, sans jamais l'atteindre.",
@@ -52,7 +52,7 @@
                 "Ils sont à la même distance de l'une ou de l'autre ville.",
                 "Le TGV Lyon-Paris est le plus prêt de Paris ",
                 "Le TGV Paris-Lyon est le plus prêt de Paris",
-                "Le TGV Lyon-Paris le plus loin de Paris"
+                "Le TGV Lyon-Paris est le plus loin de Paris"
             ]
         },
         {
@@ -128,7 +128,7 @@
             ]
         },
         {
-            "text": "Quel est le nom de l'amas de galaxie, dans lequel se situe la Terre ?",
+            "text": "Quel est le nom de l'amas de galaxie dans lequel se situe la Terre ?",
             "answers": [
                 "Le groupe local.",
                 "Le groupe du sculpteur.",
@@ -182,12 +182,12 @@
             ]
         },
         {
-            "text": "Au hockey sur glace, quelle est la durée total d'un match ?",
+            "text": "Au hockey sur glace, quelle est la durée totale d'un match ?",
             "answers": [
-                "60 minutes, divisés en 3 périodes.",
-                "48 minutes, divisés en 4 périodes.",
-                "80 minutes, divisés en 2 périodes.",
-                "50 minutes, divisés en 2 périodes."
+                "60 minutes, divisées en 3 périodes.",
+                "48 minutes, divisées en 4 périodes.",
+                "80 minutes, divisées en 2 périodes.",
+                "50 minutes, divisées en 2 périodes."
             ]
         },
         {
@@ -209,7 +209,7 @@
             ]
         },
         {
-            "text": "Combien de coté possède un henicosagone ?",
+            "text": "Combien de cotés possède un henicosagone ?",
             "answers": [
                 "21",
                 "17",

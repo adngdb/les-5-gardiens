@@ -56,7 +56,7 @@
             ]
         },
         {
-            "text": "Combien y'a-t-il de case sur un plateau d'echec ?",
+            "text": "Combien y'a-t-il de cases sur un plateau d'echec ?",
             "answers": [
                 "64",
                 "100",
@@ -65,7 +65,7 @@
             ]
         },
         {
-            "text": "Combien y'a-t-il de case sur un plateau de dames ?",
+            "text": "Combien y'a-t-il de cases sur un plateau de dames ?",
             "answers": [
                 "100",
                 "64",
@@ -92,7 +92,7 @@
             ]
         },
         {
-            "text": "Combien d'arrondissement la ville de Lyon possède-t-elle ?",
+            "text": "Combien d'arrondissements la ville de Lyon possède-t-elle ?",
             "answers": [
                 "9",
                 "16",
@@ -101,7 +101,7 @@
             ]
         },
         {
-            "text": "Combien d'arrondissement la ville de Marseille possède-t-elle ?",
+            "text": "Combien d'arrondissements la ville de Marseille possède-t-elle ?",
             "answers": [
                 "16",
                 "9",
@@ -110,7 +110,7 @@
             ]
         },
         {
-            "text": "3 * 11 * 61 = ??",
+            "text": "3 * 11 * 61 = ???",
             "answers": [
                 "2013",
                 "1789",
@@ -128,7 +128,7 @@
             ]
         },
         {
-            "text": "Comment s'appellent les centrales qui tirent leur énergie du vent ?",
+            "text": "Comment s'appellent les centrales qui produisent leur énergie grâce au vent ?",
             "answers": [
                 "Les centrales éoliennes.",
                 "Les centrales hydroélectriques.",
@@ -137,7 +137,7 @@
             ]
         },
         {
-            "text": "Comment s'appellent les centrales qui tirent leur énergie du soleil ?",
+            "text": "Comment s'appellent les centrales qui produisent leur énergie grâce au soleil ?",
             "answers": [
                 "Les centrales photovoltaïques.",
                 "Les centrales éoliennes.",
@@ -227,7 +227,7 @@
             ]
         },
         {
-            "text": "Combien de son contient un accord parfait Majeur ?",
+            "text": "Combien de sons contient un accord parfait Majeur ?",
             "answers": [
                 "3",
                 "2",
@@ -236,7 +236,7 @@
             ]
         },
         {
-            "text": "Combien de bémols doit-on rajouter à l'armure pour être en Fa Majeur ?",
+            "text": "Combien de bémol(s) doit-on rajouter à l'armure pour être en Fa Majeur ?",
             "answers": [
                 "1",
                 "2",
@@ -245,7 +245,7 @@
             ]
         },
         {
-            "text": "Au basket-ball, combien y'a-t-il de joueur par équipe sur le terrain ?",
+            "text": "Au basket-ball, combien y'a-t-il de joueurs par équipe sur le terrain ?",
             "answers": [
                 "5",
                 "6",

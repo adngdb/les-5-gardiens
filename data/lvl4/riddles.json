@@ -22,10 +22,10 @@
         {
             "text": "Je fus demain, je serai hier. Qui suis-je ? ",
             "answers": [
-                "aujourd'hui",
-                "Jésus",
-                "le temps",
-                "L'univers"
+                "aujourd'hui.",
+                "Jésus.",
+                "le temps.",
+                "L'univers."
             ]
         },
         {
@@ -113,13 +113,13 @@
             "text": "Pendant combien de temps Proxima du centaure restera l'étoile la plus proche de notre système solaire ?",
             "answers": [
                 "33 000 ans.",
-                "Indéfiniment (Pourquoi ça changerai ?).",
+                "Indéfiniment (Pourquoi ça changerait ?).",
                 "2 million d'années.",
                 "Plusieurs milliard d'années : jusqu'à son extinction, elle ne sera alors plus une étoile."
             ]
         },
         {
-            "text": "En astronomie, de combien de constellation est composée la sphère céleste ?",
+            "text": "En astronomie, de combien de constellations est composée la sphère céleste ?",
             "answers": [
                 "88",
                 "12",
@@ -139,7 +139,7 @@
         {
             "text": "En informatique, que représente l'unité \"Flops\" ?",
             "answers": [
-                "Le nombre d'opération à virgule flotante par seconde.",
+                "Le nombre d'opérations à virgule flotante par seconde.",
                 "La fréquence d'éxécution des micro-processeurs.",
                 "Le nombre de données qu'un micro-processeurs peut traiter par seconde.",
                 "La quantité de stockage disponible en mémoire RAM."
@@ -164,7 +164,7 @@
             ]
         },
         {
-            "text": "Dans le roman de Jules Verne \"Le tour du monde en 80 jours\", pour quelles raisons Phileas fogg arrive-t-il a faire son tour du monde dans les temps ?",
+            "text": "Dans le roman de Jules Verne \"Le tour du monde en 80 jours\", pour quelles raisons Phileas fogg arrive-t-il à faire son tour du monde dans les temps ?",
             "answers": [
                 "Grâce au décallage horaire.",
                 "Il a oublié de compter le 29 février dans son calendrier.",
@@ -204,7 +204,7 @@
             "answers": [
                 "Il ne comporte pas une seule fois la lettre \"E\".",
                 "Il est uniquement composé d'image.",
-                "Il donne tout l'intrigue dès le 1er chapitre.",
+                "Il donne toute l'intrigue dès le 1er chapitre.",
                 "Il n'y a pas de particularité, c'est un roman comme un autre."
             ]
         },
@@ -245,7 +245,7 @@
             ]
         },
         {
-            "text": "Combien de génération séparent Louis XIV de Louis XVI ?",
+            "text": "Combien de générations séparent Louis XIV de Louis XVI ?",
             "answers": [
                 "5 (arrière-arrière-arrière-petit-fils).",
                 "4 (arrière-arrière-petit-fils).",

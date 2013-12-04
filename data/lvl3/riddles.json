@@ -47,7 +47,7 @@
             ]
         },
         {
-            "text": "Prenez trois fois mon âge dans trois ans, et enlevez trois fois mon âge il y a trois ans, vous obtiendrez mon âge actuel.",
+            "text": "Prenez trois fois mon âge dans trois ans et enlevez trois fois mon âge il y a trois ans, vous obtiendrez mon âge actuel.",
             "answers": [
                 "18 ans.",
                 "16 ans.",
@@ -65,7 +65,7 @@
             ]
         },
         {
-            "text": "Vous avez le sommeil lourd et vous avez réglez votre réveil à aiguilles de grand-mère à sonner pour 10h00. Vous allez vous couché à 21h00. Combien de temps dormirez-vous ?",
+            "text": "Vous avez le sommeil lourd et vous avez réglé votre réveil à aiguilles de grand-mère à sonner pour 10h00. Vous allez vous coucher à 21h00. Combien de temps dormirez-vous ?",
             "answers": [
                 "1 heure.",
                 "13 heures.",
@@ -74,12 +74,12 @@
             ]
         },
         {
-            "text": "Un homme et une femme très amoureux sont dans un lit. Sur la table de nuit à côté il y a une bougie. Qu'est-ce qu'y fond?",
+            "text": "Un homme et une femme très amoureux sont dans un lit. Sur la table de nuit à côté il y a une bougie. Qu'est-ce qu'y fond ?",
             "answers": [
                 "La bougie fond.",
                 "Ils fondent l'amour.",
                 "Ils s'en serviront de la bougie...pour s'éclairer.",
-                "Ainsi font font font...!"
+                "Ainsi font font font... !"
             ]
         },
         {
@@ -94,8 +94,8 @@
         {
             "text": "Dans notre système solaire, quelle est la 5e planète en partant du soleil ?",
             "answers": [
-                "Saturne.",
                 "Jupiter.",
+                "Saturne.",
                 "Uranus.",
                 "Mars."
             ]
@@ -200,7 +200,7 @@
             ]
         },
         {
-            "text": "Combien de pixel y'a-t-il sur un écran de télévision à la norme \"4K\" ?",
+            "text": "Combien de pixels y'a-t-il sur un écran de télévision à la norme \"4K\" ?",
             "answers": [
                 "Environ 8 millions.",
                 "Environ 2 millions.",
@@ -245,7 +245,7 @@
             ]
         },
         {
-            "text": "Combien y'a-t-il de bille sur la table au début d'une partie de billard américain ?",
+            "text": "Combien y'a-t-il de billes sur la table au début d'une partie de billard américain ?",
             "answers": [
                 "16",
                 "15",

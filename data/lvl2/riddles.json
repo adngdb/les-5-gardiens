@@ -50,7 +50,7 @@
             "text": "Pourquoi ne peut-on pas glisser un marque-page entre les pages 103 et 104 d'un livre ? ",
             "answers": [
                 "Car ces pages ne sont pas des feuilles.",
-                "Car à partir de 100 pages, on a plus besoin de marque-page.",
+                "Car à partir de 100 pages, on n'a plus besoin de marque-page.",
                 "Pourquoi ne le pourrions-nous pas ?",
                 "Car ce livre n'a que 102 pages."
             ]
@@ -74,7 +74,7 @@
             ]
         },
         {
-            "text": "Combien de satelite(s) naturel(s) la Terre possède-t-elle ?",
+            "text": "Combien de satellite(s) naturel(s) la Terre possède-t-elle ?",
             "answers": [
                 "1",
                 "0",
@@ -128,7 +128,7 @@
             ]
         },
         {
-            "text": "De combien de films est actuellement composés la saga cinématographique \"Star Wars\" ?",
+            "text": "De combien de films est actuellement composée la saga cinématographique \"Star Wars\" ?",
             "answers": [
                 "6",
                 "7",
@@ -137,7 +137,7 @@
             ]
         },
         {
-            "text": "De combien de films est actuellement composés la saga cinématographique \"Alien\" ?",
+            "text": "De combien de films est actuellement composée la saga cinématographique \"Alien\" ?",
             "answers": [
                 "5",
                 "6",
@@ -218,7 +218,7 @@
             ]
         },
         {
-            "text": "En natation, par quelle nage une épreuve individuel de 4-nages commence-t-elle ?",
+            "text": "En natation, par quelle nage une épreuve individuelle de 4-nages commence-t-elle ?",
             "answers": [
                 "Papillon.",
                 "Dos.",
@@ -227,7 +227,7 @@
             ]
         },
         {
-            "text": "Au rugby, combien de points marque-t-on en transformant un essai ?",
+            "text": "Au rugby, combien de point(s) marque-t-on en transformant un essai ?",
             "answers": [
                 "2",
                 "7",
