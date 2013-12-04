@@ -81,6 +81,8 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
         this.pnjArray = [];
         this.indiceMeshGround = null;
 
+        this.needCulling = true;
+
         // array with the direction toward the exit for every tile
         this.arrayTowardExit = [];
         for (var i = 0; i < this.level.width; ++i) {
@@ -560,6 +562,7 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
         if (    (this.queueMovement[0][1][0] == this.camera.position.x)
             &&  (this.queueMovement[0][1][1] == this.camera.position.y)
             &&  (this.queueMovement[0][1][2] == this.camera.position.z)) {
+            this.needCulling = true;
             this.queueMovement.shift();
         }
     }
@@ -899,6 +902,8 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
     }
 
     Scene.prototype.culling = function () {
+        if(!this.needCulling)   return;
+
         for(var i=0; i<this.scene.children.length; ++i) {
             var obj = this.scene.children[i];
             //if(obj.name == "floor" || obj.name == "wall" || obj.name == "roof") {
@@ -912,6 +917,8 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
                 }
             }
         }
+
+        this.needCulling = false;
     };
 
     Scene.prototype.render = function () {
