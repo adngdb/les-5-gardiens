@@ -55,11 +55,11 @@ define(['lib/jquery'], function (jquery) {
 
         for(var i=0; i<4; ++i) {
             var j = i+1;
-            this.loadSprite("img/cerberus_0"+j+".png", "mat_cerberus"+i);
-            this.loadSprite("img/janus_0"+j+".png", "mat_janus"+i);
-            this.loadSprite("img/presentateur_0"+j+".png", "mat_presentateur"+i);
-            this.loadSprite("img/pythie_0"+j+".png", "mat_pythie"+i);
-            this.loadSprite("img/sphynx_0"+j+".png", "mat_sphynx"+i);
+            //this.loadSprite("img/cerberus_0"+j+".png", "mat_cerberus"+i);
+            //this.loadSprite("img/janus_0"+j+".png", "mat_janus"+i);
+            //this.loadSprite("img/presentateur_0"+j+".png", "mat_presentateur"+i);
+            //this.loadSprite("img/pythie_0"+j+".png", "mat_pythie"+i);
+            //this.loadSprite("img/sphynx_0"+j+".png", "mat_sphynx"+i);
 
             this.loadPhongMat("img/cerberus_0"+j+".png", "mat_tex_cerberus"+i, true);
             this.loadPhongMat("img/janus_0"+j+".png", "mat_tex_janus"+i, true);
@@ -72,7 +72,7 @@ define(['lib/jquery'], function (jquery) {
         var arrowsNames = [ "left", "right", "top", "down", "question"];
         for(var id=0; id < names.length; ++id) {
             for(var idArrows=0; idArrows < arrowsNames.length; ++idArrows) {
-                this.loadSprite("img/"+names[id]+"_arrows_"+arrowsNames[idArrows]+".png", "mat_"+names[id]+"_"+arrowsNames[idArrows]);
+                //this.loadSprite("img/"+names[id]+"_arrows_"+arrowsNames[idArrows]+".png", "mat_"+names[id]+"_"+arrowsNames[idArrows]);
                 this.loadPhongMat("img/"+names[id]+"_arrows_"+arrowsNames[idArrows]+".png", "mat_tex_"+names[id]+"_"+arrowsNames[idArrows], true);
             }
         }

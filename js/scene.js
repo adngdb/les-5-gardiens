@@ -97,27 +97,32 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
                 // wall
                 if (this.level.map[i][j]) {
                     if (exit[0] == i && exit[1] == j) { ///!!!! POPO : ??? exit[0] in J => 1st coord Z ? and 2nd coord X ?? sure ?
-                        // This is the exit, show a door on each face.
-                        mesh = new THREE.Mesh( this.resourceManager['door_geom'], this.resourceManager['mat_door'] );
-                        mesh.name = "exit";
-                        mesh.position.set(i * CUBE_SIZE, 0, (j+0.52) * CUBE_SIZE);
-                        mesh.rotation.y = 0;
-                        this.scene.add( mesh );
-                        mesh = new THREE.Mesh( this.resourceManager['door_geom'], this.resourceManager['mat_door'] );
-                        mesh.name = "exit";
-                        mesh.position.set(i * CUBE_SIZE, 0, (j-0.52) * CUBE_SIZE);
-                        mesh.rotation.y = Math.PI;
-                        this.scene.add( mesh );
-                        mesh = new THREE.Mesh( this.resourceManager['door_geom'], this.resourceManager['mat_door'] );
-                        mesh.name = "exit";
-                        mesh.position.set((i-0.52) * CUBE_SIZE, 0, j * CUBE_SIZE);
-                        mesh.rotation.y = -Math.PI*0.5;
-                        this.scene.add( mesh );
-                        mesh = new THREE.Mesh( this.resourceManager['door_geom'], this.resourceManager['mat_door'] );
-                        mesh.name = "exit";
-                        mesh.position.set((i+0.52) * CUBE_SIZE, 0, j * CUBE_SIZE);
-                        mesh.rotation.y = Math.PI*0.5;
-                        this.scene.add( mesh );
+                        for(var orientation = 0; orientation < 4; ++orientation) {
+                            mesh = new THREE.Mesh( this.resourceManager['door_geom'], this.resourceManager['mat_door'] );
+                            mesh.name = "exit";
+                            switch(orientation)
+                            {
+                                case 0:
+                                    mesh.position.set(i * CUBE_SIZE, 0, (j+0.52) * CUBE_SIZE);
+                                    mesh.rotation.y = 0;
+                                    break;
+                                case 1:
+                                    mesh.position.set(i * CUBE_SIZE, 0, (j-0.52) * CUBE_SIZE);
+                                    mesh.rotation.y = Math.PI;
+                                    break;
+                                case 2:
+                                    mesh.position.set((i-0.52) * CUBE_SIZE, 0, j * CUBE_SIZE);
+                                    mesh.rotation.y = -Math.PI*0.5;
+                                    break;
+                                case 3:
+                                    mesh.position.set((i+0.52) * CUBE_SIZE, 0, j * CUBE_SIZE);
+                                    mesh.rotation.y = Math.PI*0.5;
+                                    break;
+                                default:
+                                    break;
+                            }
+                            this.scene.add( mesh );
+                        }
                     }
 
                     mesh = new THREE.Mesh( this.resourceManager['cube'], this.resourceManager['mat_wall'] );
@@ -155,41 +160,49 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
 
                     // random prop
                     if(i>0 && i<this.level.width && j>0 && j<this.level.height) {
-                        // test left
-                        if(this.level.map[i-1][j] && exit[0] != i-1 && exit[1] != j && Math.random() < 0.25) {
+                        for(var orientation = 0; orientation < 4; ++orientation) {
                             var id = tools.getRandomInt(0,4);
-                            var mesh = new THREE.Mesh( this.resourceManager["quad_geom"], this.resourceManager["mat_deco"+id] );
+                            var mesh;
+                            if(id == 0) {
+                                mesh = new THREE.Mesh( this.resourceManager["door_geom"], this.resourceManager["mat_deco"+id] );
+                            }
+                            else {
+                                mesh = new THREE.Mesh( this.resourceManager["quad_geom"], this.resourceManager["mat_deco"+id] );
+                            }
                             mesh.name = "prop";
-                            mesh.position.set((i-0.48) * CUBE_SIZE, 0, j * CUBE_SIZE);
-                            mesh.rotation.y = Math.PI*0.5;
-                            this.scene.add( mesh );
-                        }
-                        // test right
-                        if(this.level.map[i+1][j] && exit[0] != i+1 && exit[1] != j && Math.random() < 0.25) {
-                            var id = tools.getRandomInt(0,4);
-                            var mesh = new THREE.Mesh( this.resourceManager["quad_geom"], this.resourceManager["mat_deco"+id] );
-                            mesh.name = "prop";
-                            mesh.position.set((i+0.48) * CUBE_SIZE, 0, j * CUBE_SIZE);
-                            mesh.rotation.y = -Math.PI*0.5;
-                            this.scene.add( mesh );
-                        }
-                        // test up
-                        if(this.level.map[i][j+1] && exit[0] != i && exit[1] != j+1 && Math.random() < 0.25) {
-                            var id = tools.getRandomInt(0,4);
-                            var mesh = new THREE.Mesh( this.resourceManager["quad_geom"], this.resourceManager["mat_deco"+id] );
-                            mesh.name = "prop";
-                            mesh.position.set(i * CUBE_SIZE, 0, (j+0.48) * CUBE_SIZE);
-                            mesh.rotation.y = Math.PI;
-                            this.scene.add( mesh );
-                        }
-                        // // test down
-                        if(this.level.map[i][j-1] && exit[0] != i && exit[1] != j-1 && Math.random() < 0.25) {
-                            var id = tools.getRandomInt(0,4);
-                            var mesh = new THREE.Mesh( this.resourceManager["quad_geom"], this.resourceManager["mat_deco"+id] );
-                            mesh.name = "prop";
-                            mesh.position.set(i * CUBE_SIZE, 0, (j-0.48) * CUBE_SIZE);
-                            mesh.rotation.y = 0;
-                            this.scene.add( mesh );
+                            switch(orientation)
+                            {
+                                case 0:
+                                    if(this.level.map[i-1][j] && exit[0] != i-1 && exit[1] != j && Math.random() < 0.25) {
+                                        mesh.position.set((i-0.48) * CUBE_SIZE, 0, j * CUBE_SIZE);
+                                        mesh.rotation.y = Math.PI*0.5;
+                                        this.scene.add( mesh );
+                                    }
+                                    break;
+                                case 1:
+                                    if(this.level.map[i+1][j] && exit[0] != i+1 && exit[1] != j && Math.random() < 0.25) {
+                                        mesh.position.set((i+0.48) * CUBE_SIZE, 0, j * CUBE_SIZE);
+                                        mesh.rotation.y = -Math.PI*0.5;
+                                        this.scene.add( mesh );
+                                    }
+                                    break;
+                                case 2:
+                                    if(this.level.map[i][j+1] && exit[0] != i && exit[1] != j+1 && Math.random() < 0.25) {
+                                        mesh.position.set(i * CUBE_SIZE, 0, (j+0.48) * CUBE_SIZE);
+                                        mesh.rotation.y = Math.PI;
+                                        this.scene.add( mesh );
+                                    }
+                                    break;
+                                case 3:
+                                    if(this.level.map[i][j-1] && exit[0] != i && exit[1] != j-1 && Math.random() < 0.25) {
+                                        mesh.position.set(i * CUBE_SIZE, 0, (j-0.48) * CUBE_SIZE);
+                                        mesh.rotation.y = 0;
+                                        this.scene.add( mesh );
+                                    }
+                                    break;
+                                default:
+                                    break;
+                            }
                         }
                     }
 
@@ -206,32 +219,38 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
                         mesh.position.set( i * CUBE_SIZE, -40, j * CUBE_SIZE );
                         this.scene.add( mesh );
 
-                                                mesh = new THREE.Mesh( new THREE.PlaneGeometry( gardian.width, gardian.height ), this.resourceManager["mat_tex_"+gardian.file+"_question"] );
+                        mesh = new THREE.Mesh( new THREE.PlaneGeometry( gardian.width, gardian.height ), this.resourceManager["mat_tex_"+gardian.file+"_question"] );
                         mesh.name = "tip_"+gardian.file;
                         mesh.position.set( i * CUBE_SIZE, -40, j * CUBE_SIZE );
                         this.scene.add( mesh );
 
                         // curtains
-                        mesh = new THREE.Mesh( this.resourceManager["quad_geom"], this.resourceManager["mat_curtain"] );
-                        mesh.name = "curtain";
-                        mesh.position.set(i * CUBE_SIZE, 0, (j+0.48) * CUBE_SIZE);
-                        mesh.rotation.y = 0;
-                        this.scene.add( mesh );
-                        mesh = new THREE.Mesh( this.resourceManager["quad_geom"], this.resourceManager["mat_curtain"] );
-                        mesh.name = "curtain";
-                        mesh.position.set(i * CUBE_SIZE, 0, (j-0.48) * CUBE_SIZE);
-                        mesh.rotation.y = Math.PI;
-                        this.scene.add( mesh );
-                        mesh = new THREE.Mesh( this.resourceManager["quad_geom"], this.resourceManager["mat_curtain"] );
-                        mesh.name = "curtain";
-                        mesh.position.set((i-0.48) * CUBE_SIZE, 0, j * CUBE_SIZE);
-                        mesh.rotation.y = -Math.PI*0.5;
-                        this.scene.add( mesh );
-                        mesh = new THREE.Mesh( this.resourceManager["quad_geom"], this.resourceManager["mat_curtain"] );
-                        mesh.name = "curtain";
-                        mesh.position.set((i+0.48) * CUBE_SIZE, 0, j * CUBE_SIZE);
-                        mesh.rotation.y = Math.PI*0.5;
-                        this.scene.add( mesh );
+                        for(var orientation = 0; orientation < 4; ++orientation) {
+                            mesh = new THREE.Mesh( this.resourceManager["quad_geom"], this.resourceManager["mat_curtain"] );
+                            mesh.name = "curtain";
+                            switch(orientation)
+                            {
+                                case 0:
+                                    mesh.position.set(i * CUBE_SIZE, 0, (j+0.48) * CUBE_SIZE);
+                                    mesh.rotation.y = 0;
+                                    break;
+                                case 1:
+                                    mesh.position.set(i * CUBE_SIZE, 0, (j-0.48) * CUBE_SIZE);
+                                    mesh.rotation.y = Math.PI;
+                                    break;
+                                case 2:
+                                    mesh.position.set((i-0.48) * CUBE_SIZE, 0, j * CUBE_SIZE);
+                                    mesh.rotation.y = -Math.PI*0.5;
+                                    break;
+                                case 3:
+                                    mesh.position.set((i+0.48) * CUBE_SIZE, 0, j * CUBE_SIZE);
+                                    mesh.rotation.y = Math.PI*0.5;
+                                    break;
+                                default:
+                                    break;
+                            }
+                            this.scene.add( mesh );
+                        }
                     }
                 }
             }
