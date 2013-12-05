@@ -53,9 +53,17 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
 
         this.scene = new THREE.Scene();
         this.scene.fog = new THREE.Fog( 0x000000, 1, CUBE_SIZE * 5 );
-        this.scene.add( new THREE.AmbientLight( 0x888888 ) );
-        this.torchLight = new THREE.PointLight( 0xffffff, 1, CUBE_SIZE * 1.5 );
-        this.scene.add(this.torchLight);
+        this.scene.add( new THREE.AmbientLight( 0x333333 ) );
+        //this.torchLight = new THREE.PointLight( 0xffffff, 1, CUBE_SIZE * 1.5 );
+        //this.scene.add(this.torchLight);
+
+        this.lights = [];
+        for(var n=0; n<5; ++n) {
+            var light = new THREE.PointLight( 0xffffff, 1, CUBE_SIZE * 1.5 );
+            light.visible = false;
+            this.scene.add(light);
+            this.lights.push(light);
+        }
 
         // Place camera.
         this.camera.position.x = CUBE_SIZE * entrance[0];
@@ -157,8 +165,8 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
                         mesh.rotation.x = Math.PI/2;
                         this.scene.add( mesh );
 
-                        var light = new THREE.PointLight( 0xffffff, 1, CUBE_SIZE*1.5 );
-                        light.position.set( i * CUBE_SIZE, CUBE_SIZE/2.5, j * CUBE_SIZE );
+                        //var light = new THREE.PointLight( 0xffffff, 1, CUBE_SIZE*1.5 );
+                        //light.position.set( i * CUBE_SIZE, CUBE_SIZE/2.5, j * CUBE_SIZE );
                         //this.scene.add( light );
                     }
 
@@ -841,14 +849,73 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
             this.findIntersections();
         }
 
-        // update torch position
-        this.torchLight.position.x = this.camera.position.x;
-        this.torchLight.position.y = this.camera.position.y;
-        this.torchLight.position.z = this.camera.position.z;
+        this.updateLights();
 
         this.render();
 
         // this.stats.update();
+    };
+
+    Scene.prototype.updateLights = function () {
+        // update corridor lights
+        var indI = Math.round(this.camera.position.x / CUBE_SIZE);
+        var indJ = Math.round(this.camera.position.z / CUBE_SIZE);
+        var posCam = new THREE.Vector2(this.camera.position.x, this.camera.position.z);
+        var vecCam = new THREE.Vector2(Math.cos(this.controls.lon*Math.PI/180), Math.sin(this.controls.lon*Math.PI/180));
+
+        // clear all lights
+        for(var i=0; i<this.lights.length; ++i) {
+            this.lights[i].visible = false;
+        }
+
+        var lightId = 0;
+
+        // check a square of 7x7 tile around the player
+        var width = 3;
+        for(var i=indI-width; i<indI+width; ++i) {
+            for(var j=indJ-width; j<indJ+width; ++j) {
+
+                // stop if all light are used
+                if(lightId == this.lights.length) break;
+
+                // is it corridor ?
+                if (i>0 && i<this.level.width && j>0 && j<this.level.height && this.level.map[i][j] == 0) {
+
+                    // is there a light here ?
+                    if((i+j) % 2) {
+                        var posLight = new THREE.Vector2(i*CUBE_SIZE, j*CUBE_SIZE);
+                        var vecLight = posLight;
+                        vecLight.sub(posCam);
+                        vecLight.normalize();
+
+                        //console.log("vec cam ("+i+", "+j+") : "+vecCam.x+", "+vecCam.y);
+                        //console.log("vec light ("+i+", "+j+") : "+vecLight.x+", "+vecLight.y);
+
+                        // is light visible
+                        var dotVal = vecLight.dot(vecCam);
+                        if(dotVal > 0 || (i == indI && j == indJ)) {
+                            // angle restriction
+                            //if(Math.abs(dotVal) < 0.1) continue;
+                            this.lights[lightId].position.set( i * CUBE_SIZE, CUBE_SIZE/2.5, j * CUBE_SIZE );
+                            this.lights[lightId].visible = true;
+
+                            // flickering test. balck magic. failed
+                            //if( (this.frameId & ~63) % tools.getRandomInt(0,100) == 0) {
+                            //    this.lights[lightId].visible = false;
+                            //}
+
+                            ++lightId;
+                            //console.log("pos : "+i+", "+j+" is visible : ");
+                        }
+                    }
+                }
+            }
+        }
+
+        // update torch position
+        // this.torchLight.position.x = this.camera.position.x;
+        // this.torchLight.position.y = this.camera.position.y;
+        // this.torchLight.position.z = this.camera.position.z;
     };
 
     // TODO : framerate independant animation speed (using THREE.clock ?)
