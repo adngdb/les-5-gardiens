@@ -7,7 +7,9 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
         this.pause = true;
         this.gameEnded = false;
 
-        this.camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 1, 10000 );
+        this.fov = 70;
+
+        this.camera = new THREE.PerspectiveCamera( this.fov, window.innerWidth / window.innerHeight, 1, 10000 );
         this.controls = new THREE.FirstPersonControls( this.camera );
         this.clock = new THREE.Clock();
 
@@ -53,7 +55,7 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
 
         this.scene = new THREE.Scene();
         this.scene.fog = new THREE.Fog( 0x000000, 1, CUBE_SIZE * 5 );
-        this.scene.add( new THREE.AmbientLight( 0x333333 ) );
+        this.scene.add( new THREE.AmbientLight( 0x666666 ) );
         //this.torchLight = new THREE.PointLight( 0xffffff, 1, CUBE_SIZE * 1.5 );
         //this.scene.add(this.torchLight);
 
@@ -61,6 +63,7 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
         for(var n=0; n<5; ++n) {
             var light = new THREE.PointLight( 0xffffff, 1, CUBE_SIZE * 1.5 );
             light.visible = false;
+            light.frustumCulled = false;
             this.scene.add(light);
             this.lights.push(light);
         }
@@ -111,6 +114,7 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
                     if (exit[0] == i && exit[1] == j) {
                         for(var orientation = 0; orientation < 4; ++orientation) {
                             mesh = new THREE.Mesh( this.resourceManager['door_geom'], this.resourceManager['mat_door'] );
+                            mesh.frustumCulled = false;
                             mesh.name = "exit";
                             switch(orientation)
                             {
@@ -138,6 +142,7 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
                     }
 
                     mesh = new THREE.Mesh( this.resourceManager['cube'], this.resourceManager['mat_wall'] );
+                    mesh.frustumCulled = false;
                     mesh.name = "wall";
                     mesh.position.set(i * CUBE_SIZE, 0, j * CUBE_SIZE);
                     this.scene.add( mesh );
@@ -146,6 +151,7 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
                 {
                     // floor
                     var mesh = new THREE.Mesh( this.resourceManager['quad_geom'], this.resourceManager['mat_floor'].clone() );
+                    mesh.frustumCulled = false;
                     mesh.name = "floor";
                     mesh.position.set(i * CUBE_SIZE, -CUBE_SIZE*0.5, j * CUBE_SIZE)
                     mesh.rotation.x = -Math.PI*0.5;
@@ -153,6 +159,7 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
 
                     // roof
                     mesh = new THREE.Mesh( this.resourceManager['quad_geom'], this.resourceManager['mat_roof'] );
+                    mesh.frustumCulled = false;
                     mesh.name = "roof";
                     mesh.position.set(i * CUBE_SIZE, CUBE_SIZE*0.5, j * CUBE_SIZE);
                     mesh.rotation.x = Math.PI*0.5;
@@ -161,6 +168,8 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
                     // light
                     if((i+j) % 2) {
                         mesh = new THREE.Mesh( this.resourceManager['light_geom'], this.resourceManager['mat_light'] );
+                        mesh.frustumCulled = false;
+                        mesh.name = "roof_light";
                         mesh.position.set(i * CUBE_SIZE, CUBE_SIZE/2.1, j * CUBE_SIZE);
                         mesh.rotation.x = Math.PI/2;
                         this.scene.add( mesh );
@@ -182,6 +191,7 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
                                 mesh = new THREE.Mesh( this.resourceManager["quad_geom"], this.resourceManager["mat_deco"+id] );
                             }
                             mesh.name = "prop";
+                            mesh.frustumCulled = false;
                             switch(orientation)
                             {
                                 case 0:
@@ -228,17 +238,20 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
                         var mesh;
                         mesh = new THREE.Mesh( new THREE.PlaneGeometry( gardian.width, gardian.height ), this.resourceManager["mat_tex_"+gardian.file+0] );
                         mesh.name = "pnj_"+gardian.file;
+                        mesh.frustumCulled = false;
                         mesh.position.set( i * CUBE_SIZE, -40, j * CUBE_SIZE );
                         this.scene.add( mesh );
 
                         mesh = new THREE.Mesh( new THREE.PlaneGeometry( gardian.width, gardian.height ), this.resourceManager["mat_tex_"+gardian.file+"_question"] );
                         mesh.name = "tip_"+gardian.file;
+                        mesh.frustumCulled = false;
                         mesh.position.set( i * CUBE_SIZE, -40, j * CUBE_SIZE );
                         this.scene.add( mesh );
 
                         // curtains
                         for(var orientation = 0; orientation < 4; ++orientation) {
                             mesh = new THREE.Mesh( this.resourceManager["quad_geom"], this.resourceManager["mat_curtain"] );
+                            mesh.frustumCulled = false;
                             mesh.name = "curtain";
                             switch(orientation)
                             {
@@ -862,6 +875,7 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
         var indJ = Math.round(this.camera.position.z / CUBE_SIZE);
         var posCam = new THREE.Vector2(this.camera.position.x, this.camera.position.z);
         var vecCam = new THREE.Vector2(Math.cos(this.controls.lon*Math.PI/180), Math.sin(this.controls.lon*Math.PI/180));
+        posCam.set(posCam.x - vecCam.x*CUBE_SIZE, posCam.y - vecCam.y*CUBE_SIZE); // offset position to avoid poping artifacts
 
         // clear all lights
         for(var i=0; i<this.lights.length; ++i) {
@@ -872,8 +886,8 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
 
         // check a square of 7x7 tile around the player
         var width = 3;
-        for(var i=indI-width; i<indI+width; ++i) {
-            for(var j=indJ-width; j<indJ+width; ++j) {
+        for(var i=indI-width; i<=indI+width; ++i) {
+            for(var j=indJ-width; j<=indJ+width; ++j) {
 
                 // stop if all light are used
                 if(lightId == this.lights.length) break;
@@ -893,13 +907,13 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
 
                         // is light visible
                         var dotVal = vecLight.dot(vecCam);
-                        if(dotVal > 0 || (i == indI && j == indJ)) {
+                        if(dotVal >= 0 && Math.abs(dotVal) > Math.cos(this.fov*Math.PI/180.0)) {
                             // angle restriction
-                            //if(Math.abs(dotVal) < 0.1) continue;
+                            //if(Math.abs(dotVal) < Math.cos(70*Math.PI/180.0)) continue;
                             this.lights[lightId].position.set( i * CUBE_SIZE, CUBE_SIZE/2.5, j * CUBE_SIZE );
                             this.lights[lightId].visible = true;
 
-                            // flickering test. balck magic. failed
+                            // flickering test. black magic. failed
                             //if( (this.frameId & ~63) % tools.getRandomInt(0,100) == 0) {
                             //    this.lights[lightId].visible = false;
                             //}
@@ -960,11 +974,20 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
     Scene.prototype.culling = function () {
         if(!this.needCulling)   return;
 
+        var posCam = new THREE.Vector2(this.camera.position.x, this.camera.position.z);
+        var vecCam = new THREE.Vector2(Math.cos(this.controls.lon*Math.PI/180), Math.sin(this.controls.lon*Math.PI/180));
+        posCam.set(posCam.x - vecCam.x*CUBE_SIZE, posCam.y - vecCam.y*CUBE_SIZE); // offset position to avoid poping artifacts
+
         for(var i=0; i<this.scene.children.length; ++i) {
             var obj = this.scene.children[i];
             if(obj instanceof THREE.Mesh || obj instanceof THREE.PointLight) {
-                var v = new THREE.Vector2(this.camera.position.x - obj.position.x, this.camera.position.z - obj.position.z);
-                if(v.length() < CUBE_SIZE*5) {
+                var posObj = new THREE.Vector2(obj.position.x, obj.position.z);
+                var vecObj = posObj;
+                vecObj.sub(posCam);
+                var norm = vecObj.length();
+                vecObj.normalize();
+                var dotVal = vecObj.dot(vecCam);
+                if(norm < CUBE_SIZE*6 && dotVal > 0 && Math.abs(dotVal) > Math.cos(this.fov*Math.PI/180.0)) {
                     obj.visible = true;
                 }
                 else {
@@ -973,7 +996,7 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
             }
         }
 
-        this.needCulling = false;
+        this.needCulling = true;
     };
 
     Scene.prototype.render = function () {
