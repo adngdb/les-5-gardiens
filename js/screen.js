@@ -42,13 +42,15 @@ define(['lib/jquery'], function () {
     };
 
     Screen.prototype.displaySplash = function (next) {
-        $('<img>', { src: 'img/screen/splash.png' }).appendTo(this.container);
+        $('<img>', { src: 'img/screen/splash_01.png' }).appendTo(this.container);
+        $('<img>', { src: 'img/screen/splash_02.png', class: 'blink' }).appendTo(this.container);
     };
 
     Screen.prototype.displayCredits = function (next) {
         var self = this;
 
-        var img = $('<img>', { src: 'img/screen/credits.png' }).appendTo(this.container);
+        $('<img>', { src: 'img/screen/credits_01.png' }).appendTo(this.container);
+        var img = $('<img>', { src: 'img/screen/credits_02.png', class: 'blink' }).appendTo(this.container);
         img.click(function (e) {
             e.preventDefault();
             self.hide();
@@ -59,7 +61,8 @@ define(['lib/jquery'], function () {
     Screen.prototype.displayTutorial = function (next) {
         var self = this;
 
-        var img = $('<img>', { src: 'img/screen/tutorial.png' }).appendTo(this.container);
+        $('<img>', { src: 'img/screen/tutorial_01.png' }).appendTo(this.container);
+        var img = $('<img>', { src: 'img/screen/tutorial_02.png', class: 'blink' }).appendTo(this.container);
         img.click(function (e) {
             e.preventDefault();
             self.hide();

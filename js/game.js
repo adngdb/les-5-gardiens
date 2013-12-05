@@ -9,6 +9,7 @@ require(['level', 'scene', 'screen', 'resource', 'lib/stats'], function (Level, 
     "use strict";
 
     var splash = new Screen('splash');
+    splash.hide();
     splash.display();
 
     // Load the title screen music and play it.

@@ -95,38 +95,15 @@ define(['lib/jquery'], function (jquery) {
 
         // List of all the images used in the game, for preloading and caching.
         var resources = [
-            'img/screen/title-1.png',
-            'img/screen/title-2.png',
-            'img/screen/credits.png',
-            'img/screen/tutorial.png',
-            'img/screen/end-game.png',
-            // 'img/ground_arrow.png',
-            // 'img/ground_point.png',
-            // 'img/ground_1-1.png',
-            // 'img/roof_1-1.png',
-            // 'img/wall_1-1.png',
-            // 'img/door_1-1.png',
-            // 'img/light_1-1.png',
-            // 'img/curtains_1-1.png',
-            // 'img/door_nextlevel.png',
-            // 'img/wall_deco_01.png',
-            // 'img/wall_deco_02.png',
-            // 'img/wall_deco_03.png',
-            // 'img/wall_deco_04.png'
+            'img/screen/title_01.png',
+            'img/screen/title_02.png',
+            'img/screen/credits_01.png',
+            'img/screen/credits_02.png',
+            'img/screen/tutorial_01.png',
+            'img/screen/tutorial_02.png',
+            'img/screen/end-game_01.png',
+            'img/screen/end-game_02.png',
         ];
-
-        // var names = [ "cerberus", "janus", "presentateur", "pythie", "sphynx"];
-        // var arrowsNames = [ "left", "right", "top", "down", "question"];
-
-        // for (var id = 0; id < names.length; ++id) {
-        //     var name = names[id];
-        //     for (var idAnim = 0; idAnim < 4; idAnim++) {
-        //         resources.push('img/' + name + '_0' + (idAnim + 1) + '.png');
-        //     }
-        //     for (var idArrows = 0; idArrows < arrowsNames.length; ++idArrows) {
-        //         resources.push('img/' + name + '_arrows_' + arrowsNames[idArrows] + '.png');
-        //     }
-        // }
 
         totalNumberOfResources = resources.length;
 
