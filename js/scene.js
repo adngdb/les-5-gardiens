@@ -38,6 +38,7 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
 
     Scene.prototype.init = function (level) {
         this.level = level;
+        this.gameEnded = false;
 
         var exit = this.level.objects.exit;
         var entrance = this.level.objects.entrance;
@@ -99,7 +100,7 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
 
                 // wall
                 if (this.level.map[i][j]) {
-                    if (exit[0] == i && exit[1] == j) { ///!!!! POPO : ??? exit[0] in J => 1st coord Z ? and 2nd coord X ?? sure ?
+                    if (exit[0] == i && exit[1] == j) {
                         for(var orientation = 0; orientation < 4; ++orientation) {
                             mesh = new THREE.Mesh( this.resourceManager['door_geom'], this.resourceManager['mat_door'] );
                             mesh.name = "exit";
@@ -307,6 +308,13 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
                 if (this.controls.realClick) {
                     this.controls.realClick = false;
                     if (obj.name != "wall") {
+                        if(obj.name == "exit") {
+                            // clic on the exit valid only if the camera is close enough
+                            var v = new THREE.Vector2(this.camera.position.x - obj.position.x, this.camera.position.z - obj.position.z);
+                            if(v.length() < CUBE_SIZE*2) {
+                                this.end();
+                            }
+                        }
                         this.setMovement(this.INTERSECTED.position);
                         // remove indice
                         if(this.indiceMeshGround && (this.queuePath.length != 0)) {
@@ -321,10 +329,6 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
                                 obj2.material = this.resourceManager["mat_tex_"+style+"_question"];
                                 //console.log("mat_"+style+"_question");
                             }
-                        }
-
-                        if(obj.name == "exit") {
-                            this.end();
                         }
                     }
                 }
