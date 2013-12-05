@@ -31,8 +31,8 @@ define(['lib/jquery'], function () {
     Screen.prototype.displayTitle = function (next) {
         var self = this;
 
-        $('<img>', { src: 'img/screen/title-1.png' }).appendTo(this.container);
-        var titleImg = $('<img>', { src: 'img/screen/title-2.png', class: 'blink' }).appendTo(this.container);
+        $('<img>', { src: 'img/screen/title_01.png' }).appendTo(this.container);
+        var titleImg = $('<img>', { src: 'img/screen/title_02.png', class: 'blink' }).appendTo(this.container);
 
         titleImg.click(function (e) {
             e.preventDefault();
