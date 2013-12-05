@@ -55,13 +55,13 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
 
         this.scene = new THREE.Scene();
         this.scene.fog = new THREE.Fog( 0x000000, 1, CUBE_SIZE * 5 );
-        this.scene.add( new THREE.AmbientLight( 0x666666 ) );
+        this.scene.add( new THREE.AmbientLight( 0x444444 ) );
         //this.torchLight = new THREE.PointLight( 0xffffff, 1, CUBE_SIZE * 1.5 );
         //this.scene.add(this.torchLight);
 
         this.lights = [];
         for(var n=0; n<5; ++n) {
-            var light = new THREE.PointLight( 0xffffff, 1, CUBE_SIZE * 1.5 );
+            var light = new THREE.PointLight( 0xffffff, 1, CUBE_SIZE * 2.0 );
             light.visible = false;
             light.frustumCulled = false;
             this.scene.add(light);
@@ -890,7 +890,7 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
             for(var j=indJ-width; j<=indJ+width; ++j) {
 
                 // stop if all light are used
-                if(lightId == this.lights.length) break;
+                if(lightId >= this.lights.length) break;
 
                 // is it corridor ?
                 if (i>0 && i<this.level.width && j>0 && j<this.level.height && this.level.map[i][j] == 0) {
