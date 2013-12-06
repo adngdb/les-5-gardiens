@@ -479,11 +479,13 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
             this.queueMovement.push(["rotation", [targetLon + 30, 0]]);
             this.queueMovement.push(["riddle"]);
             this.queueMovement.push(["rotation", [targetLon, 0]]);
+            this.queueMovement.push(["translation", [target[0], 0, target[1]]]);
+            this.queueMovement.push(["clear"]);
         }else {
+            this.queueMovement.push(["translation", [target[0], 0, target[1]]]);
             if(this.detectRoadTurn(this.camera.position.x, this.camera.position.z))
                 this.roadTurnEvent();
         }
-        this.queueMovement.push(["translation", [target[0], 0, target[1]]]);
 
     }
 
@@ -507,7 +509,9 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
             // riddle queued : remove all queued path
                 this.queueMovement.shift();
                 this.showRiddle(this.queueMovement[1][1][0] / CUBE_SIZE, this.queueMovement[1][1][2] / CUBE_SIZE);
+            }else if (this.queueMovement[0][0] == "clear") {
                 this.queuePath.length = 0;
+                this.queueMovement.length = 0;
             }else { // should never happen : unkwnon key word
                 console.log("unkwnon key word in queueMovement !!!");
                 this.queueMovement.shift();
