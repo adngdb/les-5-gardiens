@@ -32,8 +32,6 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
         this.sound = function (resource) {
             return this.resman.get('sound', resource);
         }
-        this.sound('main_theme').loop().play();
-        this.currentlyPlayingMusic = this.sound('main_theme');
 
         document.body.appendChild( this.renderer.domElement );
     };
@@ -44,6 +42,9 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
 
         var exit = this.level.objects.exit;
         var entrance = this.level.objects.entrance;
+
+        this.sound('main_theme').loop().play();
+        this.currentlyPlayingMusic = this.sound('main_theme');
 
         this.gardiansMap = [];
         for (var i = 0; i < this.level.map.length; i++) {
