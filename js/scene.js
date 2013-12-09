@@ -634,7 +634,7 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
     };
 
     Scene.prototype.showRiddle = function (i, j) {
-        console.log('Showing a riddle');
+        // console.log('Showing a riddle');
         var self = this;
 
         // Pause the game.

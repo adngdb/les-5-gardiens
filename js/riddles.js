@@ -13,9 +13,10 @@ define(['tools'], function (tools) {
         }
 
         var index = tools.getRandomInt(0, this.numberOfRiddles - 1);
-        while (index in this.givenRiddles) {
+        while (this.givenRiddles.indexOf(index) != -1) {
             index = tools.getRandomInt(0, this.numberOfRiddles - 1);
         }
+        this.givenRiddles.push(index);
         return this.riddles[index];
     }
 
