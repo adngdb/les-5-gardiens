@@ -343,15 +343,15 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
                             this.scene.remove(this.indiceMeshGround);
                         }
 
-                        // remove npc indice
-                        for(var j=0; j<this.scene.children.length; ++j) {
-                            var obj2 = this.scene.children[j];
-                            if(obj2.name.substring(0,3) == "tip") {
-                                var style = obj2.name.substring(4);
-                                obj2.material = this.resourceManager["mat_tex_"+style+"_question"];
-                                //console.log("mat_"+style+"_question");
-                            }
-                        }
+                        // // remove npc indice
+                        // for(var j=0; j<this.scene.children.length; ++j) {
+                        //     var obj2 = this.scene.children[j];
+                        //     if(obj2.name.substring(0,3) == "tip") {
+                        //         var style = obj2.name.substring(4);
+                        //         obj2.material = this.resourceManager["mat_tex_"+style+"_question"];
+                        //         //console.log("mat_"+style+"_question");
+                        //     }
+                        // }
                     }
                 }
                 else {
@@ -480,14 +480,11 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
             this.queueMovement.push(["rotation", [targetLon + 30, 0]]);
             this.queueMovement.push(["riddle"]);
             this.queueMovement.push(["rotation", [targetLon, 0]]);
-            this.queueMovement.push(["translation", [target[0], 0, target[1]]]);
-            this.queueMovement.push(["clear"]);
         }else {
-            this.queueMovement.push(["translation", [target[0], 0, target[1]]]);
             if(this.detectRoadTurn(this.camera.position.x, this.camera.position.z))
                 this.roadTurnEvent();
         }
-
+        this.queueMovement.push(["translation", [target[0], 0, target[1]]]);
     }
 
     Scene.prototype.executeMove = function() {
@@ -513,6 +510,14 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
             }else if (this.queueMovement[0][0] == "clear") {
                 this.queuePath.length = 0;
                 this.queueMovement.length = 0;
+                // remove npc indice
+                for(var j=0; j<this.scene.children.length; ++j) {
+                    var obj2 = this.scene.children[j];
+                    if(obj2.name.substring(0,3) == "tip") {
+                        var style = obj2.name.substring(4);
+                        obj2.material = this.resourceManager["mat_tex_"+style+"_question"];
+                    }
+                }
             }else { // should never happen : unkwnon key word
                 console.log("unkwnon key word in queueMovement !!!");
                 this.queueMovement.shift();
@@ -692,7 +697,7 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
             // start the game again
             self.pause = false;
             riddleRenderer.hide();
-        }, 3000);
+        }, 500);
     };
 
     Scene.prototype.showHint = function (hintDirectionAbs) {
@@ -731,6 +736,12 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
         this.indiceMeshGround.position.y = -CUBE_SIZE*0.48;
         this.indiceMeshGround.rotation.x = -Math.PI*0.5;
         this.scene.add( this.indiceMeshGround );
+
+        // rotate the camera toward hint
+        if (targetCameraLon - this.queueMovement[0][1][0] < -180) targetCameraLon += 360;
+        if (targetCameraLon - this.queueMovement[0][1][0] > 180)  targetCameraLon -= 360;
+        this.queueMovement.push(["rotation", [targetCameraLon, 0]]);
+        this.queueMovement.push(["clear"]);
 
         // show hint NPC :
         for(var i=0; i<this.scene.children.length; ++i) {
