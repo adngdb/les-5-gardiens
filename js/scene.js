@@ -256,20 +256,28 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
                             switch(orientation)
                             {
                                 case 0:
-                                    mesh.position.set(i * CUBE_SIZE, 0, (j+0.48) * CUBE_SIZE);
-                                    mesh.rotation.y = 0;
+                                    if(!this.level.map[i][j+1]) {
+                                        mesh.position.set(i * CUBE_SIZE, 0, (j+0.5) * CUBE_SIZE);
+                                        mesh.rotation.y = 0;
+                                    }
                                     break;
                                 case 1:
-                                    mesh.position.set(i * CUBE_SIZE, 0, (j-0.48) * CUBE_SIZE);
-                                    mesh.rotation.y = Math.PI;
+                                    if(!this.level.map[i][j-1]) {
+                                        mesh.position.set(i * CUBE_SIZE, 0, (j-0.5) * CUBE_SIZE);
+                                        mesh.rotation.y = Math.PI;
+                                    }
                                     break;
                                 case 2:
-                                    mesh.position.set((i-0.48) * CUBE_SIZE, 0, j * CUBE_SIZE);
-                                    mesh.rotation.y = -Math.PI*0.5;
+                                    if(!this.level.map[i-1][j]) {
+                                        mesh.position.set((i-0.5) * CUBE_SIZE, 0, j * CUBE_SIZE);
+                                        mesh.rotation.y = -Math.PI*0.5;
+                                    }
                                     break;
                                 case 3:
-                                    mesh.position.set((i+0.48) * CUBE_SIZE, 0, j * CUBE_SIZE);
-                                    mesh.rotation.y = Math.PI*0.5;
+                                    if(!this.level.map[i+1][j]) {
+                                        mesh.position.set((i+0.5) * CUBE_SIZE, 0, j * CUBE_SIZE);
+                                        mesh.rotation.y = Math.PI*0.5;
+                                    }
                                     break;
                                 default:
                                     break;
