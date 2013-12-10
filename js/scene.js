@@ -868,7 +868,6 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
     Scene.prototype.animate = function () {
         requestAnimationFrame( this.animate.bind(this) );
 
-        this.animatePNJ();
         // In pause mode, do nothing but wait until the pause mode is stopped.
         // keep the guardian animation
         if (this.pause) {
@@ -886,7 +885,8 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
         }
 
         this.updateLights();
-
+        this.culling();
+        this.animatePNJ();
         this.render();
 
         // this.stats.update();
@@ -1023,7 +1023,6 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
     };
 
     Scene.prototype.render = function () {
-        this.culling();
         this.renderer.render( this.scene, this.camera );
 
         ++this.frameId;
