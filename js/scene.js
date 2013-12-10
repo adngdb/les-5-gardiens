@@ -94,7 +94,6 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
         this.pnjArray = [];
         this.indiceMeshGround = null;
 
-        this.needCulling = true;
         this.frameId = 0;
 
         // array with the direction toward the exit for every tile
@@ -594,7 +593,6 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
         if (    (this.queueMovement[0][1][0] == this.camera.position.x)
             &&  (this.queueMovement[0][1][1] == this.camera.position.y)
             &&  (this.queueMovement[0][1][2] == this.camera.position.z)) {
-            this.needCulling = true;
             this.queueMovement.shift();
         }
     }
@@ -956,6 +954,11 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
 
         for(var i=0; i<this.scene.children.length; ++i) {
             var obj = this.scene.children[i];
+
+            // culling
+            if(obj.visible == false) continue;
+
+            // animate by switching material
             if(obj.name.substring(0,3) == "pnj") {
                 var style = obj.name.substring(4);
                 obj.material = this.resourceManager["mat_tex_"+style+Math.floor(this.animCounter/this.nbFramePerAnim)];
@@ -963,7 +966,6 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
             }
 
             if(obj.name.substring(0,3) == "pnj" || obj.name.substring(0,3) == "tip") {
-
                 var posCam = new THREE.Vector2(this.camera.position.x, this.camera.position.z);
                 var posPnj = new THREE.Vector2(obj.position.x, obj.position.z);
 
@@ -989,8 +991,6 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
     }
 
     Scene.prototype.culling = function () {
-        if(!this.needCulling)   return;
-
         var posCam = new THREE.Vector2(this.camera.position.x, this.camera.position.z);
         var vecCam = new THREE.Vector2(Math.cos(this.controls.lon*Math.PI/180), Math.sin(this.controls.lon*Math.PI/180));
         posCam.set(posCam.x - vecCam.x*CUBE_SIZE, posCam.y - vecCam.y*CUBE_SIZE); // offset position to avoid poping artifacts
@@ -1012,8 +1012,6 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
                 }
             }
         }
-
-        this.needCulling = true;
     };
 
     Scene.prototype.render = function () {
