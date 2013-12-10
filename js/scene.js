@@ -730,11 +730,12 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
         if (tools.isBetween(targetCameraLon - this.queueMovement[0][1][0],  59, 121) || tools.isBetween(targetCameraLon - this.queueMovement[0][1][0], -301, -239) ) stringOrientNPC = "right";
         if (tools.isBetween(targetCameraLon - this.queueMovement[0][1][0], 239, 301) || tools.isBetween(targetCameraLon - this.queueMovement[0][1][0], -121, -59) ) stringOrientNPC = "left";
 
-        this.indiceMeshGround = new THREE.Mesh( this.resourceManager["quad_geom"], this.resourceManager["mat_tex_point"] );
+        this.indiceMeshGround = new THREE.Mesh( this.resourceManager["quad_geom"], this.resourceManager["mat_tex_arrow"] );
         this.indiceMeshGround.position.x = hintDirectionAbs[0] * CUBE_SIZE;
         this.indiceMeshGround.position.z = hintDirectionAbs[1] * CUBE_SIZE;
         this.indiceMeshGround.position.y = -CUBE_SIZE*0.48;
         this.indiceMeshGround.rotation.x = -Math.PI*0.5;
+        this.indiceMeshGround.rotation.z = -targetCameraLon*Math.PI/180.0 + Math.PI*1.5;
         this.scene.add( this.indiceMeshGround );
 
         // rotate the camera toward hint
