@@ -884,9 +884,6 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
             this.findIntersections();
         }
 
-        this.updateLights();
-        this.culling();
-        this.animatePNJ();
         this.render();
 
         // this.stats.update();
@@ -1023,6 +1020,9 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
     };
 
     Scene.prototype.render = function () {
+        this.updateLights();
+        this.culling();
+        this.animatePNJ();
         this.renderer.render( this.scene, this.camera );
 
         ++this.frameId;
