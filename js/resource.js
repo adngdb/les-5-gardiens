@@ -11,7 +11,10 @@ define(['lib/jquery'], function (jquery) {
         return this.resMan;
     };
 
-    ResourceManager.prototype.loadPhongMat = function (file, name, transparent=false) {
+    ResourceManager.prototype.loadPhongMat = function (file, name, transparent) {
+        // chrome js default parameter hack
+        transparent = typeof transparent !== 'undefined' ?  transparent : false;
+        
         var texture = THREE.ImageUtils.loadTexture( file );
         var material = new THREE.MeshPhongMaterial( { color: 0xffffff, map: texture, transparent: transparent} );
         texture.anisotropy = this.maxAnisotropy;
