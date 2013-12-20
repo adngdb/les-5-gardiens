@@ -62,7 +62,7 @@ function(three,       first_person_controls,     RiddleRenderer,    ResourceMana
 
         this.lights = [];
         for(var n=0; n<5; ++n) {
-            var light = new THREE.PointLight( 0xffffff, 1, CUBE_SIZE * 2.0 );
+            var light = new THREE.PointLight( 0xe0d680, 1, CUBE_SIZE * 2.0 );
             light.visible = false;
             light.frustumCulled = false;
             this.scene.add(light);
