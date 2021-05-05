@@ -2,11 +2,10 @@ require.config({
     baseUrl: "js",
     paths: {
         'data': '../data',
-        'piwik' : '//services.lqbs.fr/piwik/piwik'
     }
 });
 
-require(['level', 'scene', 'screen', 'resource', 'lib/stats', 'tracker'], function (Level, Scene, Screen, ResourceManager, _stats, tracker) {
+require(['level', 'scene', 'screen', 'resource', 'lib/stats'], function (Level, Scene, Screen, ResourceManager, _stats) {
     "use strict";
 
     var splash = new Screen('splash');
